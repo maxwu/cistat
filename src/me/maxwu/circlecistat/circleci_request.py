@@ -86,15 +86,15 @@ class CircleCiReq(object):
         return xunit
 
     @classmethod
-    def get_case_dict(cls, xunit):
+    def accumulate_case_dict(cls, xunit='', case_dict={}):
         """ Get test results in dict
         :param xunit: XUnit in a string
+        :param case_dict: the dict to add current xunit data onto
         :return: dict of test case {'pass': pass_count, 'fail': failure_count
         """
         root = ET.fromstring(xunit)
 
         case_dict = {}
-        case_num = 0
 
         for elem in root.iter('testcase'):
             tcname = elem.get('classname') + '.' + elem.get('name')
@@ -102,13 +102,11 @@ class CircleCiReq(object):
             if 'failure' not in [child.tag for child in elem]:
                 if tcname not in case_dict:
                     case_dict[tcname] = {'pass': 1, 'fail': 0}
-                    case_num += 1
                 else:
                     case_dict[tcname]['pass'] += 1
             else:
                 if tcname not in case_dict:
                     case_dict[tcname] = {'pass': 0, 'fail': 1}
-                    case_num += 1
                 else:
                     case_dict[tcname]['fail'] += 1
 

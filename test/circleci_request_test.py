@@ -42,7 +42,7 @@ class CircleCiReqTest(unittest.TestCase):
         )) as f:
             xml = f.read()
 
-        cases = CircleCiReq.get_case_dict(xml)
+        cases = CircleCiReq.accumulate_case_dict(xunit=xml)
         print "Pretty format case dict:\n{}".format(json.dumps(cases, indent=2))
 
         self.assertEqual(4, len(cases))
@@ -60,7 +60,7 @@ class CircleCiReqTest(unittest.TestCase):
         ])) as f:
             xml = f.read()
 
-        cases = CircleCiReq.get_case_dict(xml)
+        cases = CircleCiReq.accumulate_case_dict(xunit=xml)
         print "Pretty format case dict:\n{}".format(json.dumps(cases, indent=2))
 
         self.assertEqual(49, len(cases))
