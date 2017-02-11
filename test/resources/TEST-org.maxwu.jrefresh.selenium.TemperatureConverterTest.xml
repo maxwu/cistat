@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="49" failures="2" name="org.maxwu.jrefresh.selenium.TemperatureConverterTest" time="4.472" errors="0" skipped="0">
+  <properties>
+    <property name="idea.version" value="2016.3.2"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib"/>
+    <property name="java.vm.version" value="25.102-b14"/>
+    <property name="user.country.format" value="CN"/>
+    <property name="gopherProxySet" value="false"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="/Users/maxwu/devel/selenium-refresh-java"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=":"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="idea.launcher.port" value="7533"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/Users/maxwu/devel/selenium-refresh-java"/>
+    <property name="java.runtime.version" value="1.8.0_102-b14"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/endorsed"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.io.tmpdir" value="/var/folders/gq/kylyhbzd2wxgp8j_dm031t8h0000gn/T/"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="classworlds.conf" value="/Applications/IntelliJ IDEA CE.app/Contents/plugins/maven/lib/maven3/bin/m2.conf"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/maxwu/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.11.6"/>
+    <property name="user.home" value="/Users/maxwu"/>
+    <property name="user.timezone" value="Pacific/Auckland"/>
+    <property name="java.awt.printerjob" value="sun.lwawt.macosx.CPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="idea.launcher.bin.path" value="/Applications/IntelliJ IDEA CE.app/Contents/bin"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="maxwu"/>
+    <property name="java.class.path" value="/Applications/IntelliJ IDEA CE.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds-2.5.2.jar:/Applications/IntelliJ IDEA CE.app/Contents/lib/idea_rt.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre"/>
+    <property name="sun.java.command" value="com.intellij.rt.execution.application.AppMain org.codehaus.classworlds.Launcher -Didea.version=2016.3.2 test"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="en"/>
+    <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_102"/>
+    <property name="java.ext.dirs" value="/Users/maxwu/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java"/>
+    <property name="sun.boot.class.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="/Applications/IntelliJ IDEA CE.app/Contents/plugins/maven/lib/maven3"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase classname="Scenario: Open Temperature Convertor" name="Given Web browser initialized" time="0.002"/>
+  <testcase classname="Scenario: Open Temperature Convertor" name="Given Google Entrance Page with:" time="0.002"/>
+  <testcase classname="Scenario: Open Temperature Convertor" name="When Search &quot;temperature converter&quot;" time="0"/>
+  <testcase classname="Scenario: Open Temperature Convertor" name="Then The page title is &quot;temperature converter&quot;" time="0.001"/>
+  <testcase classname="Scenario: Open Temperature Convertor" name="And There is a &quot;Temperature&quot; option selected" time="0"/>
+  <testcase classname="Scenario: Open Temperature Convertor" name="Scenario: Open Temperature Convertor" time="0.493"/>
+  <testcase classname="Scenario: Calculate temperature degrees" name="Given Temperature background check" time="0"/>
+  <testcase classname="Scenario: Calculate temperature degrees" name="Given &quot;Fahrenheit&quot; select is present" time="0.001"/>
+  <testcase classname="Scenario: Calculate temperature degrees" name="And &quot;Celsius&quot; select is present" time="0"/>
+  <testcase classname="Scenario: Calculate temperature degrees" name="When Input data from the table:" time="0"/>
+  <testcase classname="Scenario: Calculate temperature degrees" name="Then Results are correct as on table" time="0"/>
+  <testcase classname="Scenario: Calculate temperature degrees" name="Scenario: Calculate temperature degrees" time="0.916"/>
+  <testcase classname="| 100 | 212 |" name="Given Temperature background check" time="0.001"/>
+  <testcase classname="| 100 | 212 |" name="Given Google search page with predefined keywords" time="0"/>
+  <testcase classname="| 100 | 212 |" name="When Enter Celsius degree as &quot;100&quot;" time="0"/>
+  <testcase classname="| 100 | 212 |" name="Then Check the value against &quot;212&quot;" time="0"/>
+  <testcase classname="| 100 | 212 |" name="| 100 | 212 |" time="0.654"/>
+  <testcase classname="| 0 | 32 |" name="Given Temperature background check" time="0"/>
+  <testcase classname="| 0 | 32 |" name="Given Google search page with predefined keywords" time="0"/>
+  <testcase classname="| 0 | 32 |" name="When Enter Celsius degree as &quot;0&quot;" time="0"/>
+  <testcase classname="| 0 | 32 |" name="Then Check the value against &quot;32&quot;" time="0"/>
+  <testcase classname="| 0 | 32 |" name="| 0 | 32 |" time="0.612"/>
+  <testcase classname="| -100 | -148 |" name="Given Temperature background check" time="0"/>
+  <testcase classname="| -100 | -148 |" name="Given Google search page with predefined keywords" time="0"/>
+  <testcase classname="| -100 | -148 |" name="When Enter Celsius degree as &quot;-100&quot;" time="0"/>
+  <testcase classname="| -100 | -148 |" name="Then Check the value against &quot;-148&quot;" time="0"/>
+  <testcase classname="| -100 | -148 |" name="| -100 | -148 |" time="0.376"/>
+  <testcase classname="| 65535 | 117995 |" name="Given Temperature background check" time="0"/>
+  <testcase classname="| 65535 | 117995 |" name="Given Google search page with predefined keywords" time="0"/>
+  <testcase classname="| 65535 | 117995 |" name="When Enter Celsius degree as &quot;65535&quot;" time="0.001"/>
+  <testcase classname="| 65535 | 117995 |" name="Then Check the value against &quot;117995&quot;" time="0.036">
+    <failure message="expected:&lt;[117995]&gt; but was:&lt;[32]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[117995]&gt; but was:&lt;[32]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at org.maxwu.jrefresh.selenium.stepdefs.TemperatureConverterCalStepdef.check_fahrenheit_degree(TemperatureConverterCalStepdef.java:170)
+	at ✽.Then Check the value against &quot;117995&quot;(10_Convert_Celsius_To_Fahrenheit.feature:21)
+</failure>
+  </testcase>
+  <testcase classname="| 65535 | 117995 |" name="| 65535 | 117995 |" time="0.038">
+    <failure message="expected:&lt;[117995]&gt; but was:&lt;[32]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[117995]&gt; but was:&lt;[32]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:115)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at org.maxwu.jrefresh.selenium.stepdefs.TemperatureConverterCalStepdef.check_fahrenheit_degree(TemperatureConverterCalStepdef.java:170)
+	at ✽.Then Check the value against &quot;117995&quot;(10_Convert_Celsius_To_Fahrenheit.feature:21)
+</failure>
+  </testcase>
+  <testcase classname="| -65536 | -117932.8 |" name="Given Temperature background check" time="0"/>
+  <testcase classname="| -65536 | -117932.8 |" name="Given Google search page with predefined keywords" time="0"/>
+  <testcase classname="| -65536 | -117932.8 |" name="When Enter Celsius degree as &quot;-65536&quot;" time="0"/>
+  <testcase classname="| -65536 | -117932.8 |" name="Then Check the value against &quot;-117932.8&quot;" time="0"/>
+  <testcase classname="| -65536 | -117932.8 |" name="| -65536 | -117932.8 |" time="0.508"/>
+  <testcase classname="| 1 | 1.60934 |" name="Given Select &quot;Length&quot; dimension" time="0.001"/>
+  <testcase classname="| 1 | 1.60934 |" name="And Select &quot;Mile&quot; unit in left" time="0.001"/>
+  <testcase classname="| 1 | 1.60934 |" name="And Select &quot;Kilometre&quot; unit in right" time="0.001"/>
+  <testcase classname="| 1 | 1.60934 |" name="When Enter &quot;1&quot; in left input" time="0"/>
+  <testcase classname="| 1 | 1.60934 |" name="Then Get &quot;1.60934&quot; on right input" time="0"/>
+  <testcase classname="| 1 | 1.60934 |" name="| 1 | 1.60934 |" time="0.378"/>
+  <testcase classname="| 0 | 0 |" name="Given Select &quot;Length&quot; dimension" time="0.002"/>
+  <testcase classname="| 0 | 0 |" name="And Select &quot;Mile&quot; unit in left" time="0"/>
+  <testcase classname="| 0 | 0 |" name="And Select &quot;Kilometre&quot; unit in right" time="0"/>
+  <testcase classname="| 0 | 0 |" name="When Enter &quot;0&quot; in left input" time="0"/>
+  <testcase classname="| 0 | 0 |" name="Then Get &quot;0&quot; on right input" time="0"/>
+  <testcase classname="| 0 | 0 |" name="| 0 | 0 |" time="0.448"/>
+</testsuite>
