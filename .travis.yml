@@ -12,7 +12,8 @@ dist: trusty
 install:
   - pip install -r requirements.txt
 
-script: nosetests --logging-level=DEBUG --debug=me.maxwu -s -v --with-xunit --xunit-file ./build/circlestat_nose_xunit.xml --with-coverage --cover-package=me.maxwu --cover-html-dir=build/cover --cover-xml-file=build/coverage ./test
+script: ./test/nosetests_ci-stat.sh
+#nosetests --logging-level=DEBUG --debug=me.maxwu -s -v --with-xunit --xunit-file ./build/circlestat_nose_xunit.xml --with-coverage --cover-package=me.maxwu --cover-html --cover-html-dir=build/cover --cover-xml-file=build/coverage ./test
 
 branches :
    only :
