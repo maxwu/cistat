@@ -13,8 +13,9 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 
-logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
+logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
+
 
 class CircleCiReq(object):
     """Helper to fetch build artifacts from circleci.com
