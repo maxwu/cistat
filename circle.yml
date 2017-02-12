@@ -21,5 +21,5 @@ test:
     #nosetests --logging-level=DEBUG --debug=me.maxwu -s -v --with-xunit --xunit-file ci-stat_nose_xunit.xml --with-coverage --cover-package=me.maxwu --cover-html ./test
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - find . -type f -regex "ci-stat.*xunit_xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
     - bash <(curl -s https://codecov.io/bash)
