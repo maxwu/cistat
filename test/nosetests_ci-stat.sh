@@ -16,7 +16,7 @@ else
     # Alternatively, $TRAVIS_REPO_SLUG could be utilized here to provide name.
     export JOB_NAME="ci-stat"
 fi
-pip install -v -r requirements.txt -r test/test_requirements.txt --cache-dir /tmp/$JOB_NAME
+pip install -r requirements.txt -r test/test_requirements.txt --cache-dir /tmp/$JOB_NAME
 
 ########################
 # Step 2: Execute Test
