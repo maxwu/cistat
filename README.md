@@ -1,9 +1,10 @@
 # ci-stat
 Python lib to fetch CI statistics from common RESTful services as circleci, travis, jekins, or bamboo.
 
- - master: [![Build Status](https://travis-ci.org/maxwu/ci-stat.svg?branch=master)](https://travis-ci.org/maxwu/ci-stat) [![codecov](https://codecov.io/gh/maxwu/ci-stat/branch/master/graph/badge.svg)](https://codecov.io/gh/maxwu/ci-stat) [![CircleCI](https://circleci.com/gh/maxwu/ci-stat/tree/master.svg?style=svg)](https://circleci.com/gh/maxwu/ci-stat/tree/master)
- - dev: [![Build Status](https://travis-ci.org/maxwu/ci-stat.svg?branch=dev)](https://travis-ci.org/maxwu/ci-stat) [![codecov](https://codecov.io/gh/maxwu/ci-stat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/ci-stat) [![CircleCI](https://circleci.com/gh/maxwu/ci-stat/tree/dev.svg?style=svg)](https://circleci.com/gh/maxwu/ci-stat/tree/dev)
- - License: [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+ - branch master: [![Build Status](https://travis-ci.org/maxwu/ci-stat.svg?branch=master)](https://travis-ci.org/maxwu/ci-stat) [![codecov](https://codecov.io/gh/maxwu/ci-stat/branch/master/graph/badge.svg)](https://codecov.io/gh/maxwu/ci-stat) [![CircleCI](https://circleci.com/gh/maxwu/ci-stat/tree/master.svg?style=svg)](https://circleci.com/gh/maxwu/ci-stat/tree/master)
+ - branch dev: [![Build Status](https://travis-ci.org/maxwu/ci-stat.svg?branch=dev)](https://travis-ci.org/maxwu/ci-stat) [![codecov](https://codecov.io/gh/maxwu/ci-stat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/ci-stat) [![CircleCI](https://circleci.com/gh/maxwu/ci-stat/tree/dev.svg?style=svg)](https://circleci.com/gh/maxwu/ci-stat/tree/dev)
+ - Private Jenkins: [![Build Status](http://jenkins.maxwu.me/buildStatus/icon?job=ci-stat)](http://jenkins.maxwu.me/job/ci-stat)
+ - Project License: [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Introduction
 
@@ -27,6 +28,8 @@ Cloud CI Services:
 
 On-Premise CI Services:
   - Jenkins;
+    - via Jenkins RESTful
+        - Artifacts: "http://localhost:8080/job/Cucumber_Jvm_Selenium_Toy/13/testReport/api/json?pretty=true"
   - Bamboo;
   
 Local CI files:
