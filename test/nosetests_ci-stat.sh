@@ -4,7 +4,7 @@
 # This step is only for Jenkins. Travis and CircleCI will ignore this step.
 ########################
 
-if [ -n "${WORKSPACE}" ]; then
+if [ -n "${WORKSPACE:+1}" ]; then
     # Path to virtualenv cmd installed by pip
     # /usr/local/bin/virtualenv
     PATH=$WORKSPACE/venv/bin:/usr/local/bin:$PATH
