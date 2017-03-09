@@ -12,7 +12,7 @@ dist: trusty
 install:
   - pip install -r requirements.txt
 
-script: ./test/nosetests_ci-stat.sh
+script: bash -x test/nosetests_ci-stat.sh
 #nosetests --logging-level=DEBUG --debug=me.maxwu -s -v --with-xunit --xunit-file ./build/ci-stat_nose_xunit.xml --with-coverage --cover-package=me.maxwu --cover-html --cover-html-dir=build/cover --cover-xml-file=build/coverage ./test
 
 branches :
