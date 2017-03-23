@@ -1,4 +1,4 @@
-# There is another requiremnts file under test folder for test using.
+# There is another requirements file under test folder for test using.
 docutils==0.13.1
 pathlib2==2.2.1
 poyo==0.4.0
