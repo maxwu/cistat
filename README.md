@@ -41,10 +41,6 @@ Which requests a common XUnit format of test results. Considering the reality, e
 
 ## Configuration
 
-Maven: (TBD)
-
-Python nosetests: (TBD)
-
 Travis and Circle.
 
 ## Issues
