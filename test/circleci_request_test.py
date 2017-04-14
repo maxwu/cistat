@@ -10,16 +10,16 @@ import json
 
 class CircleCiReqTest(unittest.TestCase):
     def test_30builds(self):
-        builds = CircleCiReq.get_recent_30builds(token=config.get_cfg_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
+        builds = CircleCiReq.get_recent_30builds(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
         self.assertEqual(30, len(list(builds)))
 
     #@unittest.skip("temporarily disabled, test one single artifact list instead")
     def test_30artifacts(self):
-        builds = CircleCiReq.get_recent_30artifacts(token=config.get_cfg_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
+        builds = CircleCiReq.get_recent_30artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
         self.assertEqual(30, len(list(builds)))
 
     def test_artifacts80(self):
-        artifacts = CircleCiReq.get_artifacts(token=config.get_cfg_token(), vcs='github', username='maxwu', project='cucumber-java-toy', build_num=80)
+        artifacts = CircleCiReq.get_artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy', build_num=80)
         count = 0
         for artifact in artifacts:
             print 'XML artifact: {}'.format(artifact)
@@ -28,7 +28,7 @@ class CircleCiReqTest(unittest.TestCase):
         self.assertEqual(4, count, 'build 80 shall have 4 artifacts')
 
     def test_get_artifact_report(self):
-        artifacts = CircleCiReq.get_artifacts(token=config.get_cfg_token(), vcs='github', username='maxwu',
+        artifacts = CircleCiReq.get_artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu',
                                               project='cucumber-java-toy', build_num=80)
         for artifact in artifacts:
             report = CircleCiReq.get_artifact_report(artifact)

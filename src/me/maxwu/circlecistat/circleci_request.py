@@ -70,10 +70,10 @@ class CircleCiReq(object):
 
         for num in build_nums:
             yield cls.get_artifacts(token=token,
-                                  vcs=vcs,
-                                  username=username,
-                                  project=project,
-                                  build_num=num,
+                                    vcs=vcs,
+                                    username=username,
+                                    project=project,
+                                    build_num=num,
                                   )
 
     @classmethod
