@@ -94,3 +94,6 @@ ENV/
 
 # Personal config file
 config.yaml
+
+# Lint report
+pylint.out
