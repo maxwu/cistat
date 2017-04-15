@@ -1,3 +1,5 @@
-# local config of tokens, plz be kindly remindered not to push to remote repo.
-circleci_api_token: 225b86f9dcbbd6f62a2e95bfa3c71298555833ed
+# Test Config File
+
+# 40 characters token
+circleci_api_token: 1234567890a1234567890a1234567890a1234567890a
 report_enable: true
