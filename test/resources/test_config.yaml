@@ -1,5 +1,5 @@
 # Test Config File
 
 # 40 characters token
-circleci_api_token: 1234567890a1234567890a1234567890a1234567890a
+circleci_api_token: 123456789a123456789a123456789a123456789a
 report_enable: true

@@ -5,8 +5,8 @@ __author__ = 'maxwu'
 
 import os
 
-ORG_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(os.path.dirname(ORG_ROOT_DIR))
+ME_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(ME_ROOT_DIR))
 
 
 def get_root_dir():

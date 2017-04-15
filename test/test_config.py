@@ -15,8 +15,9 @@ class CircleCiReqCfg(unittest.TestCase):
                          'test_config.yaml']
                         )
         self.assertTrue(os.path.isfile(path))
+        print "read config from fake config {path}".format(path=path)
         token = config.get_circleci_token(path)
-        self.assertEqual(token, '1234567890a' * 4)
+        self.assertEqual(token, '123456789a' * 4)
 
     def test_config_token_from_env(self):
         path = '/'.join([config.get_root(),
@@ -24,7 +25,10 @@ class CircleCiReqCfg(unittest.TestCase):
                          'resources',
                          'test_config_not_exists.yaml']
                         )
-        fake_token = '1234567890a' * 4
+        fake_token = '123456789a' * 4
         os.environ["circleci_api_token"] = fake_token
         token = config.get_circleci_token(path)
         self.assertEqual(token, fake_token)
+
+if __name__ == '__main__':
+    unittest.main()
