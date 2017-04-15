@@ -9,6 +9,8 @@ from me.maxwu.circlecistat import config
 
 class CircleCiReqCfg(unittest.TestCase):
     def test_config_token_from_cfg(self):
+        if os.environ.get("circleci_api_token"):
+            del os.environ["circleci_api_token"]
         path = '/'.join([config.get_root(),
                          'test',
                          'resources',
