@@ -41,3 +41,14 @@ def get_root():
 def get_circleci_token(path=None):
     return get_cfg(path)['circleci_api_token']
 
+
+def get_circleci_vcs(path=None):
+    return get_cfg(path)['circleci_vcs']
+
+
+def get_circleci_username(path=None):
+    return get_cfg(path)['circleci_username']
+
+
+def get_circleci_project(path=None):
+    return get_cfg(path)['circleci_project']

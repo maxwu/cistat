@@ -23,7 +23,7 @@ The repo was coded with best memory.
 The target is to maintain a lib which could fetch CI test results from general services. 
 
 Cloud CI Services: 
-  - circle (in progress);
+  - circle (done);
   - travis;
 
 On-Premise CI Services:
@@ -37,6 +37,33 @@ Local CI files:
 
 Another target of current lib is to quickly figure out the high runners of failure cases from the statistic results.
 Which requests a common XUnit format of test results. Considering the reality, each build could have multiple artifacts in XUnit XML format.
+
+## Usage
+
+Get latest 30 artifacts from circle CI service:
+
+```python
+cases = Xunitrpt()
+for artifacts in CircleCiReq.get_recent_30artifacts(
+        token=config.get_circleci_token(),
+        vcs=config.get_circleci_vcs(),
+        project=config.get_circleci_project(),
+        username=config.get_circleci_username()
+):
+    for artifact in artifacts:
+        print("fetching {}".format(artifact))
+        cases.accumulate_xunit(CircleCiReq.get_request(artifact).text)
+ 
+```
+
+Extract top 10 failure test cases and the statistics:
+
+```python
+print("Top 10 failure cases: {}".format(
+            json.dumps(cases.get_cases_in_rate()[:10], indent=2))
+        )
+
+```
 
 ## Test
 
