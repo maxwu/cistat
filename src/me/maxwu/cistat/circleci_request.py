@@ -7,10 +7,6 @@ import requests
 from requests.auth import HTTPBasicAuth
 import logging
 import json
-try:
-    import xml.etree.cElementTree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET
 
 
 logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
@@ -85,36 +81,6 @@ class CircleCiReq(object):
         res = cls.get_request(url)
         xunit = res.text
         return xunit
-
-    @classmethod
-    def accumulate_case_dict(cls, xunit=None):
-        """ Get test results in dict
-        :param xunit: XUnit in a string
-        :param case_dict: the dict to add current xunit data onto
-        :return: dict of test case {'pass': pass_count, 'fail': failure_count
-        """
-
-        if not xunit:
-            return {}
-
-        root = ET.fromstring(xunit)
-        case_dict = {}
-
-        for elem in root.iter('testcase'):
-            tcname = elem.get('classname') + '.' + elem.get('name')
-
-            if 'failure' not in [child.tag for child in elem]:
-                if tcname not in case_dict:
-                    case_dict[tcname] = {'pass': 1, 'fail': 0}
-                else:
-                    case_dict[tcname]['pass'] += 1
-            else:
-                if tcname not in case_dict:
-                    case_dict[tcname] = {'pass': 0, 'fail': 1}
-                else:
-                    case_dict[tcname]['fail'] += 1
-
-        return case_dict
 
 if __name__ == "__main__":
     pass
