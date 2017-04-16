@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'maxwu'
 
-from me.maxwu.circlecistat import config
+from me.maxwu.cistat import config
 import unittest
 import os
 

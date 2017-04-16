@@ -14,7 +14,7 @@ if [ -n "${WORKSPACE:+1}" ]; then
     . venv/bin/activate
 else
     # Alternatively, $TRAVIS_REPO_SLUG could be utilized here to provide name.
-    export JOB_NAME="ci-stat"
+    export JOB_NAME="cistat"
 fi
 pip install -r requirements.txt -r test/test_requirements.txt --cache-dir /tmp/$JOB_NAME
 
