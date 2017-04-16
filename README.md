@@ -38,10 +38,22 @@ Local CI files:
 Another target of current lib is to quickly figure out the high runners of failure cases from the statistic results.
 Which requests a common XUnit format of test results. Considering the reality, each build could have multiple artifacts in XUnit XML format.
 
+## Test
+
+Run ```nosetests_ci-stat.sh```, or nosetests execution under ./test folder.
+Cloud based UT on Travis and Circle.
 
 ## Configuration
 
-Travis and Circle.
+Configuration item preference order is:
+ 
+    Cli Options -> Environment Variables > Local Config.yaml 
+
+Configuration items:
+
+- circleci_api_token: The 40 token characters to avoid throttling.
+
+> To test string length with shell, ```printf $STR | wc -c```
 
 ## Issues
 
