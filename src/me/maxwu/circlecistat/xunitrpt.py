@@ -3,7 +3,6 @@
 __author__ = 'maxwu'
 
 
-
 class Xunitrpt(object):
     """ The XUnit Test Report Class.
     Which represents an XML file as a test report in XUnit format.

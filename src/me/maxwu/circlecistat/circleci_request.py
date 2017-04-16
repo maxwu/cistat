@@ -87,14 +87,17 @@ class CircleCiReq(object):
         return xunit
 
     @classmethod
-    def accumulate_case_dict(cls, xunit='', case_dict={}):
+    def accumulate_case_dict(cls, xunit=None):
         """ Get test results in dict
         :param xunit: XUnit in a string
         :param case_dict: the dict to add current xunit data onto
         :return: dict of test case {'pass': pass_count, 'fail': failure_count
         """
-        root = ET.fromstring(xunit)
 
+        if not xunit:
+            return {}
+
+        root = ET.fromstring(xunit)
         case_dict = {}
 
         for elem in root.iter('testcase'):
