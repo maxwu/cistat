@@ -10,8 +10,10 @@ try:
 except ImportError:
     from chainmap import ChainMap
 from me import ROOT_DIR
+import logging
 
-
+logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
 CONFIG_YAML = "config.yaml"
 DEFAULTS = {"report": "true"}
 
@@ -24,8 +26,10 @@ def get_cfg(path=None):
     try:
         with open(path, 'r') as cfg:
             yml_cfg = yaml.load(cfg)
+        logger.debug("loaded config from {path}".format(path=path))
     except IOError as e:
         yml_cfg = {}
+        logger.debug("config yaml not found, load chainmap instead")
 
     return ChainMap(os.environ, yml_cfg, DEFAULTS)
 
@@ -36,3 +40,4 @@ def get_root():
 
 def get_circleci_token(path=None):
     return get_cfg(path)['circleci_api_token']
+
