@@ -19,8 +19,26 @@ Based on the statistic hints, we can put more efforts on the high runners to mit
 By the way, a similar tool [Bamboo_XUnit_Reader](https://github.com/maxwu/toy-box/tree/master/bamboo_xunit_reader) could be found on Github. 
 The repo was coded with best memory. 
 
-## Targets
-The target is to maintain a lib which could fetch CI test results from general services. 
+## Work Notes
+The target is to deliver a lib which could fetch CI test results from widely used CI services as TravisCI, CircelCI, on-premise Jenkins and finally can define customized scheme for any XUnit artifacts.
+This lib offers statistics functions on these artifacts.
+
+### The Development Plan
+
+- Therefore, the development work started from CircleCI first. 
+- After that, cache will be introduced and verify the regression.
+- Then a refactor step here will generate models for further using.
+- The 4th step I plan to turn back to add statistic functions since cache is ready.
+- At last, expand other services as Travis and Jenkins with regression supports.
+- Consider to customize scheme as an option on demand.
+
+### Progress Status
+
+CircleCI functions developed and tested. 
+    - CircleCI Request interface is too tedious;
+    - Working on cache now.
+
+#### Horizontal Stories
 
 Cloud CI Services: 
   - circle (done);
@@ -35,8 +53,20 @@ On-Premise CI Services:
 Local CI files:
   - Load XUnit format files to generate the statistics.
 
-Another target of current lib is to quickly figure out the high runners of failure cases from the statistic results.
-Which requests a common XUnit format of test results. Considering the reality, each build could have multiple artifacts in XUnit XML format.
+#### Vertical Stories
+
+Requests:
+    - Artifacts fetching (done)
+    - Transparent config (in-progress)
+    - Cache (in-progress)
+
+XUnit Artifacts:
+    - Parser (done)
+    - Counter (done)
+    - Passrate (done)
+    
+Report:
+    - High runners in table
 
 ## Usage
 
