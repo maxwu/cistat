@@ -22,7 +22,7 @@ class CircleCiReq(object):
     BASE_URL = "https://circleci.com/api/v1.1/"
 
     @classmethod
-    def get_request(cls, *args, **kwargs):
+    def __get_request(cls, *args, **kwargs):
         logger.debug("req url is {}".format(args[0]))
 
         if 'timeout' not in kwargs:
@@ -42,7 +42,7 @@ class CircleCiReq(object):
         build_num = str(build_num)
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project, build_num, 'artifacts'])
 
-        r = cls.get_request(url, auth=HTTPBasicAuth(token, ''))
+        r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
         json_res = r.json()
 
         for artifact in json_res:
@@ -52,7 +52,7 @@ class CircleCiReq(object):
     def get_recent_30builds(cls, token, vcs, username, project):
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project])
 
-        r = cls.get_request(url, auth=HTTPBasicAuth(token, ''))
+        r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
 
         res_json = r.json()
         for index, build in enumerate(res_json):
@@ -78,7 +78,7 @@ class CircleCiReq(object):
         :param url: URL to XUnit XML format artifact
         :return: string of XML
         """
-        res = cls.get_request(url)
+        res = cls.__get_request(url)
         xunit = res.text
         return xunit
 
