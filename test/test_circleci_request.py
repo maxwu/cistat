@@ -13,7 +13,7 @@ class CircleCiReqTest(unittest.TestCase):
         builds = CircleCiReq.get_recent_30builds(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
         self.assertEqual(30, len(list(builds)))
 
-    #@unittest.skip("temporarily disabled, test one single artifact list instead")
+    # @unittest.skip("temporarily disabled, test one single artifact list instead")
     def test_30artifacts(self):
         builds = CircleCiReq.get_recent_30artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
         self.assertEqual(30, len(list(builds)))
