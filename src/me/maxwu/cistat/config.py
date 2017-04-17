@@ -14,14 +14,18 @@ import logging
 
 logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
-CONFIG_YAML = "config.yaml"
-DEFAULTS = {"report": "true"}
+
+HOME_PATH = os.path.expanduser('~')
+CONFIG_PATH = '/'.join([HOME_PATH, '.cistat'])
+CACHE_PATH = '/'.join([CONFIG_PATH, 'cache'])
+CONFIG_YAML = '/'.join([CONFIG_PATH, 'config.yaml'])
+DEFAULTS = {'cache_enable': 'true', 'cache_path': CACHE_PATH}
 
 
 def get_cfg(path=None):
     # By default, the main module shall search config.yaml in app root dir.
     if not path:
-        path = '/'.join([get_root(), CONFIG_YAML])
+        path = CONFIG_YAML
 
     try:
         with open(path, 'r') as cfg:
