@@ -56,17 +56,18 @@ Local CI files:
 #### Vertical Stories
 
 Requests:
-    - Artifacts fetching (done)
-    - Transparent config (in-progress)
-    - Cache (in-progress)
+  - Artifacts fetching (done)
+  - Transparent config (in-progress)
+  - Cache (in-progress)
+  - Concurrent with map (in-progress)
 
 XUnit Artifacts:
-    - Parser (done)
-    - Counter (done)
-    - Passrate (done)
+  - Parser (done)
+  - Counter (done)
+  - Passrate (done)
     
 Report:
-    - High runners in table
+  - High runners in table
 
 ## Usage
 
