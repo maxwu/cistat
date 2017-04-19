@@ -58,8 +58,8 @@ Local CI files:
 Requests:
   - Artifacts fetching (done)
   - Transparent config (in-progress)
-  - Cache (in-progress)
-  - Concurrent with map (in-progress)
+  - Cache (in-progress, with apache disk-map)
+  - Concurrent (in-progress, multiprocessing.dummy with map)
 
 XUnit Artifacts:
   - Parser (done)
@@ -105,7 +105,7 @@ Cloud based UT on Travis and Circle.
 
 Configuration item preference order is:
  
-    Cli Options -> Environment Variables > Local Config.yaml 
+    Cli Options >> Environment Variables >> Local Config.yaml 
 
 Configuration items:
 
