@@ -4,7 +4,8 @@ Python lib to fetch CI statistics from common RESTful services as circleci, trav
  - branch master: [![Build Status](https://travis-ci.org/maxwu/ci-stat.svg?branch=master)](https://travis-ci.org/maxwu/ci-stat) [![codecov](https://codecov.io/gh/maxwu/ci-stat/branch/master/graph/badge.svg)](https://codecov.io/gh/maxwu/ci-stat) [![CircleCI](https://circleci.com/gh/maxwu/ci-stat/tree/master.svg?style=svg)](https://circleci.com/gh/maxwu/ci-stat/tree/master)
  - branch dev: [![Build Status](https://travis-ci.org/maxwu/ci-stat.svg?branch=dev)](https://travis-ci.org/maxwu/ci-stat) [![codecov](https://codecov.io/gh/maxwu/ci-stat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/ci-stat) [![CircleCI](https://circleci.com/gh/maxwu/ci-stat/tree/dev.svg?style=svg)](https://circleci.com/gh/maxwu/ci-stat/tree/dev)
  - Private Jenkins: [![Build Status](http://jenkins.maxwu.me/buildStatus/icon?job=ci-stat)](http://jenkins.maxwu.me/job/ci-stat)
- - Project License: [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+ - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat)
+ 
 
 ## Introduction
 
