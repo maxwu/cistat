@@ -31,7 +31,7 @@ class CircleCiReqTest(unittest.TestCase):
         artifacts = CircleCiReq.get_artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu',
                                               project='cucumber-java-toy', build_num=80)
         for artifact in artifacts:
-            report = CircleCiReq.get_artifact_report(artifact)
+            report = CircleCiReq.get_artifact_report(url=artifact)
             self.assertTrue(report)
 
 
