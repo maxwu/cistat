@@ -80,7 +80,7 @@ class CircleCiReq(object):
         :return: string of XML
         """
         res = cls.__get_request(url=url, *args, **kwargs)
-        xunit = res.text
+        xunit = res.text if res else None
         return xunit
 
 if __name__ == "__main__":

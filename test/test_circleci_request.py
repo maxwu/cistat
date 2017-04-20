@@ -34,6 +34,12 @@ class CircleCiReqTest(unittest.TestCase):
             report = CircleCiReq.get_artifact_report(url=artifact)
             self.assertTrue(report)
 
+    def test_get_artifact_report_none_url(self):
+        self.assertIsNone(CircleCiReq.get_artifact_report(timeout=5))
+
+    def test_get_artifact_report_empty_url(self):
+        self.assertIsNone(CircleCiReq.get_artifact_report(url=''))
+
 
 if __name__ == '__main__':
     unittest.main()
