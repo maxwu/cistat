@@ -45,7 +45,7 @@ coverage.xml
 *,cover
 .hypothesis/
 *nose_xunit.xml
-
+nose_*.html
 # nosetests output cover html folder
 cover/
 
