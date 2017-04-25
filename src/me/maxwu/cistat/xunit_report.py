@@ -7,11 +7,17 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 import json
+import logging
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
+
 
 class Xunitrpt(object):
     """ The XUnit Test Report Class.
     Which represents an XML file as a test report in XUnit format.
-    The XSD refers to https://github.com/apache/maven-surefire/blob/master/maven-surefire-plugin/src/site/resources/xsd/surefire-test-report.xsd
+    The XSD refers to below document:
+    https://github.com/apache/maven-surefire/blob/master/maven-surefire-plugin/src/site/resources/xsd/surefire-test-report.xsd
     """
 
     def __init__(self, xunit=None):
@@ -30,7 +36,18 @@ class Xunitrpt(object):
         return sorted(self.case_dict.items(), lambda x, y: cmp(x[1]['rate'], y[1]['rate']), reverse=reverse)
 
     def __str__(self):
-        return json.dumps(self.case_dict, indent=2)
+        return json.dumps(self.case_dict, indent=2) if self.case_dict else ''
+
+    @staticmethod
+    def is_xunit_report(text=None):
+        if not text:
+            return False
+        root = ET.fromstring(text)
+        if not root.tag.lower() == 'testsuite':
+            logger.debug("Root {} is not testsuite".format(root.tag))
+            return False
+
+        return True
 
     def accumulate_xunit(self, xunit=None):
         """ Get test results in dict
@@ -39,7 +56,7 @@ class Xunitrpt(object):
         :return: dict of test case {'pass': pass_count, 'fail': failure_count
         """
 
-        if not xunit:
+        if not xunit or not Xunitrpt.is_xunit_report(xunit):
             # Nothing to accumulate, return original case dict.
             return self.case_dict
 

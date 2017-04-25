@@ -7,6 +7,7 @@ import json
 from me.maxwu.cistat.xunit_report import Xunitrpt
 from me.maxwu.cistat import config
 
+
 class TestXunitrpt(unittest.TestCase):
 
     def test_xunit_DriverFactoryTest_Sample(self):

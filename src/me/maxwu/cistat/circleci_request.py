@@ -8,13 +8,21 @@ from requests.auth import HTTPBasicAuth
 import logging
 import json
 from multiprocessing.dummy import Pool as ThreadPool
+try:
+    # Python 3
+    from collections import ChainMap
+except ImportError:
+    # Python 2.7
+    from chainmap import ChainMap
+
 
 logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 
 class CircleCiReq(object):
-    """Helper to fetch build artifacts from circleci.com
+    """Helper Class to fetch build artifacts from circleci.com
+    The RESTful API document could be found at https://circleci.com/docs/api/v1-reference/ 
     https://circleci.com/docs/api/
     GET: /project/:vcs-type/:username/:project
     Build summary for each of the last 30 builds for a single git repo.
@@ -39,6 +47,7 @@ class CircleCiReq(object):
     def get_artifacts(cls, token, vcs, username, project, build_num):
         """
         Get a list of artifacts generated with given build number
+        It is recommended to test it with Xunitrpt.is_xunit_report since not all artifacts are XUnit report XMLs
         """
         build_num = str(build_num)
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project, build_num, 'artifacts'])
@@ -46,32 +55,49 @@ class CircleCiReq(object):
         r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
         json_res = r.json()
 
-        for artifact in json_res:
-            yield artifact['url']
+        return [artifact['url'] for artifact in json_res]
 
     @classmethod
-    def get_recent_30builds(cls, token, vcs, username, project):
+    def get_recent_builds(cls, token, vcs, username, project, limit=None):
+        """ Get recent build numbers. Circle CI returns latest 30 builds.
+        :param token: 
+        :param vcs: 
+        :param username: 
+        :param project: 
+        :param limit: number of recent builds
+        :return: list of build numbers
+        """
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project])
 
         r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
 
         res_json = r.json()
-        for index, build in enumerate(res_json):
-            logger.debug("number {} \n {}\n".format(index, json.dumps(build, indent=2)))
-            yield build
+        if not res_json:
+            return None
+
+        res_json = res_json[:limit] if limit else res_json
+
+        return [build['build_num'] for build in res_json]
 
     @classmethod
-    def get_recent_30artifacts(cls, token, vcs, username, project):
-        builds = cls.get_recent_30builds(token=token, vcs=vcs, username=username, project=project)
-        build_nums = [build['build_num'] for build in builds]
+    def get_recent_artifacts(cls, token=None, vcs=None, username=None, project=None):
+        """ Get artifact URLs in list for specified build
+        :param token: 
+        :param vcs: 
+        :param username: 
+        :param project: 
+        :param limit: 
+        :return: list of artifacts URLs
+        """
+        build_nums = cls.get_recent_builds(token=token, vcs=vcs, username=username, project=project)
 
-        for num in build_nums:
-            yield cls.get_artifacts(token=token,
+        return [cls.get_artifacts(token=token,
                                     vcs=vcs,
                                     username=username,
                                     project=project,
                                     build_num=num,
-                                  )
+                                  ) for num in build_nums
+                ]
 
     @classmethod
     def get_artifact_report(cls, url=None, *args, **kwargs):

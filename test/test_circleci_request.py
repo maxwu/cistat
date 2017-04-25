@@ -5,34 +5,50 @@ __author__ = 'maxwu'
 import unittest
 from me.maxwu.cistat.circleci_request import CircleCiReq
 from me.maxwu.cistat import config
-
+from me.maxwu.cistat.xunit_report import Xunitrpt
 
 class CircleCiReqTest(unittest.TestCase):
 
     def test_30builds(self):
-        builds = CircleCiReq.get_recent_30builds(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
-        self.assertEqual(30, len(list(builds)))
+        builds = CircleCiReq.get_recent_builds(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
+        self.assertEqual(30, len(builds))
+
+    def test_2builds(self):
+        builds = CircleCiReq.get_recent_builds(token=config.get_circleci_token(),
+                                               vcs='github',
+                                               username='maxwu',
+                                               project='cucumber-java-toy',
+                                               limit=2)
+        self.assertEqual(2, len(builds))
 
     # @unittest.skip("temporarily disabled, test one single artifact list instead")
-    def test_30artifacts(self):
-        builds = CircleCiReq.get_recent_30artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
-        self.assertEqual(30, len(list(builds)))
+    def test_artifacts(self):
+        builds = CircleCiReq.get_recent_artifacts(token=config.get_circleci_token(),
+                                                  vcs='github', username='maxwu',
+                                                  project='cucumber-java-toy',
+                                                  )
+        for build in builds:
+            for artifact in build:
+                self.assertTrue(artifact.startswith('http'), 'artifact url does not start with http')
 
     def test_artifacts80(self):
-        artifacts = CircleCiReq.get_artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy', build_num=80)
-        count = 0
+        artifacts = CircleCiReq.get_artifacts(token=config.get_circleci_token(),
+                                              vcs='github', username='maxwu',
+                                              project='cucumber-java-toy', build_num=80)
+
         for artifact in artifacts:
             print 'XML artifact: {}'.format(artifact)
             self.assertTrue(artifact.endswith('.xml'), 'all artifacts of build 80 are XML files')
-            count += 1
-        self.assertEqual(4, count, 'build 80 shall have 4 artifacts')
+
+        self.assertEqual(4, len(artifacts), 'build 80 shall have 4 artifacts')
 
     def test_get_artifact_report(self):
-        artifacts = CircleCiReq.get_artifacts(token=config.get_circleci_token(), vcs='github', username='maxwu',
+        artifacts = CircleCiReq.get_artifacts(token=config.get_circleci_token(),
+                                              vcs='github', username='maxwu',
                                               project='cucumber-java-toy', build_num=80)
         for artifact in artifacts:
             report = CircleCiReq.get_artifact_report(url=artifact)
-            self.assertTrue(report)
+            self.assertTrue(Xunitrpt.is_xunit_report(report))
 
     def test_get_artifact_report_none_url(self):
         self.assertIsNone(CircleCiReq.get_artifact_report(timeout=5))
