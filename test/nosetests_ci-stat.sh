@@ -33,8 +33,12 @@ mkdir -p $CONFIG_PATH
 # Step 3: Execute Test
 ########################
 
+DATE_STR=`date +%Y-%m-%d_%H-%M-%S`
 # --debug=me.maxwu set all me.maxwu.* packages to debug level of logging
-nosetests --with-xunit --all-modules --traverse-namespace --with-xcoverage --cover-package=me.maxwu --cover-inclusive --logging-level=INFO --debug=me.maxwu -s -v --xunit-file ci-stat_nose_xunit.xml --cover-html ./test
+nosetests --with-xunit --all-modules --traverse-namespace --with-html --html-report=nose_$DATE_STR.html \
+--with-xcoverage --cover-package=me.maxwu --cover-inclusive --cover-html \
+--logging-level=INFO --debug=me.maxwu -s -v \
+--xunit-file ci-stat_nose_xunit.xml ./test
 
 ########################
 # Step 4: PyLint
