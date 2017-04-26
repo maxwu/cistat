@@ -31,6 +31,10 @@ class CircleCiReq(object):
 
     @classmethod
     def __get_request(cls, url=None, *args, **kwargs):
+        """ Internal method to fetch resource with Web API
+        :param url: 
+        :return: response object
+        """
         logger.debug("__fetching__ url={}".format(url))
         if not url:
             return None
@@ -101,9 +105,9 @@ class CircleCiReq(object):
 
     @classmethod
     def get_artifact_report(cls, url=None, *args, **kwargs):
-        """ Get the artifact and parse it to XUnit to return
+        """ Get the artifact for URL
         :param url: URL to XUnit XML format artifact
-        :return: string of XML
+        :return: the resource in text, usually str of XML format artifact
         """
         res = cls.__get_request(url=url, *args, **kwargs)
         xunit = res.text if res else None
