@@ -34,7 +34,6 @@ mkdir -p $CONFIG_PATH
 ########################
 
 DATE_STR=`date +%Y-%m-%d_%H-%M-%S`
-# --debug=me.maxwu set all me.maxwu.* packages to debug level of logging
 nosetests --with-xunit --all-modules --traverse-namespace --with-html --html-report=nose_$DATE_STR.html \
 --with-xcoverage --cover-package=me.maxwu --cover-inclusive --cover-html \
 --logging-level=INFO --debug=me.maxwu -s -v \
