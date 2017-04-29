@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
-__author__ = 'maxwu'
-
-
+# -*- coding: utf-8 -*-
 import os
+
+__author__ = 'maxwu'
 
 ME_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(os.path.dirname(ME_ROOT_DIR))

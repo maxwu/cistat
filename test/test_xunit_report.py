@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 __author__ = 'maxwu'
 
-import unittest
 import json
-from me.maxwu.cistat.xunit_report import Xunitrpt
+import unittest
+
 from me.maxwu.cistat import config
+from me.maxwu.cistat.stats.xunit_report import Xunitrpt
 
 
 class TestXunitrpt(unittest.TestCase):
@@ -42,17 +43,17 @@ class TestXunitrpt(unittest.TestCase):
         # There are 2 failure cases in this given sample report.
         self.assertEqual(2, len([case for case in cases if cases[case]['fail']]))
 
-    def test_accumulate(self):
+    def test_accumulate_wo_time(self):
         xunit1 = '''
             <testsuite tests="2" failures="0" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
-                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.496"/>
-                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2.628"/>
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" />
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" />
             </testsuite>'''
 
         xunit2 = '''
             <testsuite tests="2" failures="1" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
-                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.496"/>
-                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2.628">
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" />
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" >
                     <failure message="Faked"/>
                 </testcase>
             </testsuite>'''
@@ -78,7 +79,8 @@ class TestXunitrpt(unittest.TestCase):
                     "sum": 2,
                     "skipped": 0,
                     "rate": 0.5,
-                    "pass": 1
+                    "pass": 1,
+                    "time": 0
                 }
             ),
             (
@@ -88,7 +90,115 @@ class TestXunitrpt(unittest.TestCase):
                     "sum": 2,
                     "skipped": 0,
                     "rate": 1.0,
-                    "pass": 2
+                    "pass": 2,
+                    "time": 0
+                }
+            )]
+        self.assertListEqual(cases_in_rate, expected)
+
+
+    def test_accumulate_wi_time(self):
+        xunit1 = '''
+            <testsuite tests="2" failures="0" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.0"/>
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2"/>
+            </testsuite>'''
+
+        xunit2 = '''
+            <testsuite tests="2" failures="1" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.5"/>
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="1">
+                    <failure message="Faked"/>
+                </testcase>
+            </testsuite>'''
+
+        cases = Xunitrpt()
+        print("Empty xunit report: {}".format(cases))
+        self.assertEquals(len(cases.get_cases()), 0)
+
+        cases.accumulate_xunit(xunit1).accumulate_xunit(xunit2)
+        print("Cascaded xunit report: {}".format(cases))
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['fail'], 1)
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['pass'], 1)
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['fail'], 0)
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['pass'], 2)
+
+        cases_in_rate = cases.get_cases_in_rate()
+        print("Cases in rate: {}".format(json.dumps(cases_in_rate, indent=2)))
+        expected = [
+            (
+                "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest",
+                {
+                    "fail": 1,
+                    "sum": 2,
+                    "skipped": 0,
+                    "rate": 0.5,
+                    "pass": 1,
+                    "time": 3
+                }
+            ),
+            (
+                "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest",
+                {
+                    "fail": 0,
+                    "sum": 2,
+                    "skipped": 0,
+                    "rate": 1.0,
+                    "pass": 2,
+                    "time": 6.5
+                }
+            )]
+        self.assertListEqual(cases_in_rate, expected)
+
+    def test_add_wi_time(self):
+        xunit1 = '''
+            <testsuite tests="2" failures="0" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.0"/>
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2"/>
+            </testsuite>'''
+
+        xunit2 = '''
+            <testsuite tests="2" failures="1" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.5"/>
+                <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="1">
+                    <failure message="Faked"/>
+                </testcase>
+            </testsuite>'''
+
+        cases = Xunitrpt()
+        print("Empty xunit report: {}".format(cases))
+        self.assertEquals(len(cases.get_cases()), 0)
+
+        cases.accumulate_xunit(xunit1).accumulate_xunit(xunit2)
+        print("Cascaded xunit report: {}".format(cases))
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['fail'], 1)
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['pass'], 1)
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['fail'], 0)
+        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['pass'], 2)
+
+        cases_in_rate = cases.get_cases_in_rate()
+        print("Cases in rate: {}".format(json.dumps(cases_in_rate, indent=2)))
+        expected = [
+            (
+                "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest",
+                {
+                    "fail": 1,
+                    "sum": 2,
+                    "skipped": 0,
+                    "rate": 0.5,
+                    "pass": 1,
+                    "time": 3
+                }
+            ),
+            (
+                "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest",
+                {
+                    "fail": 0,
+                    "sum": 2,
+                    "skipped": 0,
+                    "rate": 1.0,
+                    "pass": 2,
+                    "time": 6.5
                 }
             )]
         self.assertListEqual(cases_in_rate, expected)

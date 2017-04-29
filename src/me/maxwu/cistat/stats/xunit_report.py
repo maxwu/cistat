@@ -38,6 +38,15 @@ class Xunitrpt(object):
     def __str__(self):
         return json.dumps(self.case_dict, indent=2) if self.case_dict else ''
 
+    def __add__(self, other):
+        self.accumulate_xunit(other)
+        return self
+
+    def __eq__(self, other):
+        if not self and not other:
+            return True
+        return self.get_cases() == other.get_cases()
+
     @staticmethod
     def is_xunit_report(text=None):
         if not text:
@@ -63,11 +72,14 @@ class Xunitrpt(object):
         root = ET.fromstring(xunit)
 
         for e in root.iter('testcase'):
+            # Naming convention: Full.Class.Name.MethodName
             tcname = e.get('classname') + '.' + e.get('name')
             if tcname not in self.case_dict:
-                self.case_dict[tcname] = {'pass': 0, 'fail': 0, 'skipped': 0, 'sum': 0, 'rate': 0}
+                self.case_dict[tcname] = {'pass': 0, 'fail': 0, 'skipped': 0, 'sum': 0, 'rate': 0, 'time': 0.0}
 
             self.case_dict[tcname]['sum'] += 1
+            # time is a float of seconds
+            self.case_dict[tcname]['time'] += float(e.get('time', 0))
 
             tags = [child.tag for child in e]
             if 'failure' in tags or 'error' in tags:

@@ -38,6 +38,7 @@ nosetests --with-xunit --all-modules --traverse-namespace --with-html --html-rep
 --with-xcoverage --cover-package=me.maxwu --cover-inclusive --cover-html \
 --logging-level=INFO --debug=me.maxwu -s -v \
 --xunit-file ci-stat_nose_xunit.xml ./test
+RET=$?
 
 ########################
 # Step 4: PyLint
@@ -45,4 +46,9 @@ nosetests --with-xunit --all-modules --traverse-namespace --with-html --html-rep
 cd src
 pylint -f parseable -d I0011,R0801 me.maxwu | tee ../pylint.out
 cd ..
+
+########################
+# Step 5: Return Nosetests Result
+########################
+exit $RET
 

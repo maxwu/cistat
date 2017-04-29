@@ -9,9 +9,9 @@ from diskcache import Cache
 from me.maxwu.cistat import config
 import logging
 
-logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.DEBUG)
 
 """
 Decorator to serve dick cache for artifacts.
@@ -42,12 +42,13 @@ class CacheIt(object):
 
     def __init__(self, folder=None, enable=False, *args, **kwargs):
         self.enable = enable
+
         if not folder:
             # If folder is not specified, use configuration items.
             folder = config.get_cache_path()
             logger.debug("Set cache_dir to {}".format(folder))
-        self.cache = Cache(folder, size_limit = CacheIt.cache_size)
-        super(CacheIt, self).__init__(*args, **kwargs)
+
+        self.cache = Cache(folder, size_limit=CacheIt.cache_size, *args, **kwargs)
 
     def __call__(self, func):
         @wraps(func)

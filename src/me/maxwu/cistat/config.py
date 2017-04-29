@@ -14,7 +14,7 @@ except ImportError:
 from me import ROOT_DIR
 import logging
 
-logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 HOME_PATH = os.path.expanduser('~')
@@ -42,7 +42,7 @@ def get_cfg(path=None):
         with open(path, 'r') as cfg:
             yml_cfg = yaml.load(cfg)
         logger.debug("loaded config from {path}".format(path=path))
-    except IOError as e:
+    except IOError:
         yml_cfg = {}
         logger.debug("config yaml not found, load chainmap instead")
 

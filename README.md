@@ -22,56 +22,6 @@ Based on the statistic hints, we can put more efforts on the high runners to mit
 By the way, a similar tool [Bamboo_XUnit_Reader](https://github.com/maxwu/toy-box/tree/master/bamboo_xunit_reader) could be found on Github. 
 The repo was coded with best memory. 
 
-## Work Notes
-The target is to deliver a lib which could fetch CI test results from widely used CI services as TravisCI, CircelCI, on-premise Jenkins and finally can define customized scheme for any XUnit artifacts.
-This lib offers statistics functions on these artifacts.
-
-### The Development Plan
-
-- Therefore, the development work started from CircleCI first. 
-- After that, cache will be introduced and verify the regression.
-- Then a refactor step here will generate models for further using.
-- The 4th step I plan to turn back to add statistic functions since cache is ready.
-- At last, expand other services as Travis and Jenkins with regression supports.
-- Consider to customize scheme as an option on demand.
-
-### Progress Status
-
-CircleCI functions developed and tested. 
-    - CircleCI Request interface is too tedious;
-    - Working on cache now.
-
-#### Horizontal Stories
-
-Cloud CI Services: 
-  - circle (done);
-  - travis;
-
-On-Premise CI Services:
-  - Jenkins;
-    - via Jenkins RESTful
-        - Artifacts: "http://localhost:8080/job/Cucumber_Jvm_Selenium_Toy/13/testReport/api/json?pretty=true"
-  - Bamboo;
-  
-Local CI files:
-  - Load XUnit format files to generate the statistics.
-
-#### Vertical Stories
-
-Requests:
-  - Artifacts fetching (done)
-  - Transparent config (in-progress)
-  - Cache (in-progress, with apache disk-map)
-  - Concurrent (in-progress, multiprocessing.dummy with map)
-
-XUnit Artifacts:
-  - Parser (done)
-  - Counter (done)
-  - Passrate (done)
-    
-Report:
-  - High runners in table
-
 ## Usage
 
 Get latest 30 artifacts from circle CI service:
@@ -115,6 +65,62 @@ Configuration items:
 - circleci_api_token: The 40 token characters to avoid throttling.
 
 > To test string length with shell, ```printf $STR | wc -c```
+
+## Work Notes
+The target is to deliver a lib which could fetch CI test results from widely used CI services as TravisCI, CircelCI, on-premise Jenkins and finally can define customized scheme for any XUnit artifacts.
+This lib offers statistics functions on these artifacts.
+
+### The Development Plan
+
+- Therefore, the development work started from CircleCI first. 
+- After that, cache will be introduced and verify the regression.
+- Then a refactor step here will generate models for further using.
+- The 4th step I plan to turn back to add statistic functions since cache is ready.
+- At last, expand other services as Travis and Jenkins with regression supports.
+- Consider to customize scheme as an option on demand.
+
+### Progress Status
+
+CircleCI functions developed and tested.
+ 
+  - [x] CircleCI Request interface is too tedious;
+  - [x] Disk Cache for RESTful request;
+  - [X] Support time stat
+  - [ ] Echart
+  - [ ] Threading on requests
+  - [ ] Support operator \__add\__()
+  
+
+#### Horizontal Stories
+
+Cloud CI Services: 
+  - circle (done);
+  - travis;
+
+On-Premise CI Services:
+  - Jenkins;
+    - via Jenkins RESTful
+        - Artifacts: "http://localhost:8080/job/Cucumber_Jvm_Selenium_Toy/13/testReport/api/json?pretty=true"
+  - Bamboo;
+  
+Local CI files:
+  - Load XUnit format files to generate the statistics.
+
+#### Vertical Stories
+
+Requests:
+  - Artifacts fetching (done)
+  - Transparent config (in-progress)
+  - Cache (in-progress, with apache disk-map)
+  - Concurrent (in-progress, multiprocessing.dummy with map)
+
+XUnit Artifacts:
+  - Parser (done)
+  - Counter (done)
+  - Passrate (done)
+    
+Report:
+  - High runners in table
 
 ## Issues
 

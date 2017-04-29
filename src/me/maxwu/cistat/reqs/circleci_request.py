@@ -19,7 +19,7 @@ except ImportError:
     from chainmap import ChainMap
 
 
-logging.basicConfig(format = '%(asctime)s - %(levelname)s: %(message)s')
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -62,7 +62,7 @@ class CircleCiReq(object):
         return xunit
 
     @classmethod
-    def get_artifacts(cls, token, vcs, username, project, build_num):
+    def get_build_artifacts(cls, token, vcs, username, project, build_num):
         """
         Get a list of artifacts generated with given build number
         It is recommended to test it with Xunitrpt.is_xunit_report since not all artifacts are XUnit report XMLs
@@ -87,7 +87,11 @@ class CircleCiReq(object):
         """
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project])
 
-        r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
+        if token:
+            r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
+        else:
+            # token is optional for some requests with circleci.
+            r = cls.__get_request(url)
 
         res_json = r.json()
         if not res_json:
@@ -98,24 +102,25 @@ class CircleCiReq(object):
         return [build['build_num'] for build in res_json]
 
     @classmethod
-    def get_recent_artifacts(cls, token=None, vcs=None, username=None, project=None):
+    def get_recent_artifacts(cls, token=None, vcs=None, username=None, project=None, limit=None):
         """ Get artifact URLs in list for specified build
-        :param token: 
-        :param vcs: 
-        :param username: 
-        :param project: 
-        :param limit: 
         :return: list of artifacts URLs
         """
         build_nums = cls.get_recent_builds(token=token, vcs=vcs, username=username, project=project)
 
-        return [cls.get_artifacts(token=token,
-                                  vcs=vcs,
-                                  username=username,
-                                  project=project,
-                                  build_num=num,
-                                  ) for num in build_nums
-                ]
+        # Sort builds in descending order.
+        build_nums = sorted(build_nums, reverse=True)
+
+        artifacts2d = [ cls.get_build_artifacts(token=token,
+                                             vcs=vcs,
+                                             username=username,
+                                             project=project,
+                                             build_num=num,
+                                             ) for num in build_nums
+                     ]
+        artifacts = reduce(lambda x,y: x+y, artifacts2d)
+
+        return artifacts[:limit] if limit else artifacts
 
 
 if __name__ == "__main__":
