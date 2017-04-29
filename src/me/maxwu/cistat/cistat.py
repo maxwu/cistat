@@ -4,8 +4,9 @@ __author__ = 'maxwu'
 
 
 import json
-from me.maxwu.cistat.circleci_request import CircleCiReq
+
 from me.maxwu.cistat import config
+from me.maxwu.cistat.models.circleci_request import CircleCiReq
 from me.maxwu.cistat.xunit_report import Xunitrpt
 
 """Main script file to provide configuration loading, cli_app and version.

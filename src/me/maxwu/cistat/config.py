@@ -21,7 +21,11 @@ HOME_PATH = os.path.expanduser('~')
 CONFIG_PATH = '/'.join([HOME_PATH, '.cistat'])
 CACHE_PATH = '/'.join([CONFIG_PATH, 'cache'])
 CONFIG_YAML = '/'.join([CONFIG_PATH, 'config.yaml'])
-DEFAULTS = {'cache_enable': 'true', 'cache_path': CACHE_PATH, 'circleci_api_token': None}
+DEFAULTS = {'cache_enable': 'true',
+            'cache_path': CACHE_PATH,
+            'circleci_api_token': None,
+            'timeout': 10
+            }
 
 
 def get_cfg(path=None):
@@ -48,6 +52,7 @@ def get_cfg(path=None):
 def get_root():
     return ROOT_DIR
 
+# TODO: simply replace with a __get_attr__() in close future.
 
 def get_circleci_token(path=None):
     """
@@ -66,3 +71,15 @@ def get_circleci_username(path=None):
 
 def get_circleci_project(path=None):
     return get_cfg(path)['circleci_project']
+
+
+def get_cache_path(path=None):
+    return get_cfg(path)['cache_path']
+
+
+def get_timeout(path=None):
+    return get_cfg(path)['timeout']
+
+
+def get_cache_enable(path=None):
+    return get_cfg(path)['cache_enable']

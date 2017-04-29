@@ -10,7 +10,7 @@ from me.maxwu.cistat import config
 
 class TestXunitrpt(unittest.TestCase):
 
-    def test_xunit_DriverFactoryTest_Sample(self):
+    def test_xunit_from_str_with_4_cases(self):
         with open('/'.join([config.get_root(),
                             'test',
                             'resources',
@@ -26,7 +26,7 @@ class TestXunitrpt(unittest.TestCase):
         self.assertEqual(0, len([case for case in cases if cases[case]['fail']]))
 
     # TEST-org.maxwu.jrefresh.selenium.TemperatureConverterTest
-    def test_xunit_TemperatureConverterTest_Sample(self):
+    def test_xunit_from_str2_with_49_cases(self):
         with open('/'.join([
             config.get_root(),
             'test',

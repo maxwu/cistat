@@ -32,5 +32,12 @@ class CircleCiReqCfg(unittest.TestCase):
         token = config.get_circleci_token(path)
         self.assertEqual(token, fake_token)
 
+    def test_config_cache_path(self):
+        """
+        The test case is to keep folder naming convention consistent.
+        """
+        home = os.path.expanduser('~')
+        self.assertEquals(config.get_cache_path(None), "{}/.cistat/cache".format(home))
+
 if __name__ == '__main__':
     unittest.main()

@@ -6,8 +6,11 @@ __author__ = 'maxwu'
 import requests
 from requests.auth import HTTPBasicAuth
 import logging
-import json
-from multiprocessing.dummy import Pool as ThreadPool
+from me.maxwu.cistat.cache import CacheIt
+from me.maxwu.cistat import config
+
+# TODO: add multi-threading with map
+
 try:
     # Python 3
     from collections import ChainMap
@@ -38,14 +41,25 @@ class CircleCiReq(object):
         logger.debug("__fetching__ url={}".format(url))
         if not url:
             return None
-
-        if 'timeout' not in kwargs:
-            kwargs['timeout'] = 10
-        res = requests.get(url, *args, **kwargs)
+        timeout = config.get_timeout()
+        res = requests.get(url, timeout=timeout)
 
         # Raise exception if the return code is not requests.codes.ok (200)
         res.raise_for_status()
         return res
+
+    @classmethod
+    @CacheIt(enable=config.get_cache_enable())
+    def get_artifact_report(cls, url=None, *args, **kwargs):
+        """ Get the artifact for URL
+        :param url: URL to XUnit XML format artifact
+        :return: the resource in text, usually str of XML format artifact
+        """
+        if not url:
+            return None
+        res = cls.__get_request(url=url, *args, **kwargs)
+        xunit = res.text if res else None
+        return xunit
 
     @classmethod
     def get_artifacts(cls, token, vcs, username, project, build_num):
@@ -96,22 +110,13 @@ class CircleCiReq(object):
         build_nums = cls.get_recent_builds(token=token, vcs=vcs, username=username, project=project)
 
         return [cls.get_artifacts(token=token,
-                                    vcs=vcs,
-                                    username=username,
-                                    project=project,
-                                    build_num=num,
+                                  vcs=vcs,
+                                  username=username,
+                                  project=project,
+                                  build_num=num,
                                   ) for num in build_nums
                 ]
 
-    @classmethod
-    def get_artifact_report(cls, url=None, *args, **kwargs):
-        """ Get the artifact for URL
-        :param url: URL to XUnit XML format artifact
-        :return: the resource in text, usually str of XML format artifact
-        """
-        res = cls.__get_request(url=url, *args, **kwargs)
-        xunit = res.text if res else None
-        return xunit
 
 if __name__ == "__main__":
     pass
