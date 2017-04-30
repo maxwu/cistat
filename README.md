@@ -24,7 +24,7 @@ The repo was coded with best memory.
 ## Usage
 
 Install from Github.
->Not 
+>Currently PyPi support is not added, need to clone code for test.
 
 Get latest 20 artifacts from circle CI service:
 
