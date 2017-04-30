@@ -29,27 +29,36 @@ Install from Github.
 Get latest 20 artifacts from circle CI service:
 
 ```python
-cases = Xunitrpt()
-for artifacts in CircleCiReq.get_recent_30artifacts(
-        token=config.get_circleci_token(),
-        vcs=config.get_circleci_vcs(),
-        project=config.get_circleci_project(),
-        username=config.get_circleci_username()
-):
-    for artifact in artifacts:
+   vcs, project, username = config.get_circleci_vcs(), config.get_circleci_project(), config.get_circleci_username()
+   urls =CircleCiReq.get_recent_artifacts(
+            token=config.get_circleci_token(),
+            vcs=vcs,
+            project=project,
+            username=username
+    )
+    report = Xunitrpt()
+
+    # XUnit Report Object supports operator.add "+"
+    for artifact in urls:
         print("fetching {}".format(artifact))
-        cases.accumulate_xunit(CircleCiReq.get_request(artifact).text)
- 
+        report += Xunitrpt(xunit=CircleCiReq.get_artifact_report(url=artifact))
 ```
 
 Extract top 10 failure test cases and the statistics:
 
 ```python
-print("Top 10 failure cases: {}".format(
-            json.dumps(cases.get_cases_in_rate()[:10], indent=2))
-        )
-
+    print("Top 10 failure cases: {}".format(report.get_cases_in_rate()[:10]))
 ```
+
+Plot the statistic chart:
+
+```python
+    print("Plot Barchart of Pass Rate")
+    report.plot_barchart_rate(project, "Pass Rate per case")
+```
+The bar chart of Pass Rate for cistat project as below:
+
+![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_38.png?imageView/2/w/400/q/100)
 
 ## Test
 
