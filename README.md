@@ -1,11 +1,11 @@
 # CIstat
 Python lib to fetch CI statistics from common RESTful services as circleci, travis, jekins, or bamboo.
 
- - branch master: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=master)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/master/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/master.svg?style=svg)](https://circleci.com/gh/maxwu/cistat/tree/master)
- - branch dev: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=dev)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/dev.svg?style=svg)](https://circleci.com/gh/maxwu/cistat/tree/dev) 
- - Private Jenkins: [![Build Status](http://jenkins.maxwu.me/buildStatus/icon?job=ci-stat)](http://jenkins.maxwu.me/job/ci-stat)
+ - Master: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=master)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/master/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/master.svg?style=svg)](https://circleci.com/gh/maxwu/cistat/tree/master)
+ - Dev: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=dev)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/dev.svg?style=svg)](https://circleci.com/gh/maxwu/cistat/tree/dev) 
+ - Jenkins: [![Build Status](http://jenkins.maxwu.me/buildStatus/icon?job=ci-stat)](http://jenkins.maxwu.me/job/ci-stat)
  - [![Code Issues](https://www.quantifiedcode.com/api/v1/project/007f5205467b44489394b042b5ebf83e/badge.svg)](https://www.quantifiedcode.com/app/project/007f5205467b44489394b042b5ebf83e)
- - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/66?title=v1%20progress)](https://github.com/maxwu/cistat)
+ - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/80?title=v1%20progress)](https://github.com/maxwu/cistat)
  
 
 ## Introduction
@@ -19,7 +19,8 @@ With the fast prototype we can also compare the failure rate between Jenkins tes
 This was due to the unstable external dependencies of this project. The prototype was fast and working well.
 Based on the statistic hints, we can put more efforts on the high runners to mitigate the interrupt to developerment and test team and reduce the DevOps diagnose time.
 By the way, a similar tool [Bamboo_XUnit_Reader](https://github.com/maxwu/toy-box/tree/master/bamboo_xunit_reader) could be found on Github. 
-The repo was coded with best memory. 
+
+So far only XUnit format artifacts are implemented. In the future, more measurement as "CodeQuality" cloud service, Lint score, Coverage history charts will be considered. 
 
 ## Usage
 
@@ -34,7 +35,8 @@ Get latest 20 artifacts from circle CI service:
             token=config.get_circleci_token(),
             vcs=vcs,
             project=project,
-            username=username
+            username=username,
+            limit=20
     )
     report = Xunitrpt()
 
@@ -58,7 +60,7 @@ Plot the statistic chart:
 ```
 The bar chart of Pass Rate for cistat project as below:
 
-![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_38.png?imageView/2/w/400/q/100)
+![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/400/q/100)
 
 ## Test
 
@@ -102,7 +104,10 @@ CircleCI functions developed and tested.
   - [ ] Threading on requests with map
         (Low priority since cache speeds up queries)
   - [X] Support operator \__add\__()
-  - [ ] Add Github based PyPi supports
+  - [ ] Support operator get()
+  - [ ] Add Github vcs PyPi supports
+  - [ ] Enhance logging
+  - [ ] Push to PyPi.org
 
 #### Horizontal Stories
 
