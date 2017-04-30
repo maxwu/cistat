@@ -128,14 +128,17 @@ class Xunitrpt(object):
         return self.get_case(tcname)['rate']
 
     # TODO: implement case granularity first.
-    def plot_barchart_rate(self, title='CIStat', sub_title='Bar chart on pass rate'):
+    def plot_barchart_rate(self, *args, **kwargs):
+        self.get_barchart_rate(*args, **kwargs).plot()
+
+    def get_barchart_rate(self, title='CIStat', sub_title='Bar chart on pass rate'):
         tcnames = self.case_dict.keys()
         chart = Echart(title, sub_title)
         rates = [self.get_case(x)['rate'] for x in tcnames]
         chart.use(Bar('Pass Rate', rates))
         chart.use(Legend(['Pass Rate']))
         chart.use(Axis('category', 'bottom', data=map(Xunitrpt.get_case_shortname, tcnames)))
-        chart.plot()
+        return chart
 
     @staticmethod
     def get_case_shortname(tcname):

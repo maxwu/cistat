@@ -251,7 +251,7 @@ class TestXunitrpt(unittest.TestCase):
         ''']
         report = reduce(operator.add, [Xunitrpt(xunit=x) for x in xunit_strs])
         print("**Dump XUnit Sum Stat:**\n{}".format(report.dump()))
-        report.plot_barchart_rate()
+        json.dump(report.get_barchart_rate().json, indent=2)
 
 if __name__ == '__main__':
     unittest.main()
