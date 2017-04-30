@@ -101,7 +101,7 @@ class Xunitrpt(object):
             tcname = e.get('classname', '**NoClass**') + '.' + e.get('name', '**NoTC**')
 
             if tcname not in self.case_dict:
-                self.case_dict[tcname] = Xunitrpt.DEFAULT_DICT
+                self.case_dict[tcname] = Xunitrpt.DEFAULT_DICT.copy()
 
             self.case_dict[tcname]['sum'] += 1
             # time is a float of seconds
