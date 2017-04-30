@@ -7,14 +7,13 @@ Python lib to fetch CI statistics from common RESTful services as circleci, trav
  - [![Code Issues](https://www.quantifiedcode.com/api/v1/project/007f5205467b44489394b042b5ebf83e/badge.svg)](https://www.quantifiedcode.com/app/project/007f5205467b44489394b042b5ebf83e)
  - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/66?title=v1%20progress)](https://github.com/maxwu/cistat)
  
- 
 
 ## Introduction
 
 This Python lib is derived from personal project [circleci_stat](https://github.com/maxwu/circleci_stat) on Github.
 After moving to this lib, the original circleci_stat will be in just maintenance status and the results could be a test source to cistat.
 
-The primitive idea is inspired by a fast prototype I have done to count high runners of internal CI test from Bamboo achieved files. 
+The primitive idea is inspired by a fast ont-time prototype to count high runners of internal CI test from Bamboo achieved files. 
 At that time, our project was a Python app and the artifacts were in XUnit common format to enable Jenkins plugins. 
 With the fast prototype we can also compare the failure rate between Jenkins test statistics and Bamboo data. 
 This was due to the unstable external dependencies of this project. The prototype was fast and working well.
@@ -89,10 +88,12 @@ CircleCI functions developed and tested.
   - [x] CircleCI Request interface is too tedious;
   - [x] Disk Cache for RESTful request;
   - [X] Support time stat
-  - [X] Echart
-  - [ ] Threading on requests
+  - [X] Echart introduction and bar chart demo
+  - [ ] Add bubble chart of test ROI presentation
+  - [ ] Threading on requests with map
+        (Low priority since cache speeds up queries)
   - [X] Support operator \__add\__()
-  
+  - [ ] Add Github based PyPi supports
 
 #### Horizontal Stories
 
