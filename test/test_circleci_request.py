@@ -56,9 +56,13 @@ class CircleCiReqTest(unittest.TestCase):
 
     def test_get_artifact_report(self):
         url = 'https://80-77958022-gh.circle-artifacts.com/0/tmp/circle-junit.BxjS188/junit/TEST-org.maxwu.jrefresh.HttpApi.SourceIpApiTest.xml'
-        report = Xunitrpt(xunit=CircleCiReq.get_artifact_report(url=url))
-        print("Original artifact:\n{}".format(report))
-        print("Pretty format case dict:\n{}".format(json.dumps(report.get_cases(), indent=2)))
+
+        str_xunit = CircleCiReq.get_artifact_report(url=url)
+        print("----Artifact:----\n{}".format(str_xunit))
+
+        report = Xunitrpt(xunit=str_xunit)
+        print("----XUnitObj:----\n{}".format(report))
+
         self.assertDictEqual(report.get_case('org.maxwu.jrefresh.HttpApi.SourceIpApiTest.httpFreegeoipJsonTest'),
                              {
                                  "fail": 0,

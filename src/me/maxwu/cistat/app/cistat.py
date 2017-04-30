@@ -26,7 +26,7 @@ def cli_app():
     )
     for artifact in artifacts:
         print("fetching {}".format(artifact))
-        cases.accumulate_xunit(CircleCiReq.get_artifact_report(artifact))
+        cases.accumulate_xunit_str(CircleCiReq.get_artifact_report(artifact))
 
     print("Top 10 failure cases: {}".format(json.dumps(cases.get_cases_in_rate()[:10], indent=2)))
 

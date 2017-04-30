@@ -20,7 +20,7 @@ class TestXunitrpt(unittest.TestCase):
             xml = f.read()
 
         cases = Xunitrpt(xunit=xml).get_cases()
-        print "Pretty format case dict:\n{}".format(json.dumps(cases, indent=2))
+        print "\nPretty format case dict:\n{}".format(json.dumps(cases, indent=2))
 
         self.assertEqual(4, len(cases))
         # There are no failure cases in this given sample report.
@@ -62,7 +62,7 @@ class TestXunitrpt(unittest.TestCase):
         print("Empty xunit report: {}".format(cases))
         self.assertEquals(len(cases.get_cases()), 0)
 
-        cases.accumulate_xunit(xunit1).accumulate_xunit(xunit2)
+        cases.accumulate_xunit_str(xunit1).accumulate_xunit_str(xunit2)
         print("Cascaded xunit report: {}".format(cases))
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['fail'], 1)
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['pass'], 1)
@@ -77,7 +77,7 @@ class TestXunitrpt(unittest.TestCase):
                 {
                     "fail": 1,
                     "sum": 2,
-                    "skipped": 0,
+                    "skip": 0,
                     "rate": 0.5,
                     "pass": 1,
                     "time": 0
@@ -88,7 +88,7 @@ class TestXunitrpt(unittest.TestCase):
                 {
                     "fail": 0,
                     "sum": 2,
-                    "skipped": 0,
+                    "skip": 0,
                     "rate": 1.0,
                     "pass": 2,
                     "time": 0
@@ -96,15 +96,14 @@ class TestXunitrpt(unittest.TestCase):
             )]
         self.assertListEqual(cases_in_rate, expected)
 
-
     def test_accumulate_wi_time(self):
-        xunit1 = '''
+        str1 = '''
             <testsuite tests="2" failures="0" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.0"/>
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2"/>
             </testsuite>'''
 
-        xunit2 = '''
+        str2 = '''
             <testsuite tests="2" failures="1" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.5"/>
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="1">
@@ -116,7 +115,7 @@ class TestXunitrpt(unittest.TestCase):
         print("Empty xunit report: {}".format(cases))
         self.assertEquals(len(cases.get_cases()), 0)
 
-        cases.accumulate_xunit(xunit1).accumulate_xunit(xunit2)
+        cases.accumulate_xunit_str(str1).accumulate_xunit_str(str2)
         print("Cascaded xunit report: {}".format(cases))
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['fail'], 1)
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['pass'], 1)
@@ -131,7 +130,7 @@ class TestXunitrpt(unittest.TestCase):
                 {
                     "fail": 1,
                     "sum": 2,
-                    "skipped": 0,
+                    "skip": 0,
                     "rate": 0.5,
                     "pass": 1,
                     "time": 3
@@ -142,7 +141,7 @@ class TestXunitrpt(unittest.TestCase):
                 {
                     "fail": 0,
                     "sum": 2,
-                    "skipped": 0,
+                    "skip": 0,
                     "rate": 1.0,
                     "pass": 2,
                     "time": 6.5
@@ -152,13 +151,13 @@ class TestXunitrpt(unittest.TestCase):
 
     def test_add_wi_time(self):
         xunit1 = '''
-            <testsuite tests="2" failures="0" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
+            <testsuite tests="2" failures="0" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skip="0">
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.0"/>
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2"/>
             </testsuite>'''
 
         xunit2 = '''
-            <testsuite tests="2" failures="1" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skipped="0">
+            <testsuite tests="2" failures="1" name="org.maxwu.jrefresh.selenium.DriverFactoryTest" time="21.377" errors="0" skip="0">
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.5"/>
                 <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="1">
                     <failure message="Faked"/>
@@ -169,7 +168,7 @@ class TestXunitrpt(unittest.TestCase):
         print("Empty xunit report: {}".format(cases))
         self.assertEquals(len(cases.get_cases()), 0)
 
-        cases.accumulate_xunit(xunit1).accumulate_xunit(xunit2)
+        cases= Xunitrpt(xunit1) + Xunitrpt(xunit2)
         print("Cascaded xunit report: {}".format(cases))
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['fail'], 1)
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['pass'], 1)
@@ -184,7 +183,7 @@ class TestXunitrpt(unittest.TestCase):
                 {
                     "fail": 1,
                     "sum": 2,
-                    "skipped": 0,
+                    "skip": 0,
                     "rate": 0.5,
                     "pass": 1,
                     "time": 3
@@ -195,7 +194,7 @@ class TestXunitrpt(unittest.TestCase):
                 {
                     "fail": 0,
                     "sum": 2,
-                    "skipped": 0,
+                    "skip": 0,
                     "rate": 1.0,
                     "pass": 2,
                     "time": 6.5
