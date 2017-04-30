@@ -67,7 +67,7 @@ class CircleCiReqTest(unittest.TestCase):
                              {
                                  "fail": 0,
                                  "sum": 1,
-                                 "skipped": 0,
+                                 "skip": 0,
                                  "rate": 1.0,
                                  "pass": 1,
                                  'time': 0.365,

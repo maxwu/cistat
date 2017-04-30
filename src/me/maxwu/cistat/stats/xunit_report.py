@@ -8,6 +8,8 @@ except ImportError:
     import xml.etree.ElementTree as ET
 import json
 import logging
+from echarts import Echart, Legend, Bar, Axis
+
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -49,7 +51,7 @@ class Xunitrpt(object):
 
         for k, v in other.get_cases().items():
             if k not in self.case_dict:
-                z.case_dict[k] = Xunitrpt.DEFAULT_DICT
+                z.case_dict[k] = Xunitrpt.DEFAULT_DICT.copy()
                 continue
 
             z.case_dict[k]['sum'] += v.get('sum', 0)
@@ -70,7 +72,11 @@ class Xunitrpt(object):
     def is_xunit_report(text=None):
         if not text:
             return False
-        root = ET.fromstring(text)
+        try:
+            root = ET.fromstring(text)
+        except:
+            return False
+
         if not root.tag.lower() == 'testsuite':
             logger.debug("Root {} is not testsuite".format(root.tag))
             return False
@@ -121,3 +127,19 @@ class Xunitrpt(object):
             self.case_dict[tcname]['rate'] = (self.case_dict[tcname]['pass'] + 0.0) / self.case_dict[tcname]['sum']
         return self.get_case(tcname)['rate']
 
+    # TODO: implement case granularity first.
+    def plot_barchart_rate(self, title='CIStat', sub_title='Bar chart on pass rate'):
+        tcnames = self.case_dict.keys()
+        chart = Echart(title, sub_title)
+        rates = [self.get_case(x)['rate'] for x in tcnames]
+        chart.use(Bar('Pass Rate', rates))
+        chart.use(Legend(['Pass Rate']))
+        chart.use(Axis('category', 'bottom', data=map(Xunitrpt.get_case_shortname, tcnames)))
+        chart.plot()
+
+    @staticmethod
+    def get_case_shortname(tcname):
+        res = ''.join(tcname[-18:])
+        if len(res) >= 18:
+            res = '+' + res
+        return res

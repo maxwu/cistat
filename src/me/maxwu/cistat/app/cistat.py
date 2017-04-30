@@ -15,20 +15,25 @@ VERSION = "1.0"
 
 
 def cli_app():
-    cases = Xunitrpt()
+    vcs, project, username = config.get_circleci_vcs(), config.get_circleci_project(), config.get_circleci_username()
 
-    artifacts =CircleCiReq.get_recent_artifacts(
+    urls =CircleCiReq.get_recent_artifacts(
             token=config.get_circleci_token(),
-            vcs=config.get_circleci_vcs(),
-            project=config.get_circleci_project(),
-            username=config.get_circleci_username(),
-            limit=10
+            vcs=vcs,
+            project=project,
+            username=username
     )
-    for artifact in artifacts:
-        print("fetching {}".format(artifact))
-        cases.accumulate_xunit_str(CircleCiReq.get_artifact_report(artifact))
 
-    print("Top 10 failure cases: {}".format(json.dumps(cases.get_cases_in_rate()[:10], indent=2)))
+    report = Xunitrpt()
+
+    for artifact in urls:
+        print("fetching {}".format(artifact))
+        report += Xunitrpt(xunit=CircleCiReq.get_artifact_report(url=artifact))
+
+    print("Top 10 failure cases: {}".format(report.get_cases_in_rate()[:10]))
+
+    print("Plot Barchart of Pass Rate")
+    report.plot_barchart_rate(project, "Pass Rate per case")
 
 
 if __name__ == '__main__':

@@ -119,7 +119,8 @@ class CircleCiReq(object):
                                              ) for num in build_nums
                      ]
         artifacts = reduce(lambda x,y: x+y, artifacts2d)
-
+        # Only return XML artifacts
+        artifacts = [x for x in artifacts if x.endswith('.xml')]
         return artifacts[:limit] if limit else artifacts
 
 

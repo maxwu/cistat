@@ -4,7 +4,7 @@ __author__ = 'maxwu'
 
 import json
 import unittest
-
+import operator
 from me.maxwu.cistat import config
 from me.maxwu.cistat.stats.xunit_report import Xunitrpt
 
@@ -201,6 +201,57 @@ class TestXunitrpt(unittest.TestCase):
                 }
             )]
         self.assertListEqual(cases_in_rate, expected)
+
+    def test_tc_shortname(self):
+        tcname1 = "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest"
+        tcshort1 = Xunitrpt.get_case_shortname(tcname1)
+        self.assertEquals(tcshort1, '+tDriverReEntryTest')
+
+        tcname2 = "quitDriverReEntryTest"
+        tcshort2 = Xunitrpt.get_case_shortname(tcname2)
+        self.assertEquals(tcshort2, '+tDriverReEntryTest')
+
+        tcname3 = "3.quitTest"
+        tcshort3 = Xunitrpt.get_case_shortname(tcname3)
+        self.assertEquals(tcshort3, '3.quitTest')
+
+    def test_barchart_rate(self):
+        xunit_strs = ['''
+        <testsuite >
+          <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.496"/>
+          <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2.628"/>
+          <testcase classname="org.maxwu.jrefresh.selenium.Driver" name="getDriverTest" time="3.507"/>
+          <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="navigateWeb" time="11.746"/>
+        </testsuite>
+        ''',
+        '''
+            <testsuite >
+              <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.496">
+                <failure message="Faked" type="org.junit.ComparisonFailure"> 
+                    This is faked case
+                </failure>
+              </testcase>
+              <testcase classname="org.maxwu.jrefresh.selenium.Driver" name="quitHook" time="2.628"/>
+            </testsuite>
+        ''',
+        '''
+            <testsuite >
+              <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="5">
+                <failure message="Faked" type="org.junit.ComparisonFailure"> 
+                    This is faked case
+                </failure>
+              </testcase>
+              <testcase classname="org.maxwu.jrefresh.selenium.Driver" name="quitHook" time="2.628"/>
+              <testcase classname="org.maxwu.jrefresh.selenium.Driver" name="getDriverTest" time="3.507">
+              <failure message="Faked" type="org.junit.ComparisonFailure"> 
+                    This is faked case
+                </failure>
+              </testcase>
+            </testsuite>
+        ''']
+        report = reduce(operator.add, [Xunitrpt(xunit=x) for x in xunit_strs])
+        print("**Dump XUnit Sum Stat:**\n{}".format(report.dump()))
+        report.plot_barchart_rate()
 
 if __name__ == '__main__':
     unittest.main()
