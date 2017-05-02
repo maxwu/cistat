@@ -47,7 +47,13 @@ cd src
 pylint -f parseable -d I0011,R0801 me.maxwu | tee ../pylint.out
 cd ..
 
+#########################
+# Step 5: Pyflakes
 ########################
+cd src
+pyflakes ./ | tee ../pyflakes.out
+cd ..
+#######################
 # Step 5: Return Nosetests Result
 ########################
 exit ${RET1}
