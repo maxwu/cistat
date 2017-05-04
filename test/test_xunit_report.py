@@ -6,7 +6,7 @@ import json
 import unittest
 import operator
 from me.maxwu.cistat import config
-from me.maxwu.cistat.stats.xunit_report import Xunitrpt
+from me.maxwu.cistat.model.xunit_report import Xunitrpt
 
 
 class TestXunitrpt(unittest.TestCase):
