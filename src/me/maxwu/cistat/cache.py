@@ -22,11 +22,11 @@ cache = Cache('/tmp/mycachedir', tag_index=False)
 class CacheIt(object):
     cache_expire = 3600*24  # 24hr
     cache_size = 2**22      # 100MB
-    stat = {
-        'hit': 0,
-        'miss': 0,
-        'total': 0
-    }
+    stat = dict(
+        hit=0,
+        miss=0,
+        total=0
+    )
 
     @classmethod
     def __add_hit(cls):
@@ -72,10 +72,13 @@ class CacheIt(object):
                     self.cache.set([kwargs['url']], BytesIO(res.encode("ascii")), expire=CacheIt.cache_expire)
                 else:
                     logger.debug("None value not cached for {}".format(kwargs.get('url', '**Empty URL**')))
-                return res
             else:
                 logger.debug("Cache key hit {}".format(kwargs.get('url', '**Empty URL**')))
                 CacheIt.__add_hit()
-                return unicode(fetch, "ascii")
+                res = unicode(fetch, "ascii")
+            if CacheIt.stat.get('total', 0) % 10 == 0:
+                print("Cache stat: total={}, hit={}".format(CacheIt.stat.get('total', 0), CacheIt.stat.get('hit', 0)))
+                logger.info("Cache stat: total=%d, hit=%d" % (CacheIt.stat.get('total', 0), CacheIt.stat.get('hit', 0)))
+            return res
 
         return wrap

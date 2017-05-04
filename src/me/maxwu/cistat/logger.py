@@ -12,15 +12,23 @@
 """
 import logging
 
+LOG_LEVEL = dict(
+        DEBUG=logging.DEBUG,
+        INFO=logging.INFO,
+        WARNING=logging.WARNING,
+        ERROR=logging.ERROR,
+        CRITICAL=logging.CRITICAL,
+)
+
 
 # TODO: file handler and exception processing
 # TODO: Set to NullHandler and move config to ~/.cistat/log.yaml
 class Logger(object):
-    def __init__(self, name=None, log_level=logging.INFO):
+    def __init__(self, name=None, log_level="INFO"):
         self._logger = logging.getLogger(name)
-        logging.basicConfig(format='%(asctime) [%(levelname)s]: %(message)s')
+        logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
         _logger = logging.getLogger(name)
-        _logger.setLevel(log_level)
+        _logger.setLevel(LOG_LEVEL.get(log_level, logging.INFO))
 
     def get_logger(self):
         return self._logger
