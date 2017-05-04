@@ -7,12 +7,10 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 import json
-import logging
 from echarts import Echart, Legend, Bar, Axis
+from me.maxwu.cistat.logger import Logger
 
-
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
-logger = logging.getLogger(__name__)
+logger = Logger(name=__name__).get_logger()
 
 
 class Xunitrpt(object):

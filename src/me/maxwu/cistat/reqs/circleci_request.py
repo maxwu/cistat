@@ -10,17 +10,15 @@ from me.maxwu.cistat.cache import CacheIt
 from me.maxwu.cistat import config
 
 # TODO: add multi-threading with map
-
 try:
     # Python 3
     from collections import ChainMap
 except ImportError:
     # Python 2.7
     from chainmap import ChainMap
+from me.maxwu.cistat.logger import Logger
 
-
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
-logger = logging.getLogger(__name__)
+logger = Logger(name=__name__).get_logger()
 
 
 class CircleCiReq(object):

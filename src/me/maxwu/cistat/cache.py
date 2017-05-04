@@ -7,11 +7,9 @@ from functools import wraps
 from io import BytesIO
 from diskcache import Cache
 from me.maxwu.cistat import config
-import logging
+from me.maxwu.cistat.logger import Logger
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
-logger = logging.getLogger(__name__)
-# logger.setLevel(logging.DEBUG)
+logger = Logger(name=__name__).get_logger()
 
 """
 Decorator to serve dick cache for artifacts.

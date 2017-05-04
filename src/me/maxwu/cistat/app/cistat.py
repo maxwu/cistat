@@ -6,7 +6,7 @@ import json
 
 from me.maxwu.cistat import config
 from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
-from me.maxwu.cistat.stats.xunit_report import Xunitrpt
+from me.maxwu.cistat.model.xunit_report import Xunitrpt
 
 """Main script file to provide configuration loading, cli_app and version.
 """

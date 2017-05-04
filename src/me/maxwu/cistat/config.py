@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
+# Max Wu <http://maxwu.me>
 
 
 import yaml
@@ -12,10 +12,9 @@ except ImportError:
     # Python 2.7
     from chainmap import ChainMap
 from me import ROOT_DIR
-import logging
+from me.maxwu.cistat.logger import Logger
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
-logger = logging.getLogger(__name__)
+logger = Logger(name=__name__).get_logger()
 
 HOME_PATH = os.path.expanduser('~')
 CONFIG_PATH = '/'.join([HOME_PATH, '.cistat'])

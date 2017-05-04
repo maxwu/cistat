@@ -106,7 +106,8 @@ CircleCI functions developed and tested.
   - [X] Support operator \__add\__()
   - [ ] Support operator get()
   - [ ] Add Github vcs PyPi supports
-  - [ ] Enhance logging
+  - [X] Enhance logging
+  - [ ] Refactor to expand logging to stream/file_handler
   - [ ] Push to PyPi.org
 
 #### Horizontal Stories
