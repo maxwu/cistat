@@ -22,31 +22,22 @@ cache = Cache('/tmp/mycachedir', tag_index=False)
 class CacheIt(object):
     cache_expire = 3600*24  # 24hr
     cache_size = 2**22      # 100MB
-    stat = dict(
-        hit=0,
-        miss=0,
-        total=0
-    )
 
-    @classmethod
-    def __add_hit(cls):
-        cls.stat['hit'] += 1
-        cls.stat['total'] += 1
-
-    @classmethod
-    def __add_miss(cls):
-        cls.stat['miss'] += 1
-        cls.stat['total'] += 1
-
-    def __init__(self, folder=None, enable=False, *args, **kwargs):
+    def __init__(self, folder=None, enable=False):
         self.enable = enable
+        self.folder = folder
 
         if not folder:
             # If folder is not specified, use configuration items.
             folder = config.get_cache_path()
             logger.debug("Set cache_dir to {}".format(folder))
 
-        self.cache = Cache(folder, size_limit=CacheIt.cache_size, *args, **kwargs)
+        self.cache = Cache(folder, size_limit=CacheIt.cache_size)
+        self.cache.stats(enable=True)
+
+    def __del__(self):
+        if self.cache:
+            self.cache.close()
 
     def __call__(self, func):
         @wraps(func)
@@ -55,30 +46,34 @@ class CacheIt(object):
                 logger.debug("Cache is not enabled")
                 return func(*args, **kwargs)
 
-            if 'url' not in kwargs.keys() or not kwargs.get('url'):
-                # Now make url the only element for cache keys.
-                logger.info("No URL in call {}".format(func.__name__))
-                return func(*args, **kwargs)
+            with self.cache:
+                if 'url' not in kwargs.keys() or not kwargs.get('url'):
+                    # Now make url the only element for cache keys.
+                    logger.info("No URL in call {}".format(func.__name__))
+                    return func(*args, **kwargs)
+                url = kwargs.get('url', '**Empty URL**')
+                logger.debug("Cache check on call {} against url {}".format(func.__name__, url))
+                fetch = self.cache.get(url.encode("ascii"), default=None, read=True)
 
-            logger.debug("Cache check on call {} against url {}".format(func.__name__, kwargs['url']))
-            fetch = self.cache.get(kwargs['url'], default=None)
-
-            if not fetch:
-                logger.debug("Cache key missing {}".format(kwargs.get('url', '**Empty URL**')))
-                CacheIt.__add_miss()
-                res = func(*args, **kwargs)
-                if res:
-                    logger.debug("caching value from {}".format(kwargs.get('url', '**Empty URL**')))
-                    self.cache.set([kwargs['url']], BytesIO(res.encode("ascii")), expire=CacheIt.cache_expire)
+                if not fetch:
+                    logger.debug("Cache key missing {}".format(url))
+                    res = func(*args, **kwargs)
+                    if res:
+                        logger.debug("caching value from {}".format(url))
+                        self.cache.set(url.encode("ascii"), BytesIO(res.encode("ascii")), read=True, expire=CacheIt.cache_expire)
+                    else:
+                        logger.debug("None value not cached for {}".format(url))
                 else:
-                    logger.debug("None value not cached for {}".format(kwargs.get('url', '**Empty URL**')))
-            else:
-                logger.debug("Cache key hit {}".format(kwargs.get('url', '**Empty URL**')))
-                CacheIt.__add_hit()
-                res = unicode(fetch, "ascii")
-            if CacheIt.stat.get('total', 0) % 10 == 0:
-                print("Cache stat: total={}, hit={}".format(CacheIt.stat.get('total', 0), CacheIt.stat.get('hit', 0)))
-                logger.info("Cache stat: total=%d, hit=%d" % (CacheIt.stat.get('total', 0), CacheIt.stat.get('hit', 0)))
-            return res
-
+                    logger.debug("Cache key hit {}".format(url))
+                    res = fetch.read()
+                if self.get_total() % 10 == 0:
+                    logger.info(self.get_stat_str())
+                return res
         return wrap
+
+    def get_stat_str(self):
+        return "Cache stat: hit=%d, miss=%d" % (self.cache.stats(enable=True))
+
+    def get_total(self):
+        (hit, miss) = self.cache.stats()
+        return hit + miss
