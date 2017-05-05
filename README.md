@@ -55,7 +55,7 @@ Extract top 10 failure test cases and the statistics:
 Plot the statistic chart:
 
 ```python
-    print("Plot Barchart of Pass Rate")
+    #Plot Barchart of Pass Rate
     report.plot_barchart_rate(project, "Pass Rate per case")
 ```
 The bar chart of Pass Rate for cistat project as below:

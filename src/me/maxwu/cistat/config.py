@@ -52,7 +52,7 @@ def get_root():
     return ROOT_DIR
 
 
-# TODO: simply replace with a __get_attr__() in close future.
+# TODO: Encapsulate to object with __getitem/setitem__.
 def get_circleci_token(path=None):
     """
     Token is sometimes not necessary on F/OSS projects if the flag is enabled already on them. 
