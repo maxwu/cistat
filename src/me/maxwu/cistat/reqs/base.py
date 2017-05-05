@@ -1,3 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Base for CI service request
+ .. moduleauthor:: Max Wu <http://maxwu.me>
+ .. References::
+        None
+"""

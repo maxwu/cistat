@@ -30,9 +30,10 @@ class Xunitrpt(object):
         return self.case_dict.copy()
 
     def get_case(self, tcname=None):
-        if not tcname:
-            return {}
-        return self.case_dict[tcname]
+        return self.case_dict.get(tcname, dict())
+
+    def __getitem__(self, item):
+        return self.get_case(item)
 
     def get_cases_in_rate(self, reverse=False):
         return sorted(self.case_dict.items(), lambda x, y: cmp(x[1]['rate'], y[1]['rate']), reverse=reverse)
@@ -51,12 +52,8 @@ class Xunitrpt(object):
             if k not in self.case_dict:
                 z.case_dict[k] = Xunitrpt.DEFAULT_DICT.copy()
                 continue
-
-            z.case_dict[k]['sum'] += v.get('sum', 0)
-            z.case_dict[k]['pass'] += v.get('pass', 0)
-            z.case_dict[k]['fail'] += v.get('fail', 0)
-            z.case_dict[k]['skip'] += v.get('skip', 0)
-            z.case_dict[k]['time'] += v.get('time', 0)
+            for sk in ['sum', 'pass', 'fail', 'skip', 'time']:
+                z.case_dict[k][sk] += v.get(sk, 0)
             z.cal_rate(k)
 
         return z
