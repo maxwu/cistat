@@ -20,11 +20,11 @@ HOME_PATH = os.path.expanduser('~')
 CONFIG_PATH = '/'.join([HOME_PATH, '.cistat'])
 CACHE_PATH = '/'.join([CONFIG_PATH, 'cache'])
 CONFIG_YAML = '/'.join([CONFIG_PATH, 'config.yaml'])
-DEFAULTS = {'cache_enable': 'true',
-            'cache_path': CACHE_PATH,
-            'circleci_api_token': None,
-            'timeout': 10
-            }
+DEFAULTS = dict(cache_enable='true',
+                cache_path=CACHE_PATH,
+                circleci_api_token=None,
+                timeout=10
+                )
 
 
 def get_cfg(path=None):
@@ -42,8 +42,8 @@ def get_cfg(path=None):
             yml_cfg = yaml.load(cfg)
         logger.debug("loaded config from {path}".format(path=path))
     except IOError:
-        yml_cfg = {}
-        logger.debug("config yaml not found, load chainmap instead")
+        yml_cfg = dict()
+        logger.debug("config yaml not found, load ChainMap instead")
 
     return ChainMap(os.environ, yml_cfg, DEFAULTS)
 
@@ -51,8 +51,8 @@ def get_cfg(path=None):
 def get_root():
     return ROOT_DIR
 
-# TODO: simply replace with a __get_attr__() in close future.
 
+# TODO: simply replace with a __get_attr__() in close future.
 def get_circleci_token(path=None):
     """
     Token is sometimes not necessary on F/OSS projects if the flag is enabled already on them. 
