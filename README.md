@@ -107,8 +107,10 @@ CircleCI functions developed and tested.
   - [ ] Support operator get()
   - [ ] Add Github vcs PyPi supports
   - [X] Enhance logging
+  - [ ] Replace Xunit module counters with collections.Counter
   - [ ] Refactor to expand logging to stream/file_handler
   - [ ] Push to PyPi.org
+  - [ ] Make Requests as plugins to extend with new py codes
 
 #### Horizontal Stories
 
