@@ -22,10 +22,25 @@ By the way, a similar tool [Bamboo_XUnit_Reader](https://github.com/maxwu/toy-bo
 
 So far only XUnit format artifacts are implemented. In the future, more measurement as "CodeQuality" cloud service, Lint score, Coverage history charts will be considered. 
 
-## Usage
+## Installation
 
-Install from Github.
->Currently PyPi support is not added, need to clone code for test.
+Install cistat Pypi dist with dev branch latest code from Github:
+
+```shell
+pip install https://github.com/maxwu/cistat/archive/dev.zip
+# or
+pip install git+https://github.com/maxwu/cistat.git@dev
+```
+
+Install cistat from master (release) branch on Github:
+ 
+```shell
+pip install https://github.com/maxwu/cistat/archive/master.zip
+# or
+pip install git+https://github.com/maxwu/cistat.git
+```
+
+## Usage
 
 Get latest 20 artifacts from circle CI service:
 
@@ -61,6 +76,10 @@ Plot the statistic chart:
 The bar chart of Pass Rate for cistat project as below:
 
 ![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/400/q/100)
+
+Quick step to run above sample:
+`cistat-cli`
+This console command is installed with Pypi dist.
 
 ## Test
 
