@@ -20,6 +20,8 @@ lib64/
 parts/
 sdist/
 var/
+#vnenv for test
+venv_test/
 *.egg-info/
 .installed.cfg
 *.egg
