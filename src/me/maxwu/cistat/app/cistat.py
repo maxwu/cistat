@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'maxwu'
 
-import json
-
+import pprint
 from me.maxwu.cistat import config
 from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
 from me.maxwu.cistat.model.xunit_report import Xunitrpt
@@ -30,7 +29,8 @@ def cli_app():
         print("fetching {}".format(artifact))
         report += Xunitrpt(xunit=CircleCiReq.get_artifact_report(url=artifact))
 
-    print("Top 10 failure cases: {}".format(report.get_cases_in_rate()[:10]))
+    print("Top 10 failure cases:")
+    pprint.pprint(report.get_cases_in_rate()[:10])
 
     print("Plot Barchart of Pass Rate")
     report.plot_barchart_rate(project, "Pass Rate per case")
