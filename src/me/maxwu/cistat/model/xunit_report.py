@@ -25,7 +25,7 @@ class Xunitrpt(object):
     DEFAULT_DICT = {'pass': 0, 'fail': 0, 'skip': 0, 'sum': 0, 'rate': 0, 'time': 0.0}
 
     def __init__(self, xunit=None):
-        self.case_dict = {}
+        self.case_dict = dict()
         if xunit:
             self.accumulate_xunit_str(xunit)
 
@@ -53,16 +53,27 @@ class Xunitrpt(object):
     def __add__(self, other):
         z = Xunitrpt()
         z.case_dict = self.case_dict.copy()
+        z.extend(other)
+        return z
 
-        for k, v in other.get_cases().items():
-            if k not in self.case_dict:
-                z.case_dict[k] = Xunitrpt.DEFAULT_DICT.copy()
+    def __iadd__(self, other):
+        return self.extend(other)
+
+    def extend(self, other):
+        for k, v in other:
+            if k not in self.keys():
+                self[k] = Xunitrpt.DEFAULT_DICT.copy()
                 continue
             for sk in ['sum', 'pass', 'fail', 'skip', 'time']:
-                z.case_dict[k][sk] += v.get(sk, 0)
-            z.cal_rate(k)
+                self[k][sk] += v.get(sk, 0)
+            self.cal_rate(k)
+        return self
 
-        return z
+    def __iter__(self):
+        return self.case_dict.iteritems()
+
+    def keys(self):
+        return self.case_dict.keys()
 
     def __eq__(self, other):
         if not self and not other:
