@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
 
+"""XUnit Report Model  
+ - Xunitrpt class with encapsulated add, iadd, iteritem, keys, get/setitem, et.
+ - General utilities as class method.
+ 
+ .. moduleauthor:: Max Wu <http://maxwu.me>
+"""
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -18,9 +23,12 @@ class Xunitrpt(object):
     Which represents an XML file as a test report in XUnit format.
     The XSD refers to below document:
     https://github.com/apache/maven-surefire/blob/master/maven-surefire-plugin/src/site/resources/xsd/surefire-test-report.xsd
-    __add__() is overridden to combine two reports.
-    __getitem__() and __setitem__() are overridden to operate case dict counters.
+    ----
+    : __add__, __iadd__ is overridden to combine two reports.
+    : In general, __iteritem__ is also delegated by internal dict but it is not a full surrogate and not recommended to use directly.
+    : __getitem__() and __setitem__() are overridden to operate case dict counters.
     However, __delitem__, __set/get/delslice__ are not implemented. So it is not a full overriding for [] operator.
+    : The class level statistics are handled with same type of Xunitrpt, based on original Xunitrpt object on method level.
     """
     DEFAULT_DICT = {'pass': 0, 'fail': 0, 'skip': 0, 'sum': 0, 'rate': 0, 'time': 0.0}
 
@@ -28,12 +36,6 @@ class Xunitrpt(object):
         self.case_dict = dict()
         if xunit:
             self.accumulate_xunit_str(xunit)
-
-    def get_cases(self):
-        return self.case_dict.copy()
-
-    def get_case(self, tcname=None):
-        return self.case_dict.get(tcname, dict())
 
     def __getitem__(self, item):
         return self.get_case(item)
@@ -47,16 +49,22 @@ class Xunitrpt(object):
     def __str__(self, indent=2, *args, **kwargs):
         return json.dumps(self.case_dict, indent=indent, *args, **kwargs) if self.case_dict else ''
 
-    def dump(self):
-        return self.__str__(indent=2)
-
     def __add__(self, other):
+        """operator.add as: a = x + y or a = a + i
+        Here __add__ will return a new object copy after operation. 
+        :param other: An iterable as dict, Xunitrpt, et.
+        :return: A new object of result Xunitrpt type
+        """
         z = Xunitrpt()
         z.case_dict = self.case_dict.copy()
         z.extend(other)
         return z
 
     def __iadd__(self, other):
+        """ operator.idd as: a += i
+        :param other: An iterable as dict, Xunitrpt, et.
+        :return: The original operand after updating with data from other.
+        """
         return self.extend(other)
 
     def extend(self, other):
@@ -80,6 +88,36 @@ class Xunitrpt(object):
             return True
         return self.get_cases() == other.get_cases()
 
+    # __len__ also on the MRO chain of __nonzero__() call.
+    def __len__(self):
+        return self.case_dict.__len__()
+
+    def dump(self):
+        return self.__str__(indent=2)
+
+    def get_cases(self):
+        return self.case_dict.copy()
+
+    def get_case(self, tcname=None):
+        return self.case_dict.get(tcname, dict())
+
+    @staticmethod
+    def get_case_shortname(tcname):
+        ls = tcname.split('.')
+        if len(ls) <= 1:
+            return tcname
+        prefix = ''.join([x[0] for x in ls[:-1]])
+        return prefix + '.' + ls[-1]
+
+    @staticmethod
+    def get_class_name(tcname):
+        ls = tcname.split('.')
+        return '.'.join(ls[:-1])
+
+    @staticmethod
+    def get_class_shortname(classname):
+        return Xunitrpt.get_case_shortname(classname)
+
     @staticmethod
     def is_xunit_report(text=None):
         if not text:
@@ -90,7 +128,7 @@ class Xunitrpt(object):
             return False
 
         if not root.tag.lower() == 'testsuite':
-            logger.debug("Root {} is not testsuite".format(root.tag))
+            logger.info("doc root {} is not testsuite".format(root.tag))
             return False
 
         return True
@@ -158,20 +196,12 @@ class Xunitrpt(object):
         chart.use(Axis('category', 'bottom', data=map(Xunitrpt.get_case_shortname, tcnames)))
         return chart
 
-    @staticmethod
-    def get_case_shortname(tcname):
-        ls = tcname.split('.')
-        if len(ls) <= 1:
-            return tcname
-        prefix = ''.join([x[0] for x in ls[:-1]])
-        return prefix + '.' + ls[-1]
+    def get_class_rpt(self):
+        """ Generate Class level statistics in Xunitrpt type.
+        :return: Xunitrpt object on classes
+        """
+        clsrpt = Xunitrpt()
+        for k, v in self:
+            clsrpt += {Xunitrpt.get_class_name(k): v}.iteritems()
 
-    @staticmethod
-    def get_class_name(tcname):
-        ls = tcname.split('.')
-        return '.'.join(ls[:-1])
-
-    @staticmethod
-    def get_class_shortname(classname):
-        return Xunitrpt.get_case_shortname(classname)
-
+        return clsrpt

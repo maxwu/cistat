@@ -113,7 +113,7 @@ class TestXunitrpt(unittest.TestCase):
 
         cases = Xunitrpt()
         print("Empty xunit report: {}".format(cases))
-        self.assertEquals(len(cases.get_cases()), 0)
+        self.assertEquals(len(cases), 0)
 
         cases.accumulate_xunit_str(str1).accumulate_xunit_str(str2)
         print("Cascaded xunit report: {}".format(cases))
@@ -148,6 +148,7 @@ class TestXunitrpt(unittest.TestCase):
                 }
             )]
         self.assertListEqual(cases_in_rate, expected)
+        self.assertEquals(len(cases), 2)
 
     def test_add_wi_time(self):
         xunit1 = '''
