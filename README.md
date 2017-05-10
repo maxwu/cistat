@@ -64,7 +64,9 @@ Get latest 20 artifacts from circle CI service:
 Extract top 10 failure test cases and the statistics:
 
 ```python
-    print("Top 10 failure cases: {}".format(report.get_cases_in_rate()[:10]))
+    import pprint
+    print("Top 10 failure cases:")
+    pprint.pprint(report.get_cases_in_rate()[:10])
 ```
 
 Plot the statistic chart:

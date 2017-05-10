@@ -64,7 +64,7 @@ class TestXunitrpt(unittest.TestCase):
 
         cases.accumulate_xunit_str(xunit1).accumulate_xunit_str(xunit2)
         print("Cascaded xunit report: {}".format(cases))
-        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['fail'], 1)
+        self.assertEquals(cases['org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest']['fail'], 1)
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['pass'], 1)
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['fail'], 0)
         self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['pass'], 2)
@@ -170,10 +170,10 @@ class TestXunitrpt(unittest.TestCase):
 
         cases= Xunitrpt(xunit1) + Xunitrpt(xunit2)
         print("Cascaded xunit report: {}".format(cases))
-        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['fail'], 1)
-        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest')['pass'], 1)
-        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['fail'], 0)
-        self.assertEquals(cases.get_case('org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest')['pass'], 2)
+        self.assertEquals(cases['org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest']['fail'], 1)
+        self.assertEquals(cases['org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverTest']['pass'], 1)
+        self.assertEquals(cases['org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest']['fail'], 0)
+        self.assertEquals(cases['org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest']['pass'], 2)
 
         cases_in_rate = cases.get_cases_in_rate()
         print("Cases in rate: {}".format(json.dumps(cases_in_rate, indent=2)))
@@ -205,15 +205,39 @@ class TestXunitrpt(unittest.TestCase):
     def test_tc_shortname(self):
         tcname1 = "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest"
         tcshort1 = Xunitrpt.get_case_shortname(tcname1)
-        self.assertEquals(tcshort1, '+tDriverReEntryTest')
+        self.assertEquals(tcshort1, 'omjsD.quitDriverReEntryTest')
 
+        # This is a protective case
         tcname2 = "quitDriverReEntryTest"
         tcshort2 = Xunitrpt.get_case_shortname(tcname2)
-        self.assertEquals(tcshort2, '+tDriverReEntryTest')
+        self.assertEquals(tcshort2, 'quitDriverReEntryTest')
 
         tcname3 = "3.quitTest"
         tcshort3 = Xunitrpt.get_case_shortname(tcname3)
         self.assertEquals(tcshort3, '3.quitTest')
+
+        tcname4 = "A.3.quitTest"
+        tcshort4 = Xunitrpt.get_case_shortname(tcname4)
+        self.assertEquals(tcshort4, 'A3.quitTest')
+
+    def test_tc_classname(self):
+        tcname1 = "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest"
+        clname1 = Xunitrpt.get_class_name(tcname1)
+        self.assertEquals(clname1, 'org.maxwu.jrefresh.selenium.DriverFactoryTest')
+
+        # This is a protective case
+        tcname2 = "quitDriverReEntryTest"
+        clname2 = Xunitrpt.get_class_name(tcname2)
+        self.assertEquals(clname2, '')
+
+        tcname3 = "3.quitTest"
+        clname3 = Xunitrpt.get_class_name(tcname3)
+        self.assertEquals(clname3, '3')
+
+        tcname4 = "A.3.quitTest"
+        clname4 = Xunitrpt.get_class_name(tcname4)
+        self.assertEquals(clname4, 'A.3')
+
 
     def test_barchart_rate(self):
         xunit_strs = ['''
@@ -222,6 +246,10 @@ class TestXunitrpt(unittest.TestCase):
           <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverTest" time="2.628"/>
           <testcase classname="org.maxwu.jrefresh.selenium.Driver" name="getDriverTest" time="3.507"/>
           <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="navigateWeb" time="11.746"/>
+          <testcase name="xxTest" time="1"/>
+          <testcase classname="Xxtest" time="2"/>
+          <testcase name="yyTest" time="1"/>
+          <testcase classname="Yytest" time="2"/>
         </testsuite>
         ''',
         '''
@@ -250,8 +278,12 @@ class TestXunitrpt(unittest.TestCase):
             </testsuite>
         ''']
         report = reduce(operator.add, [Xunitrpt(xunit=x) for x in xunit_strs])
+        self.assertEquals(report['Unnamed.xxTest']['time'], 1.0)
+        self.assertEquals(report['Yytest.unnamed']['time'], 2.0)
+
         print("**Dump XUnit Sum Stat:**\n{}".format(report.dump()))
         json.dumps(report.get_barchart_rate().json, indent=2)
+
 
 if __name__ == '__main__':
     unittest.main()

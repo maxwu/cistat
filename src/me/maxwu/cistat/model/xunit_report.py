@@ -18,6 +18,9 @@ class Xunitrpt(object):
     Which represents an XML file as a test report in XUnit format.
     The XSD refers to below document:
     https://github.com/apache/maven-surefire/blob/master/maven-surefire-plugin/src/site/resources/xsd/surefire-test-report.xsd
+    __add__() is overridden to combine two reports.
+    __getitem__() and __setitem__() are overridden to operate case dict counters.
+    However, __delitem__, __set/get/delslice__ are not implemented. So it is not a full overriding for [] operator.
     """
     DEFAULT_DICT = {'pass': 0, 'fail': 0, 'skip': 0, 'sum': 0, 'rate': 0, 'time': 0.0}
 
@@ -34,6 +37,9 @@ class Xunitrpt(object):
 
     def __getitem__(self, item):
         return self.get_case(item)
+
+    def __setitem__(self, key, value):
+        return self.case_dict.__setitem__(key, value)
 
     def get_cases_in_rate(self, reverse=False):
         return sorted(self.case_dict.items(), lambda x, y: cmp(x[1]['rate'], y[1]['rate']), reverse=reverse)
@@ -93,22 +99,28 @@ class Xunitrpt(object):
 
         for e in root.iter('testcase'):
             # Naming convention: Full.Class.Name.MethodName
-            tcname = e.get('classname', '**NoClass**') + '.' + e.get('name', '**NoTC**')
+            clsname = e.get('classname', 'Unnamed')
+            if not clsname:
+                clsname = 'Unamed'
+            ttcname = e.get('name', 'unnamed')
+            if not ttcname:
+                ttcname = 'unnamed'
+            tcname = clsname + '.' + ttcname
 
             if tcname not in self.case_dict:
-                self.case_dict[tcname] = Xunitrpt.DEFAULT_DICT.copy()
+                self[tcname] = Xunitrpt.DEFAULT_DICT.copy()
 
-            self.case_dict[tcname]['sum'] += 1
+            self[tcname]['sum'] += 1
             # time is a float of seconds
-            self.case_dict[tcname]['time'] += float(e.get('time', 0))
+            self[tcname]['time'] += float(e.get('time', 0))
 
             tags = [child.tag for child in e]
             if 'failure' in tags or 'error' in tags:
-                self.case_dict[tcname]['fail'] += 1
+                self[tcname]['fail'] += 1
             elif 'skipped' in tags:
-                self.case_dict[tcname]['skip'] += 1
+                self[tcname]['skip'] += 1
             else:
-                self.case_dict[tcname]['pass'] += 1
+                self[tcname]['pass'] += 1
 
             self.cal_rate(tcname)
 
@@ -116,11 +128,11 @@ class Xunitrpt(object):
         return self
 
     def cal_rate(self, tcname):
-        if self.case_dict[tcname]['sum'] == 0:
-            self.case_dict[tcname]['rate'] = 0
+        if self[tcname]['sum'] == 0:
+            self[tcname]['rate'] = 0
         else:
-            self.case_dict[tcname]['rate'] = (self.case_dict[tcname]['pass'] + 0.0) / self.case_dict[tcname]['sum']
-        return self.get_case(tcname)['rate']
+            self[tcname]['rate'] = (self[tcname]['pass'] + 0.0) / self[tcname]['sum']
+        return self[tcname]['rate']
 
     # TODO: implement case granularity first.
     def plot_barchart_rate(self, *args, **kwargs):
@@ -137,7 +149,18 @@ class Xunitrpt(object):
 
     @staticmethod
     def get_case_shortname(tcname):
-        res = ''.join(tcname[-18:])
-        if len(res) >= 18:
-            res = '+' + res
-        return res
+        ls = tcname.split('.')
+        if len(ls) <= 1:
+            return tcname
+        prefix = ''.join([x[0] for x in ls[:-1]])
+        return prefix + '.' + ls[-1]
+
+    @staticmethod
+    def get_class_name(tcname):
+        ls = tcname.split('.')
+        return '.'.join(ls[:-1])
+
+    @staticmethod
+    def get_class_shortname(classname):
+        return Xunitrpt.get_case_shortname(classname)
+
