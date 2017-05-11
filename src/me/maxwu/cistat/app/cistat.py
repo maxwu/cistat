@@ -14,7 +14,8 @@ VERSION = "0.9.3"
 
 
 def cli_app():
-    vcs, project, username = config.get_circleci_vcs(), config.get_circleci_project(), config.get_circleci_username()
+    # vcs, project, username = config.get_circleci_vcs(), config.get_circleci_project(), config.get_circleci_username()
+    vcs, project, username = 'github', 'cistat', 'maxwu'
 
     urls = CircleCiReq.get_recent_artifacts(
             token=config.get_circleci_token(),
