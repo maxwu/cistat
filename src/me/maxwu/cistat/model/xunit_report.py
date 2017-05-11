@@ -102,12 +102,12 @@ class Xunitrpt(object):
         return self.case_dict.get(tcname, dict())
 
     @staticmethod
-    def get_case_shortname(tcname):
+    def get_case_shortname(tcname, limit_on_last_word=16):
         ls = tcname.split('.')
         if len(ls) <= 1:
             return tcname
         prefix = ''.join([x[0] for x in ls[:-1]])
-        return prefix + '.' + ls[-1]
+        return prefix + '.' + ls[-1][:limit_on_last_word]
 
     @staticmethod
     def get_class_name(tcname):
@@ -115,8 +115,9 @@ class Xunitrpt(object):
         return '.'.join(ls[:-1])
 
     @staticmethod
-    def get_class_shortname(classname):
-        return Xunitrpt.get_case_shortname(classname)
+    def get_class_shortname(classname, *args, **kwargs):
+        # Reuse shortname method for casename to process class full path
+        return Xunitrpt.get_case_shortname(classname, *args, **kwargs)
 
     @staticmethod
     def is_xunit_report(text=None):

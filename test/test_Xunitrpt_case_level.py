@@ -206,11 +206,11 @@ class TestXunitrpt(unittest.TestCase):
     def test_tc_shortname(self):
         tcname1 = "org.maxwu.jrefresh.selenium.DriverFactoryTest.quitDriverReEntryTest"
         tcshort1 = Xunitrpt.get_case_shortname(tcname1)
-        self.assertEquals(tcshort1, 'omjsD.quitDriverReEntryTest')
+        self.assertEquals(tcshort1, 'omjsD.quitDriverReEntr')
 
         # This is a protective case
         tcname2 = "quitDriverReEntryTest"
-        tcshort2 = Xunitrpt.get_case_shortname(tcname2)
+        tcshort2 = Xunitrpt.get_case_shortname(tcname2, 30)
         self.assertEquals(tcshort2, 'quitDriverReEntryTest')
 
         tcname3 = "3.quitTest"

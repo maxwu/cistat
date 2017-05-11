@@ -5,7 +5,7 @@ Python lib to fetch CI statistics from common RESTful services as circleci, trav
  - Dev: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=dev)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/dev.svg?style=shield)](https://circleci.com/gh/maxwu/cistat/tree/dev) 
  - Jenkins: [![Build Status](http://jenkins.maxwu.me/buildStatus/icon?job=ci-stat)](http://jenkins.maxwu.me/job/ci-stat)
  - [![Code Issues](https://www.quantifiedcode.com/api/v1/project/007f5205467b44489394b042b5ebf83e/badge.svg)](https://www.quantifiedcode.com/app/project/007f5205467b44489394b042b5ebf83e)
- - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/80?title=v1%20progress)](https://github.com/maxwu/cistat)
+ - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/85?title=v1%20progress)](https://github.com/maxwu/cistat)
  
 
 ## Introduction
@@ -124,10 +124,12 @@ CircleCI functions developed and tested.
   - [ ] Add bubble chart of test ROI presentation
   - [ ] Threading on requests with map
         (Low priority since cache speeds up queries)
-  - [X] Support operator \__add\__()
-  - [ ] Support operator get()
-  - [ ] Add Github vcs PyPi supports
+  - [X] Support operator.add
+  - [X] Support operator get/set/iteritems/keys
+  - [X] Add Github vcs PyPi supports
   - [X] Enhance logging
+  - [X] Add class level statistic aggregation
+  - [ ] Add aggregation for any level
   - [ ] Replace Xunit module counters with collections.Counter
   - [ ] Refactor to expand logging to stream/file_handler
   - [ ] Push to PyPi.org
