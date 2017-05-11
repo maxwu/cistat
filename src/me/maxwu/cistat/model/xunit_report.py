@@ -242,6 +242,7 @@ class Xunitrpt(object):
         for x in roi_ls:
             chart.use(Scatter(x[4], [x[:3]], symbolSize=x[2]*__MAX_RADIUS/max_case_num))
         chart.use(Axis('category', 'bottom', data=[x[3] for x in roi_ls]))
+        chart.use(Axis('value', 'left', data=[(i+1)*0.1 for i in range(12)]))
         return chart
 
     def get_class_rpt(self):

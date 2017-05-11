@@ -52,7 +52,15 @@ class CacheIt(object):
         :param value: str type value, e.g. file content
         :return: True if set value successfully, otherwise False
         """
-        return self.cache.set(key.encode("ascii"), BytesIO(value.encode("ascii")), read=True, expire=CacheIt.cache_expire)
+        try:
+            self.cache.set(key.encode("ascii"), BytesIO(value.encode("ascii")), read=True, expire=CacheIt.cache_expire)
+        except UnicodeEncodeError as uee:
+            logger.error("Artifact is not compliant with ascii range(128), {}".format(uee))
+            return False
+        except:
+            return False
+        else:
+            return True
 
     def __call__(self, func):
         @wraps(func)

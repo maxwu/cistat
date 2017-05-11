@@ -45,22 +45,22 @@ pip install git+https://github.com/maxwu/cistat.git
 Get latest 20 artifacts from circle CI service:
 
 ```python
-    token=config.get_circleci_token()
-    urls =CircleCiReq.get_recent_artifacts(token=token, vcs='github', project='cistat', username='maxwu')
-    report = Xunitrpt()
+token=config.get_circleci_token()
+urls =CircleCiReq.get_recent_artifacts(token=token, vcs='github', project='cistat', username='maxwu')
+report = Xunitrpt()
 
-    # XUnit Report Object supports operator '+' and '+='
-    for artifact in urls:
-        print("fetching {}".format(artifact))
-        report += Xunitrpt(xunit=CircleCiReq.get_artifact_report(url=artifact))
+# XUnit Report Object supports operator '+' and '+='
+for artifact in urls:
+    print("fetching {}".format(artifact))
+    report += Xunitrpt(xunit=CircleCiReq.get_artifact_report(url=artifact))
 ```
 
 Extract top 10 failure test cases and the statistics:
 
 ```python
-    import pprint
-    print("Top 10 failure cases:")
-    pprint.pprint(report.get_cases_in_rate()[:10])
+import pprint
+print("Top 10 failure cases:")
+pprint.pprint(report.get_cases_in_rate()[:10])
 ```
 
 Plot the statistic charts:
@@ -79,16 +79,34 @@ The Pie Chart for case numbers per class level is:
 __Bar Chart__
 
 ```python
-    #Plot Barchart of Pass Rate
-    report.plot_barchart_rate(project, "Pass Rate per case")
+report.plot_barchart_rate(project, "Pass Rate per case")
 ```
-The bar chart of Pass Rate for cistat project as below:
+
+The Bar Chart of Pass Rate for cistat project is:
 
 ![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/400/q/100)
 
-[Link to original sized Bar Chart](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/400/q/100)
+[Link to original sized Bar Chart](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png)
 
-Quick step to run above sample: `cistat-cli`
+__Bubble Chart__
+
+> The ROI chart is more considerable for nightly build result analysis in a testing project within XUnit test framework to control the resources as case, docker/cpu, feature integration.
+
+> In the sample height of bubble represents the pass rate and the size of bubble shows the test efforts (Currently it is simply the case number; It will be updated to a formula on test time and case number).
+> The lower the bubble positions, the bigger it shall grow to get more resource and invest to float up to 1.0 the stable status.
+
+```python
+report.get_class_rpt().plot_scatter_roi(project, "Test ROI per Class")
+```
+
+The Bubble Chart to present case ROI per class as below:
+
+![Bubble Chart on Test ROI](http://oei21r8n1.bkt.clouddn.com/CIstat_ScatterROI_Snip20170512_9.png?imageView/2/w/400/q/100)
+
+[Link to original sized Bubble Chart](http://oei21r8n1.bkt.clouddn.com/CIstat_ScatterROI_Snip20170512_9.png)
+
+__Cli_app__
+Quick step to run above sample: `cistat-cli`. Since circleci.com has throttling limit on RESTful API, it is recommended to configure an API-Key in environmental variable or local config.yaml.
 
 This console command is installed with Pypi dist. `cistat-cli` is the console entry point planted by PIP installer setup.py.
 

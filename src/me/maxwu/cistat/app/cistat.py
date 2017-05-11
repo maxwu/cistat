@@ -13,8 +13,10 @@ VERSION = "0.9.3"
 
 
 def cli_app():
+    # Another way with local ~/.cistat/config.yaml or environmental variables
     # vcs, project, username = config.get_circleci_vcs(), config.get_circleci_project(), config.get_circleci_username()
-    vcs, project, username = 'github', 'cistat', 'maxwu'
+    # vcs, project, username = 'github', 'cistat', 'maxwu'
+    vcs, project, username = 'github', 'torii', 'Vestorly'
 
     urls = CircleCiReq.get_recent_artifacts(
             token=config.get_circleci_token(),
