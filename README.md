@@ -77,7 +77,10 @@ __Pie Chart__
 report.get_class_rpt().plot_piechart_casenum(project, "Case Num per Class")
 ```
 The Pie Chart for case numbers per class level is:
+
 ![Pie Chart on Case Number per Class](http://oei21r8n1.bkt.clouddn.com/CIstat_PieCaseNum_Snip20170511_7_Med.png?imageView/2/w/400/q/100)
+
+[Link to original sized Pie Chart](http://oei21r8n1.bkt.clouddn.com/CIstat_PieCaseNum_Snip20170511_7_Orig.png)
 
 __Bar Chart__
 
@@ -89,9 +92,11 @@ The bar chart of Pass Rate for cistat project as below:
 
 ![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/400/q/100)
 
-Quick step to run above sample:
-`cistat-cli`
-This console command is installed with Pypi dist.
+[Link to original sized Bar Chart](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/400/q/100)
+
+Quick step to run above sample: `cistat-cli`
+
+This console command is installed with Pypi dist. `cistat-cli` is the console entry point planted by PIP installer setup.py.
 
 ## Test
 
