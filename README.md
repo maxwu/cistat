@@ -69,7 +69,17 @@ Extract top 10 failure test cases and the statistics:
     pprint.pprint(report.get_cases_in_rate()[:10])
 ```
 
-Plot the statistic chart:
+Plot the statistic charts:
+
+__Pie Chart__
+
+```python
+report.get_class_rpt().plot_piechart_casenum(project, "Case Num per Class")
+```
+The Pie Chart for case numbers per class level is:
+![Pie Chart on Case Number per Class](http://oei21r8n1.bkt.clouddn.com/CIstat_PieCaseNum_Snip20170511_7_Med.png?imageView/2/w/400/q/100)
+
+__Bar Chart__
 
 ```python
     #Plot Barchart of Pass Rate

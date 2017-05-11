@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
 
 import pprint
+import json
 from me.maxwu.cistat import config
 from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
 from me.maxwu.cistat.model.xunit_report import Xunitrpt
 
-"""Main script file to provide configuration loading, cli_app and version.
+"""Entry point of console_cli app for CIstat
 """
 
-VERSION = "1.0"
+VERSION = "0.9.3"
 
 
 def cli_app():
@@ -32,9 +32,14 @@ def cli_app():
     print("Top 10 failure cases:")
     pprint.pprint(report.get_cases_in_rate()[:10])
 
-    print("Plot Barchart of Pass Rate")
-    report.plot_barchart_rate(project, "Pass Rate per case")
+    print("Plot Bar Chart on Pass Rate per Case")
+    report.plot_barchart_rate(project, "Pass Rate per Case")
 
+    print("Plot Bar Chart on Pass Rate per Class")
+    report.get_class_rpt().plot_barchart_rate(project, "Pass Rate per Class")
+
+    print("Plot Pie Chart on Case Num per Class")
+    report.get_class_rpt().plot_piechart_casenum(project, "Case Num per Class")
 
 if __name__ == '__main__':
     cli_app()

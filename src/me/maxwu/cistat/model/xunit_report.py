@@ -12,7 +12,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 import json
-from echarts import Echart, Legend, Bar, Axis
+from echarts import Echart, Legend, Bar, Axis, Pie
 from me.maxwu.cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
@@ -184,17 +184,33 @@ class Xunitrpt(object):
             self[tcname]['rate'] = (self[tcname]['pass'] + 0.0) / self[tcname]['sum']
         return self[tcname]['rate']
 
-    # TODO: implement case granularity first.
     def plot_barchart_rate(self, *args, **kwargs):
         self.get_barchart_rate(*args, **kwargs).plot()
 
-    def get_barchart_rate(self, title='CIStat', sub_title='Bar chart on pass rate'):
-        tcnames = self.case_dict.keys()
+    def get_barchart_rate(self, title='CIStat', sub_title='Pass rate'):
+        tcnames = self.keys()
         chart = Echart(title, sub_title)
-        rates = [self.get_case(x)['rate'] for x in tcnames]
+        rates = [self[x]['rate'] for x in tcnames]
         chart.use(Bar('Pass Rate', rates))
         chart.use(Legend(['Pass Rate']))
         chart.use(Axis('category', 'bottom', data=map(Xunitrpt.get_case_shortname, tcnames)))
+        return chart
+
+    def plot_piechart_casenum(self, *args, **kwargs):
+        self.get_piechart_casenum(*args, **kwargs).plot()
+
+    def get_piechart_casenum(self, title='CIStat', sub_title='Case Num'):
+        names = self.keys()
+        chart = Echart(title, sub_title)
+        times_ls = [dict(value=self[x]['sum'], name=x + ',' + str(self[x]['rate']*100) + '%') for x in names]
+
+        chart.use(Pie('Case Num',
+                      times_ls,
+                      radius=["40%", "70%"])
+                  )
+        chart.use(Legend([Xunitrpt.get_case_shortname(x) for x in names]))
+        del chart.json["xAxis"]
+        del chart.json["yAxis"]
         return chart
 
     def get_class_rpt(self):

@@ -282,7 +282,7 @@ class TestXunitrpt(unittest.TestCase):
         self.assertEquals(report['Unnamed.xxTest']['time'], 1.0)
         self.assertEquals(report['Yytest.unnamed']['time'], 2.0)
 
-        print("**Dump XUnit Sum Stat:**\n{}".format(report.dump()))
+        # print("**Dump XUnit Sum Stat:**\n{}".format(report.dump()))
         json.dumps(report.get_barchart_rate().json, indent=2)
 
 
