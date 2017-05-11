@@ -12,7 +12,8 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 import json
-from echarts import Echart, Legend, Bar, Axis, Pie
+import operator
+from echarts import Echart, Legend, Bar, Axis, Pie, Scatter
 from me.maxwu.cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
@@ -213,6 +214,36 @@ class Xunitrpt(object):
         del chart.json["yAxis"]
         return chart
 
+    def plot_scatter_roi(self, *args, **kwargs):
+        self.get_scatter_roi(*args, **kwargs).plot()
+
+    def get_scatter_roi(self, title='CIStat', sub_title='Test ROI'):
+        """ Return chart object to present ROI of each test class
+        Here it is called Test ROI, not class ROI. Because a new feature is under primary scoping to allow case 
+        statistics being aggregated at any given level. Which means folks can check which package or parent package
+        is consuming the most or producing the most. Users can select the depth of aggregation.
+        
+        Currently the ROI is calculated by:
+            Pass Rate:      The height
+            Case Number:    The scatter symbol size
+                            - Symbol size represents the cost
+                            - In future, cost shall combine case number and test time.
+                              E.g. cost = a/(b/time + c/num)
+            Label:          Just distribute the labels evenly on X-axis
+        """
+        names = self.keys()
+        chart = Echart(title, sub_title)
+
+        # Each item is a list of [ X-axis, Y-axis, size hint, short name, full name]
+        roi_ls = [[i, self[x]['rate'], self[x]['sum'], Xunitrpt.get_case_shortname(x), x] for i, x in enumerate(names)]
+        max_case_num = sorted(roi_ls, key=operator.itemgetter(2), reverse=True)[0][2]
+        logger.debug("max case num is {}".format(max_case_num))
+        __MAX_RADIUS = 120
+        for x in roi_ls:
+            chart.use(Scatter(x[4], [x[:3]], symbolSize=x[2]*__MAX_RADIUS/max_case_num))
+        chart.use(Axis('category', 'bottom', data=[x[3] for x in roi_ls]))
+        return chart
+
     def get_class_rpt(self):
         """ Generate Class level statistics in Xunitrpt type.
         :return: Xunitrpt object on classes
@@ -220,5 +251,4 @@ class Xunitrpt(object):
         clsrpt = Xunitrpt()
         for k, v in self:
             clsrpt += {Xunitrpt.get_class_name(k): v}.iteritems()
-
         return clsrpt

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import pprint
-import json
 from me.maxwu.cistat import config
 from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
 from me.maxwu.cistat.model.xunit_report import Xunitrpt
@@ -41,6 +40,9 @@ def cli_app():
 
     print("Plot Pie Chart on Case Num per Class")
     report.get_class_rpt().plot_piechart_casenum(project, "Case Num per Class")
+
+    print("Plot Bubble Chart on Test ROI per Class")
+    report.get_class_rpt().plot_scatter_roi(project, "Test ROI per Class")
 
 if __name__ == '__main__':
     cli_app()
