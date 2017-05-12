@@ -5,7 +5,7 @@ Python lib to fetch CI statistics from common RESTful services as circleci, trav
  - Dev: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=dev)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/dev.svg?style=shield)](https://circleci.com/gh/maxwu/cistat/tree/dev) 
  - Jenkins: [![Build Status](http://jenkins.maxwu.me/buildStatus/icon?job=ci-stat)](http://jenkins.maxwu.me/job/ci-stat)
  - [![Code Issues](https://www.quantifiedcode.com/api/v1/project/007f5205467b44489394b042b5ebf83e/badge.svg)](https://www.quantifiedcode.com/app/project/007f5205467b44489394b042b5ebf83e)
- - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/85?title=v1%20progress)](https://github.com/maxwu/cistat)
+ - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/91?title=v1%20progress)](https://github.com/maxwu/cistat)
  
 
 ## Introduction
@@ -42,7 +42,7 @@ pip install git+https://github.com/maxwu/cistat.git
 
 ## Usage
 
-Get latest 20 artifacts from circle CI service:
+### Get latest 20 artifacts from circle CI service:
 
 ```python
 token=config.get_circleci_token()
@@ -63,7 +63,7 @@ print("Top 10 failure cases:")
 pprint.pprint(report.get_cases_in_rate()[:10])
 ```
 
-Plot the statistic charts:
+### Plot the statistic charts:
 
 __Pie Chart__
 
@@ -105,7 +105,8 @@ The Bubble Chart to present case ROI per class as below:
 
 [Link to original sized Bubble Chart](http://oei21r8n1.bkt.clouddn.com/CIstat_ScatterROI_Snip20170512_9.png)
 
-__Cli_app__
+### Cli_app
+
 Quick step to run above sample: `cistat-cli`. Since circleci.com has throttling limit on RESTful API, it is recommended to configure an API-Key in environmental variable or local config.yaml.
 
 This console command is installed with Pypi dist. `cistat-cli` is the console entry point planted by PIP installer setup.py.

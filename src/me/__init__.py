@@ -5,10 +5,7 @@ Package me.maxwu for all shared codes
 http://maxwu.me
 
 """
-
 import os
-
-__author__ = 'maxwu'
 
 ME_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(os.path.dirname(ME_ROOT_DIR))

@@ -7,10 +7,8 @@ from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
 from me.maxwu.cistat.model.xunit_report import Xunitrpt
 
 """Entry point of console_cli app for CIstat
+Cmd 'cistat-cli' is registered with PyPi dist and installed by pip.
 """
-
-VERSION = "0.9.3"
-
 
 def cli_app():
     # Another way with local ~/.cistat/config.yaml or environmental variables
