@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
+"""Test CircleCI interfaces
 
+ .. moduleauthor:: Max Wu <http://maxwu.me>
+ .. References::
+    **None**
+"""
 
-import json
 import unittest
-
 from me.maxwu.cistat import config
 from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
 from me.maxwu.cistat.model.xunit_report import Xunitrpt

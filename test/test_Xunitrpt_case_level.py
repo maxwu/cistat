@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
+"""UT for case level logic on Xunitrpt
+Readers are kindly reminded that class level report reuse the same type.
+When it works on class or any package level, the case item represents an aggregation of all test results beneath it.
+
+ .. moduleauthor:: Max Wu <http://maxwu.me>
+ .. References::
+    **None**
+"""
 
 import json
 import unittest

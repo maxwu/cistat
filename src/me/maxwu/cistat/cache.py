@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-Decorator to serve dick cache for artifacts.
+""" Decorator to serve dick cache for artifacts.
 
 http://www.grantjenks.com/docs/diskcache/tutorial.html
 cache = Cache('/tmp/mycachedir', tag_index=False)
@@ -95,7 +94,7 @@ class CacheIt(object):
 
     def get_stat_str(self):
         (hit, miss) = self.cache.stats(enable=True)
-        return "Cache stat: total=%d, hit=%d, miss=%d" % (hit+miss, hit, miss)
+        return "Cache stat: total={:d}, hit={:d}, miss={:d}".format(hit+miss, hit, miss)
 
     def get_total(self):
         (hit, miss) = self.cache.stats()

@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
+"""Interface to circleci.com services.
+
+ .. moduleauthor:: Max Wu <http://maxwu.me>
+ .. References:: None
+ 
+"""
 
 
 import requests
@@ -9,7 +14,6 @@ import logging
 from me.maxwu.cistat.cache import CacheIt
 from me.maxwu.cistat import config
 
-# TODO: add multi-threading with map
 try:
     # Python 3
     from collections import ChainMap
@@ -30,8 +34,8 @@ class CircleCiReq(object):
     """
     BASE_URL = "https://circleci.com/api/v1.1/"
 
-    @classmethod
-    def __get_request(cls, url=None, *args, **kwargs):
+    @staticmethod
+    def __get_request(url=None, *args, **kwargs):
         """ Internal method to fetch resource with Web API
         :param url: 
         :return: response object
@@ -39,8 +43,11 @@ class CircleCiReq(object):
         logger.debug("__fetching__ url={}".format(url))
         if not url:
             return None
-        timeout = config.get_timeout()
-        res = requests.get(url, timeout=timeout)
+
+        if 'timeout' not in kwargs:
+            kwargs['timeout'] = config.get_timeout()
+
+        res = requests.get(url, *args, **kwargs)
 
         # Raise exception if the return code is not requests.codes.ok (200)
         res.raise_for_status()

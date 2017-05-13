@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -o xtrace
+
 ########################
 # Step 1: Setup virtualenv
 # This step is only for Jenkins. Travis and CircleCI will ignore this step.
@@ -18,6 +19,7 @@ else
     export JOB_NAME="cistat"
 fi
 pip install -r requirements.txt -r test/test_requirements.txt --cache-dir /tmp/$JOB_NAME
+
 
 ########################
 # Step 2: Copy Config
@@ -40,6 +42,7 @@ nosetests --with-xunit --all-modules --traverse-namespace --with-html --html-rep
 --xunit-file ci-stat_nose_xunit.xml ./test
 RET1=$?
 
+
 ########################
 # Step 4: PyLint
 ########################
@@ -47,14 +50,16 @@ cd src
 pylint -f parseable -d I0011,R0801 me.maxwu | tee ../pylint.out
 cd ..
 
+
 #########################
 # Step 5: Pyflakes
 ########################
 cd src
 pyflakes ./ | tee ../pyflakes.out
 cd ..
+
+
 #######################
 # Step 5: Return Nosetests Result
 ########################
 exit ${RET1}
-

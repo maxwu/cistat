@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'maxwu'
+"""Test me.maxwu.cistat.config
+ .. moduleauthor:: Max Wu <http://maxwu.me>
+ .. References:: None.
+"""
 
 from me.maxwu.cistat import config
 import unittest

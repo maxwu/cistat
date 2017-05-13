@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """Logger Class
  Simple encapsulation on logging functions.
  - Console printing
