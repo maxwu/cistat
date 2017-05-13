@@ -78,7 +78,7 @@ class CircleCiReq(object):
         return [artifact['url'] for artifact in json_res]
 
     @classmethod
-    def get_recent_builds(cls, token, vcs, username, project, limit=None):
+    def get_recent_builds(cls, token=None, vcs='gh', username=None, project=None, limit=None):
         """ Get recent build numbers. Circle CI returns latest 30 builds.
         :param token: 
         :param vcs: 
@@ -87,6 +87,9 @@ class CircleCiReq(object):
         :param limit: number of recent builds
         :return: list of build numbers
         """
+        if not username or not project:
+            raise ValueError('Username or Project cannot be empty')
+
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project])
 
         if token:
@@ -96,18 +99,25 @@ class CircleCiReq(object):
             r = cls.__get_request(url)
 
         res_json = r.json()
+
         if not res_json:
+            logger.info("Error in processing return from {}".format(url))
             return None
 
-        res_json = res_json[:limit] if limit else res_json
+        if limit:
+            res_json = res_json[:limit]
 
         return [build['build_num'] for build in res_json]
 
     @classmethod
-    def get_recent_artifacts(cls, token=None, vcs=None, username=None, project=None, limit=None):
+    def get_recent_artifacts(cls, token=None, vcs='gh', username=None, project=None, limit=None):
         """ Get artifact URLs in list for specified build
         :return: list of artifacts URLs
         """
+
+        if not token:
+            token = config.get_circleci_token()
+
         build_nums = cls.get_recent_builds(token=token, vcs=vcs, username=username, project=project)
 
         # Sort builds in descending order.
@@ -123,8 +133,8 @@ class CircleCiReq(object):
         artifacts = reduce(lambda x,y: x+y, artifacts2d)
         # Only return XML artifacts
         artifacts = [x for x in artifacts if x.endswith('.xml')]
-        return artifacts[:limit] if limit else artifacts
 
+        return artifacts[:limit] if limit else artifacts
 
 if __name__ == "__main__":
     pass

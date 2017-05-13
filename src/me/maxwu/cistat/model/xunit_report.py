@@ -203,11 +203,11 @@ class Xunitrpt(object):
     def get_piechart_casenum(self, title='CIStat', sub_title='Case Num'):
         names = self.keys()
         chart = Echart(title, sub_title)
-        times_ls = [dict(value=self[x]['sum'], name=x + ',' + str(self[x]['rate']*100) + '%') for x in names]
+        times_ls = [dict(value=self[x]['sum'], name=x + ',' + "{:2.2f}".format(self[x]['rate']*100) + '%') for x in names]
 
         chart.use(Pie('Case Num',
                       times_ls,
-                      radius=["40%", "70%"])
+                      radius=["36%", "72%"])
                   )
         chart.use(Legend([Xunitrpt.get_case_shortname(x) for x in names]))
         del chart.json["xAxis"]
