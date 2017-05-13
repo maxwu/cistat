@@ -7,3 +7,4 @@ pyflakes>=1.5.0
 coverage>=4.3.4
 # codecov for post-build Travis CI step.
 codecov==2.0.5
+doctest2>=0.1

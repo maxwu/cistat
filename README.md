@@ -4,7 +4,7 @@ Python lib to fetch CI statistics from common RESTful services as circleci, trav
  - Master: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=master)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/master/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/master.svg?style=shield)](https://circleci.com/gh/maxwu/cistat/tree/master)
  - Dev: [![Build Status](https://travis-ci.org/maxwu/cistat.svg?branch=dev)](https://travis-ci.org/maxwu/cistat) [![codecov](https://codecov.io/gh/maxwu/cistat/branch/dev/graph/badge.svg)](https://codecov.io/gh/maxwu/cistat) [![CircleCI](https://circleci.com/gh/maxwu/cistat/tree/dev.svg?style=shield)](https://circleci.com/gh/maxwu/cistat/tree/dev) 
  - Jenkins: [![Build Status](http://jenkins.maxwu.me/buildStatus/icon?job=ci-stat)](http://jenkins.maxwu.me/job/ci-stat)
- - [![Code Issues](https://www.quantifiedcode.com/api/v1/project/007f5205467b44489394b042b5ebf83e/badge.svg)](https://www.quantifiedcode.com/app/project/007f5205467b44489394b042b5ebf83e)
+ - [![Code Climate](https://codeclimate.com/github/maxwu/cistat/badges/gpa.svg)](https://codeclimate.com/github/maxwu/cistat) [![Code Issues](https://www.quantifiedcode.com/api/v1/project/007f5205467b44489394b042b5ebf83e/badge.svg)](https://www.quantifiedcode.com/app/project/007f5205467b44489394b042b5ebf83e)
  - [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Analytics](https://ga-beacon.appspot.com/UA-89976940-2/cistat-readme)](https://github.com/maxwu/cistat) [![](http://progressed.io/bar/91?title=v1%20progress)](https://github.com/maxwu/cistat)
  
 

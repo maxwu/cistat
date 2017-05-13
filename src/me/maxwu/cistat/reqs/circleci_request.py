@@ -6,11 +6,8 @@
  .. References:: None
  
 """
-
-
 import requests
 from requests.auth import HTTPBasicAuth
-import logging
 from me.maxwu.cistat.cache import CacheIt
 from me.maxwu.cistat import config
 
@@ -54,7 +51,7 @@ class CircleCiReq(object):
         return res
 
     @classmethod
-    @CacheIt(enable=config.get_cache_enable())
+    @CacheIt(enable=config.get_cache_enable(), name='circleci')
     def get_artifact_report(cls, url=None, *args, **kwargs):
         """ Get the artifact for URL
         :param url: URL to XUnit XML format artifact

@@ -10,32 +10,38 @@ from functools import wraps
 from io import BytesIO
 from diskcache import Cache
 from me.maxwu.cistat import config
-from me.maxwu.cistat.logger import Logger
+from me.maxwu.cistat.logger import Logger, LOG_LEVEL
 
 logger = Logger(name=__name__).get_logger()
+# logger.setLevel(LOG_LEVEL['DEBUG'])
 
 
 class CacheIt(object):
     cache_expire = 3600*24  # 24hr
     cache_size = 2**25      # 32MB
 
-    def __init__(self, folder=None, enable=False):
+    def __init__(self, folder=None, enable=False, name=None):
         self.enable = enable
-        self.folder = folder
-
+        self.name = name if name else 'Default'
         if not folder:
-            # If folder is not specified, use configuration items.
             folder = config.get_cache_path()
-            logger.debug("Set cache_dir to {}".format(folder))
+        self.folder = folder
+        logger.debug("Set cache {} dir to {}".format(self.name, folder))
+
         # TODO: Threading supports.
         # Disk cache requests each thread/proces to create its own cache dir and instance.
         # Either a pool of [0~n] cache folders or a messaging queue will be added for concurrency.
         self.cache = Cache(folder, size_limit=CacheIt.cache_size)
         self.cache.stats(enable=True)
 
-    def __del__(self):
+    def close(self):
         if self.cache:
             self.cache.close()
+
+    def __del__(self):
+        self.close()
+        logger.debug("Cache {} closed-".format(self.name))
+        logger.debug(self.get_stat_str())
 
     def __getitem__(self, item):
         fetch = self.cache.get(item.encode("ascii"), default=None, read=True)
@@ -97,5 +103,5 @@ class CacheIt(object):
         return "Cache stat: total={:d}, hit={:d}, miss={:d}".format(hit+miss, hit, miss)
 
     def get_total(self):
-        (hit, miss) = self.cache.stats()
-        return hit + miss
+        return sum(self.cache.stats())
+

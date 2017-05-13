@@ -99,3 +99,4 @@ config.yaml
 
 # Lint report
 pylint.out
+pyflakes.out

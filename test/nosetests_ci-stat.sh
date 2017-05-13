@@ -16,9 +16,14 @@ if [ -n "${WORKSPACE:+1}" ]; then
     . venv/bin/activate
 else
     # Alternatively, $TRAVIS_REPO_SLUG could be utilized here to provide name.
+    # On travis-ci.com, $TRAVIS_REPO_SLUG is provided in form "owner_name/repo_name"
     export JOB_NAME="cistat"
 fi
+
 pip install -r requirements.txt -r test/test_requirements.txt --cache-dir /tmp/$JOB_NAME
+# On circleci.com, env $CIRCLE_BRANCH holds the branch name
+# Correspondingly this variable on travis-ci.com is $TRAVIS_BRANCH
+# For Jenkins, it is offered by Git Plugin with variable ${GIT_BRANCH##origin/} (Here ## is greedy filter).
 
 
 ########################
@@ -36,10 +41,13 @@ mkdir -p $CONFIG_PATH
 ########################
 
 DATE_STR=`date +%Y-%m-%d_%H-%M-%S`
-nosetests --with-xunit --all-modules --traverse-namespace --with-html --html-report=nose_$DATE_STR.html \
+nosetests --with-xunit --all-modules --traverse-namespace \
+--with-doctest \
+--with-html --html-report=nose_$DATE_STR.html \
 --with-xcoverage --cover-package=me.maxwu --cover-inclusive --cover-html \
---logging-level=INFO --debug=me.maxwu -s -v \
+--logging-level=INFO --debug=me.maxwu -s --verbosity=3 \
 --xunit-file ci-stat_nose_xunit.xml ./test
+
 RET1=$?
 
 

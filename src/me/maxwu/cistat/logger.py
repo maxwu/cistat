@@ -24,6 +24,7 @@ LOG_LEVEL = dict(
 # TODO: Set to NullHandler and move config to ~/.cistat/log.yaml
 class Logger(object):
     def __init__(self, name=None, log_level="INFO"):
+        self.name = name
         self._logger = logging.getLogger(name)
         logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
         _logger = logging.getLogger(name)
