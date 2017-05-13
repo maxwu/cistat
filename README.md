@@ -45,11 +45,11 @@ pip install git+https://github.com/maxwu/cistat.git
 ### Get latest 20 artifacts from circle CI service:
 
 ```python
-token=config.get_circleci_token()
-urls =CircleCiReq.get_recent_artifacts(token=token, vcs='github', project='cistat', username='maxwu')
-report = Xunitrpt()
+vcs, project, username = 'github', 'cistat', 'maxwu'
+urls = CircleCiReq.get_recent_artifacts(vcs=vcs, project=project, username=username)
 
 # XUnit Report Object supports operator '+' and '+='
+report = Xunitrpt()
 for artifact in urls:
     print("fetching {}".format(artifact))
     report += Xunitrpt(xunit=CircleCiReq.get_artifact_report(url=artifact))
