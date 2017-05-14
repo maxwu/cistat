@@ -20,7 +20,7 @@ else
     export JOB_NAME="cistat"
 fi
 
-pip install -r requirements.txt -r test/test_requirements.txt --cache-dir /tmp/$JOB_NAME
+pip install -r test/test_requirements.txt --cache-dir /tmp/$JOB_NAME
 # On circleci.com, env $CIRCLE_BRANCH holds the branch name
 # Correspondingly this variable on travis-ci.com is $TRAVIS_BRANCH
 # For Jenkins, it is offered by Git Plugin with variable ${GIT_BRANCH##origin/} (Here ## is greedy filter).
