@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """Test me.maxwu.cistat.config
  .. moduleauthor:: Max Wu <http://maxwu.me>
  .. References:: None.
