@@ -291,7 +291,29 @@ class TestXunitrpt(unittest.TestCase):
 
         # print("**Dump XUnit Sum Stat:**\n{}".format(report.dump()))
         json.dumps(report.get_barchart_rate().json, indent=2)
+        json.dumps(report.get_piechart_casenum().json, indent=2)
+        json.dumps(report.get_scatter_roi().json, indent=2)
 
+    def test_is_xunit_false(self):
+        self.assertFalse(Xunitrpt.is_xunit_report(None), "None is not Xunit report str")
+        faked_root = '''
+                    <root name="Root Node"> 
+                        <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.496">
+                            <failure message="Faked" type="org.junit.ComparisonFailure"> 
+                                This is faked case
+                            </failure>
+                        </testcase>
+                    </root>
+                    '''
+        self.assertFalse(Xunitrpt.is_xunit_report(faked_root), "Root is not testsuite")
+        empty_root = '''
+                    <testcase classname="org.maxwu.jrefresh.selenium.DriverFactoryTest" name="quitDriverReEntryTest" time="3.496">
+                        <failure message="Faked" type="org.junit.ComparisonFailure"> 
+                            This is faked case
+                        </failure>
+                    </testcase>
+                    '''
+        self.assertFalse(Xunitrpt.is_xunit_report(empty_root), "testcase cannot be root")
 
 if __name__ == '__main__':
     unittest.main()
