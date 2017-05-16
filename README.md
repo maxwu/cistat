@@ -13,7 +13,7 @@ Python lib to fetch CI statistics from common RESTful services as circleci, trav
 This Python lib is derived from personal project [circleci_stat](https://github.com/maxwu/circleci_stat) on Github.
 After moving to this lib, the original circleci_stat will be in just maintenance status and the results could be a test source to cistat.
 
-The primitive idea is inspired by a fast ont-time prototype to count high runners of internal CI test from Bamboo achieved files. 
+The primitive idea is inspired by a fast ont-time script to count high runners of internal CI test from Bamboo achieved files. 
 At that time, our project was a Python app and the artifacts were in XUnit common format to enable Jenkins plugins. 
 With the fast prototype we can also compare the failure rate between Jenkins test statistics and Bamboo data. 
 This was due to the unstable external dependencies of this project. The prototype was fast and working well.
@@ -39,6 +39,37 @@ pip install https://github.com/maxwu/cistat/archive/master.zip
 # or
 pip install git+https://github.com/maxwu/cistat.git
 ```
+
+## Configuration
+
+### Precedence Order of Settings
+For configuration items, cistat will take parameters in a predefined precedence that the closer to running context, the higher priority which configuration record can have.
+
+If there are items provided by calling context, e.g. in arguments list, they are taken directly and precedes.
+
+Otherwise, cistat will check if it exists in environment variables. Which it inherited from process creation and environment could be customized per process for various user scenarios.
+
+At last, cistat will seek parameters from configuration file ~/.cistat/config.yaml.
+
+When all above approaches miss, cistat will utilize the default settings for all occasions.
+
+### Config File
+
+Configuration records are generally maintained in `$HOME/.cistat/config.yaml`
+v0.91 preview has on key to fill:
+`circleci_api_token: $YOUR_CIRCLECI_API_TOKEN` 
+
+Disk cache for CI data fetch is by default enabled and located to `$HOME/.cistat/cache`. The flag as well as disk size limit, renew policy, update period will be merged to the configuration file soon.
+So far the cache is configured as: 
+```python
+cache_expire = 3600*24  # 24hr
+cache_size = 2**25      # 32MB
+```
+
+Cli entry point to initialize and alter configuration items is not present by v0.91. Users have to create it manually or wrap parameters to environmental variables.
+There is no global configuration file besides the above one under $HOME. One possible but not recommended way is to add a config.yaml to parent folder of package path of "me". This file will supercede those under $HOME/.cistat.
+
+__Reminder__: If your project is on remote repository as Github or BitBucket, please be kindly reminded to add this file to `.gitignore` and do not expose it accidentally. 
 
 ## Usage
 
@@ -72,7 +103,7 @@ report.get_class_rpt().plot_piechart_casenum(project, "Case Num per Class")
 ```
 The Pie Chart for case numbers per class level is:
 
-![Pie Chart on Case Number per Class](http://oei21r8n1.bkt.clouddn.com/CIstat_PieCaseNum_Snip20170511_7_Med.png?imageView/2/w/400/q/100)
+![Pie Chart on Case Number per Class](http://oei21r8n1.bkt.clouddn.com/CIstat_PieCaseNum_Snip20170511_7_Med.png?imageView/2/w/300/q/100)
 
 [Link to original sized Pie Chart](http://oei21r8n1.bkt.clouddn.com/CIstat_PieCaseNum_Snip20170511_7_Orig.png)
 
@@ -84,7 +115,7 @@ report.plot_barchart_rate(project, "Pass Rate per case")
 
 The Bar Chart of Pass Rate for cistat project is:
 
-![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/400/q/100)
+![Bar Chart on Pass Rate](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png?imageView/2/w/300/q/100)
 
 [Link to original sized Bar Chart](http://oei21r8n1.bkt.clouddn.com/cistat_passrate_Snip20170501_39.png)
 
@@ -101,7 +132,7 @@ report.get_class_rpt().plot_scatter_roi(project, "Test ROI per Class")
 
 The Bubble Chart to present case ROI per class as below:
 
-![Bubble Chart on Test ROI](http://oei21r8n1.bkt.clouddn.com/CIstat_ScatterROI_Snip20170512_9.png?imageView/2/w/400/q/100)
+![Bubble Chart on Test ROI](http://oei21r8n1.bkt.clouddn.com/CIstat_ScatterROI_Snip20170512_9.png?imageView/2/w/300/q/100)
 
 [Link to original sized Bubble Chart](http://oei21r8n1.bkt.clouddn.com/CIstat_ScatterROI_Snip20170512_9.png)
 
