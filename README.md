@@ -148,9 +148,9 @@ CircleCI functions developed and tested.
   - [x] CircleCI Request interface is too tedious;
   - [x] Disk Cache for RESTful request;
   - [X] Support time stat
-  - [X] Echart introduction and bar chart demo
-  - [ ] Add bubble chart of test ROI presentation
-  - [ ] Threading on requests with map
+  - [X] Echarts introduction and bar chart demo
+  - [X] Add bubble chart of test ROI presentation
+  - [ ] Threading on requests with map <br>
         (Low priority since cache speeds up queries)
   - [X] Support operator.add
   - [X] Support operator get/set/iteritems/keys
@@ -158,10 +158,13 @@ CircleCI functions developed and tested.
   - [X] Enhance logging
   - [X] Add class level statistic aggregation
   - [ ] Add aggregation for any level
-  - [ ] Replace Xunit module counters with collections.Counter
+  - [ ] Replace Xunit module counters with a customized counter class on collections.Counter
   - [ ] Refactor to expand logging to stream/file_handler
   - [ ] Push to PyPi.org
   - [ ] Make Requests as plugins to extend with new py codes
+  - [ ] Migrate to full/closer HATEOAS RESTful <br>
+        HATEOAS guarantee backend the freedom of evolution but starts from endpoint(s) 
+        and deduce the following hyperlinks to trigger state transitions on resources 
 
 #### Horizontal Stories
 
@@ -173,7 +176,7 @@ On-Premise CI Services:
   - Jenkins;
     - via Jenkins RESTful
         - Artifacts: "http://localhost:8080/job/Cucumber_Jvm_Selenium_Toy/13/testReport/api/json?pretty=true"
-  - Bamboo;
+  - Bamboo (TBD);
   
 Local CI files:
   - Load XUnit format files to generate the statistics.
@@ -183,16 +186,17 @@ Local CI files:
 Requests:
   - Artifacts fetching (done)
   - Transparent config (in-progress)
-  - Cache (in-progress, with apache disk-map)
+  - Cache (done, with apache disk-map)
   - Concurrent (in-progress, multiprocessing.dummy with map)
 
 XUnit Artifacts:
   - Parser (done)
-  - Counter (done)
-  - Passrate (done)
+  - Counter, counter and ratio types (done)
+  - Chart and demo (done)
     
 Report:
-  - High runners in table
+  - High runners in table 
+  - Generate reports with Jinja2 template
 
 ## Issues
 
@@ -213,6 +217,8 @@ Report:
 
 ## Change Logs
 
+- May 11, Release 0.91 preview in Pypi format via Github
+- (Paused during busy weeks)
 - Feb 12, Move to ci-stat and migrate to a more general target.
 - Feb 09, Add UT and removed casual codes/doctest/ut.
 - Jan 20, The prototype with IPython Notebook finished.
