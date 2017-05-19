@@ -286,8 +286,8 @@ class TestXunitrpt(unittest.TestCase):
             </testsuite>
         ''']
         report = reduce(operator.add, [Xunitrpt(xunit=x) for x in xunit_strs])
-        self.assertEquals(report['Unnamed.xxTest']['time'], 1.0)
-        self.assertEquals(report['Yytest.unnamed']['time'], 2.0)
+        self.assertEquals(report['UnnamedClass.xxTest']['time'], 1.0)
+        self.assertEquals(report['Yytest.UnnamedTest']['time'], 2.0)
 
         # print("**Dump XUnit Sum Stat:**\n{}".format(report.dump()))
         json.dumps(report.get_barchart_rate().json, indent=2)
