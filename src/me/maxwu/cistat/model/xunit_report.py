@@ -150,13 +150,7 @@ class Xunitrpt(object):
 
         for e in root.iter('testcase'):
             # Naming convention: Full.Class.Name.MethodName
-            clsname = e.get('classname', 'Unnamed')
-            if not clsname:
-                clsname = 'Unamed'
-            ttcname = e.get('name', 'unnamed')
-            if not ttcname:
-                ttcname = 'unnamed'
-            tcname = clsname + '.' + ttcname
+            tcname = e.get('classname', 'UnknownClass') + '.' + e.get('name', 'UnknownTest')
 
             if tcname not in self.case_dict:
                 self[tcname] = Xunitrpt.DEFAULT_DICT.copy()
@@ -172,7 +166,7 @@ class Xunitrpt(object):
                 self[tcname]['skip'] += 1
             else:
                 self[tcname]['pass'] += 1
-
+            # refresh the pass rate as a ratio type on updated stats.
             self.cal_rate(tcname)
 
         # For cascade using.
