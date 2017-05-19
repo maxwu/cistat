@@ -10,7 +10,7 @@ from functools import wraps
 from io import BytesIO
 from diskcache import Cache
 from me.maxwu.cistat import config
-from me.maxwu.cistat.logger import Logger, LOG_LEVEL
+from me.maxwu.cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
 # logger.setLevel(LOG_LEVEL['DEBUG'])
@@ -45,10 +45,7 @@ class CacheIt(object):
 
     def __getitem__(self, item):
         fetch = self.cache.get(item.encode("ascii"), default=None, read=True)
-        if fetch:
-            return fetch.read()
-        else:
-            return None
+        return fetch.read() if fetch else None
 
     def __setitem__(self, key, value):
         """

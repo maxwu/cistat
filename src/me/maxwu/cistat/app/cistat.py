@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import pprint
-from me.maxwu.cistat import config
 from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
 from me.maxwu.cistat.model.xunit_report import Xunitrpt
 

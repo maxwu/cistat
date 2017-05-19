@@ -7,6 +7,4 @@
     **Blog**: http://maxwu.me/2017/05/12/CIstat-preview-version-released/
 """
 
-from me.maxwu.cistat.app.cistat import cli_app
-
 VERSION = "0.91"
