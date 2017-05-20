@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """XUnit Report Model  
  - Xunitrpt class with encapsulated add, iadd, iteritem, keys, get/setitem, et.
  - General utilities as class method.
@@ -13,8 +12,8 @@ except ImportError:
     import xml.etree.ElementTree as ET
 import json
 import operator
-from echarts import Echart, Legend, Bar, Axis, Pie, Scatter
-from me.maxwu.cistat.logger import Logger
+from echarts import Axis, Bar, Echart, Legend, Pie, Scatter
+from cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
 

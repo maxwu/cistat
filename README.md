@@ -67,7 +67,7 @@ cache_size = 2**25      # 32MB
 ```
 
 Cli entry point to initialize and alter configuration items is not present by v0.91. Users have to create it manually or wrap parameters to environmental variables.
-There is no global configuration file besides the above one under $HOME. One possible but not recommended way is to add a config.yaml to parent folder of package path of "me". This file will supercede those under $HOME/.cistat.
+There is no global configuration file besides the above one under $HOME. One possible but not recommended way is to add a config.yaml to parent folder of package path of "cistat". This file will supercede those under $HOME/.cistat.
 
 __Reminder__: If your project is on remote repository as Github or BitBucket, please be kindly reminded to add this file to `.gitignore` and do not expose it accidentally. 
 
@@ -195,7 +195,11 @@ CircleCI functions developed and tested.
   - [ ] Make Requests as plugins to extend with new py codes
   - [ ] Migrate to full/closer HATEOAS RESTful <br>
         HATEOAS guarantee backend the freedom of evolution but starts from endpoint(s) 
-        and deduce the following hyperlinks to trigger state transitions on resources 
+        and deduce the following hyperlinks to trigger state transitions on resources
+  - [ ] Add Cli commands for cache stat and cache purge
+  - [ ] If server side is github and status code is 403, remind user if token is present.
+  - [ ] Provide a default Jinja2 template report for out-of-box using
+  - [X] Refine the package folder structure.
 
 #### Horizontal Stories
 

@@ -3,16 +3,18 @@
 # Max Wu <http://maxwu.me>
 
 
-import yaml
 import os
+
+import yaml
+
 try:
     # Python 3
     from collections import ChainMap
 except ImportError:
     # Python 2.7
     from chainmap import ChainMap
-from me import ROOT_DIR
-from me.maxwu.cistat.logger import Logger
+from cistat import ROOT_DIR
+from cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
 

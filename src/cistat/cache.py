@@ -8,9 +8,11 @@ cache = Cache('/tmp/mycachedir', tag_index=False)
 
 from functools import wraps
 from io import BytesIO
+
 from diskcache import Cache
-from me.maxwu.cistat import config
-from me.maxwu.cistat.logger import Logger
+from cistat import config
+
+from cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
 # logger.setLevel(LOG_LEVEL['DEBUG'])

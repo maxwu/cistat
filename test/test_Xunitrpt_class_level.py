@@ -5,9 +5,10 @@
  .. References::
     **None**
 """
+
 import unittest
-from me.maxwu.cistat import config
-from me.maxwu.cistat.model.xunit_report import Xunitrpt
+from cistat.model import Xunitrpt
+from cistat import config
 
 
 class TestXunitrptCls(unittest.TestCase):

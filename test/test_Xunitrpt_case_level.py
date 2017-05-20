@@ -10,10 +10,11 @@ When it works on class or any package level, the case item represents an aggrega
 """
 
 import json
-import unittest
 import operator
-from me.maxwu.cistat import config
-from me.maxwu.cistat.model.xunit_report import Xunitrpt
+import unittest
+
+from cistat.model.xunit_report import Xunitrpt
+from cistat import config
 
 
 class TestXunitrpt(unittest.TestCase):

@@ -7,9 +7,9 @@
  
 """
 import requests
+from cistat import config
+from cistat.cache import CacheIt
 from requests.auth import HTTPBasicAuth
-from me.maxwu.cistat.cache import CacheIt
-from me.maxwu.cistat import config
 
 try:
     # Python 3
@@ -17,7 +17,7 @@ try:
 except ImportError:
     # Python 2.7
     from chainmap import ChainMap
-from me.maxwu.cistat.logger import Logger
+from cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
 

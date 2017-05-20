@@ -4,9 +4,11 @@
  .. moduleauthor:: Max Wu <http://maxwu.me>
 """
 import unittest
-from me.maxwu.cistat.cache import CacheIt
-from me.maxwu.cistat import config
-from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
+
+from cistat import config
+from cistat.cache import CacheIt
+
+from cistat.reqs import CircleCiReq
 
 
 def get_cache_stat():

@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """Test CircleCI interfaces
 
  .. moduleauthor:: Max Wu <http://maxwu.me>
- .. References::
-    **None**
 """
 
 import unittest
-from me.maxwu.cistat import config
-from me.maxwu.cistat.reqs.circleci_request import CircleCiReq
-from me.maxwu.cistat.model.xunit_report import Xunitrpt
+from cistat import config
+from cistat.model import Xunitrpt
+from cistat.reqs import CircleCiReq
 
 
 class CircleCiReqTest(unittest.TestCase):
@@ -29,9 +28,9 @@ class CircleCiReqTest(unittest.TestCase):
     # @unittest.skip("temporarily disabled, test one single artifact list instead")
     def test_artifacts(self):
         artifacts = CircleCiReq.get_recent_artifacts(token=config.get_circleci_token(),
-                                                  vcs='github', username='maxwu',
-                                                  project='cucumber-java-toy',
-                                                  )
+                                                     vcs='github', username='maxwu',
+                                                     project='cucumber-java-toy',
+                                                     )
 
         for artifact in artifacts:
             self.assertTrue(artifact.startswith('http'), 'artifact url does not start with http')

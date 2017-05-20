@@ -6,9 +6,9 @@
  .. References:: None.
 """
 
-from me.maxwu.cistat import config
-import unittest
 import os
+import unittest
+from cistat import config
 
 
 class CircleCiReqCfg(unittest.TestCase):
