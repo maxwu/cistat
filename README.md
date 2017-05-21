@@ -200,6 +200,7 @@ CircleCI functions developed and tested.
   - [ ] If server side is github and status code is 403, remind user if token is present.
   - [ ] Provide a default Jinja2 template report for out-of-box using
   - [X] Refine the package folder structure.
+  - [ ] Add func.__name__ to key to distinguish cache records.
 
 #### Horizontal Stories
 
