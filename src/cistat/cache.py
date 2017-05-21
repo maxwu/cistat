@@ -30,8 +30,7 @@ class CacheIt(object):
         self.folder = folder
         logger.debug("Set cache {} dir to {}".format(self.name, folder))
 
-        # TODO: Threading supports.
-        # Disk cache requests each thread/proces to create its own cache dir and instance.
+        # Disk cache requests each thread/process to create its own cache dir and instance.
         # Either a pool of [0~n] cache folders or a messaging queue will be added for concurrency.
         self.cache = Cache(folder, size_limit=CacheIt.cache_size)
         self.cache.stats(enable=True)
@@ -103,4 +102,3 @@ class CacheIt(object):
 
     def get_total(self):
         return sum(self.cache.stats())
-

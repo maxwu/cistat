@@ -12,11 +12,11 @@
 import logging
 
 LOG_LEVEL = dict(
-        DEBUG=logging.DEBUG,
-        INFO=logging.INFO,
-        WARNING=logging.WARNING,
-        ERROR=logging.ERROR,
-        CRITICAL=logging.CRITICAL,
+    DEBUG=logging.DEBUG,
+    INFO=logging.INFO,
+    WARNING=logging.WARNING,
+    ERROR=logging.ERROR,
+    CRITICAL=logging.CRITICAL,
 )
 
 
@@ -35,5 +35,3 @@ class Logger(object):
 
 if __name__ == "__main__":
     pass
-
-# EOF

@@ -8,4 +8,4 @@
  
  ..moduleauthor:: Max Wu < http: // maxwu.me >
 """
-from circleci_request import *
+from cistat.reqs.circleci_request import *

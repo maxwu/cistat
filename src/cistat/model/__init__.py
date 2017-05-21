@@ -8,4 +8,4 @@
  
 ..moduleauthor:: Max Wu < http: // maxwu.me >
 """
-from xunit_report import Xunitrpt
+from cistat.model.xunit_report import Xunitrpt

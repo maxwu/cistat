@@ -22,11 +22,7 @@ HOME_PATH = os.path.expanduser('~')
 CONFIG_PATH = '/'.join([HOME_PATH, '.cistat'])
 CACHE_PATH = '/'.join([CONFIG_PATH, 'cache'])
 CONFIG_YAML = '/'.join([CONFIG_PATH, 'config.yaml'])
-DEFAULTS = dict(cache_enable='true',
-                cache_path=CACHE_PATH,
-                circleci_api_token=None,
-                timeout=10
-                )
+DEFAULTS = dict(cache_enable='true', cache_path=CACHE_PATH, circleci_api_token=None, timeout=10)
 
 
 def get_cfg(path=None):

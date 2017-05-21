@@ -123,14 +123,14 @@ class CircleCiReq(object):
         # Sort builds in descending order.
         build_nums = sorted(build_nums, reverse=True)
 
-        artifacts2d = [ cls.get_build_artifacts(token=token,
-                                             vcs=vcs,
-                                             username=username,
-                                             project=project,
-                                             build_num=num,
-                                             ) for num in build_nums
-                     ]
-        artifacts = reduce(lambda x,y: x+y, artifacts2d)
+        artifacts2d = [cls.get_build_artifacts(token=token,
+                                               vcs=vcs,
+                                               username=username,
+                                               project=project,
+                                               build_num=num,
+                                               ) for num in build_nums
+                       ]
+        artifacts = reduce(lambda xi, yi: xi + yi, artifacts2d)
         # Only return XML artifacts
         artifacts = [x for x in artifacts if x.endswith('.xml')]
 

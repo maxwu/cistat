@@ -231,7 +231,10 @@ class Xunitrpt(object):
         roi_ls = [[i, self[x]['rate'], self[x]['sum'], Xunitrpt.get_case_shortname(x), x] for i, x in enumerate(names)]
         max_case_num = sorted(roi_ls, key=operator.itemgetter(2), reverse=True)[0][2]
         logger.debug("max case num is {}".format(max_case_num))
+
+        # Define the size of biggest cycle
         __MAX_RADIUS = 120
+
         for x in roi_ls:
             chart.use(Scatter(x[4], [x[:3]], symbolSize=x[2]*__MAX_RADIUS/max_case_num))
         chart.use(Axis('category', 'bottom', data=[x[3] for x in roi_ls]))
