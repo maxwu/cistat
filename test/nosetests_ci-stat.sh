@@ -44,9 +44,9 @@ DATE_STR=`date +%Y-%m-%d_%H-%M-%S`
 nosetests --with-xunit --all-modules --traverse-namespace \
 --with-doctest \
 --with-html --html-report=nose_$DATE_STR.html \
---with-xcoverage --cover-package=me.maxwu --cover-inclusive --cover-html \
---logging-level=INFO --debug=me.maxwu -s --verbosity=3 \
---xunit-file ci-stat_nose_xunit.xml ./test
+--with-xcoverage --cover-package=cistat --cover-inclusive --cover-html \
+--logging-level=INFO --debug=cistat -s --verbosity=3 \
+--xunit-file cistat_nose_xunit.xml ./test
 
 RET1=$?
 
@@ -55,7 +55,7 @@ RET1=$?
 # Step 4: PyLint
 ########################
 cd src
-pylint -f parseable -d I0011,R0801 me.maxwu | tee ../pylint.out
+pylint -f parseable -d I0011,R0801 cistat | tee ../pylint.out
 cd ..
 
 
