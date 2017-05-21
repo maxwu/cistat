@@ -11,7 +11,6 @@ from io import BytesIO
 
 from diskcache import Cache
 from cistat import config
-
 from cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()

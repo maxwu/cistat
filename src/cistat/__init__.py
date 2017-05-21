@@ -10,9 +10,4 @@ import os
 from cistat.app.cistat_app import cli_app
 
 VERSION = "0.92"
-ME_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(os.path.dirname(ME_ROOT_DIR))
 
-
-def get_root_dir():
-    return ROOT_DIR

@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*-
 # Max Wu <http://maxwu.me>
 
-
 import os
-
 import yaml
-
 try:
     # Python 3
     from collections import ChainMap
 except ImportError:
     # Python 2.7
     from chainmap import ChainMap
-from cistat import ROOT_DIR
 from cistat.logger import Logger
 
 logger = Logger(name=__name__).get_logger()
+
+
+ME_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(ME_ROOT_DIR))
 
 HOME_PATH = os.path.expanduser('~')
 CONFIG_PATH = '/'.join([HOME_PATH, '.cistat'])
