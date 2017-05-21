@@ -27,12 +27,12 @@ with open('requirements.txt') as f:
 
 setup(
     name='cistat',
-    version='0.91',
+    version='0.92',
     description='A sample Python project',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/pypa/sampleproject',
+    url='https://github.com/maxwu/cistat',
 
     # Author details
     author='Max Wu',
@@ -89,7 +89,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'cistat-cli=me.maxwu:cli_app',
+            'cistat-cli=cistat:cli_app',
         ],
     },
 )

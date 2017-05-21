@@ -7,8 +7,8 @@ Cmd 'cistat-cli' is registered with PyPi dist and installed by pip.
 """
 
 import pprint
-from cistat.model.xunit_report import Xunitrpt
-from cistat.reqs.circleci_request import CircleCiReq
+from cistat.model import Xunitrpt
+from cistat.reqs import CircleCiReq
 
 
 def cli_app():

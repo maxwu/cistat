@@ -13,7 +13,7 @@ import json
 import operator
 import unittest
 
-from cistat.model.xunit_report import Xunitrpt
+from cistat.model import Xunitrpt
 from cistat import config
 
 
