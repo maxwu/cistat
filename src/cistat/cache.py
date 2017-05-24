@@ -65,6 +65,11 @@ class CacheIt(object):
             return True
 
     def __call__(self, func):
+        """
+        Here it is assumed all URLs are for "GET" request, AKA. Safe and Idempotent operation.
+        :param func: The method to instrument with cache
+        :return: Wrapped method with cache
+        """
         @wraps(func)
         def wrap(*args, **kwargs):
             if not self.enable:
