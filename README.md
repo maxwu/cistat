@@ -202,6 +202,11 @@ CircleCI functions developed and tested.
   - [X] Refine the package folder structure.
   - [ ] Add func.__name__ to key to distinguish cache records.
 
+  _Reserved after v1.0_
+  - [ ] Cli git repo CI status show
+  - [ ] Support iTerm2 [imgcat](http://iterm2.com/documentation-images.html) 
+  - [ ] Support to add status show in shell prompt (as powerline plugin)
+
 #### Horizontal Stories
 
 Cloud CI Services: 
