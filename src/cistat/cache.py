@@ -20,6 +20,7 @@ logger = Logger(name=__name__).get_logger()
 class CacheIt(object):
     cache_expire = 3600*24  # 24hr
     cache_size = 2**25      # 32MB
+    caches = []
 
     def __init__(self, folder=None, enable=False, name=None):
         self.enable = enable
@@ -33,9 +34,15 @@ class CacheIt(object):
         # Either a pool of [0~n] cache folders or a messaging queue will be added for concurrency.
         self.cache = Cache(folder, size_limit=CacheIt.cache_size)
         self.cache.stats(enable=True)
+        CacheIt.caches.append(self)
+
+    @classmethod
+    def get_caches(cls):
+        return cls.caches
 
     def close(self):
         if self.cache:
+            self.enable = False
             self.cache.close()
 
     def __del__(self):
@@ -50,7 +57,7 @@ class CacheIt(object):
     def __setitem__(self, key, value):
         """
         Set cached item to cache instance.
-        :param key: str type key, e.g. url
+        :param key: str type key, e.g. url, key must be ascii coded str
         :param value: str type value, e.g. file content
         :return: True if set value successfully, otherwise False
         """
