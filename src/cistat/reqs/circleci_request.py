@@ -79,13 +79,13 @@ class CircleCiReq(object):
 
     @classmethod
     def get_recent_builds(cls, token=None, vcs='gh', username=None, project=None, limit=None):
-        """ Get recent build numbers. Circle CI returns latest 30 builds.
+        """ Get recent build json details. Circle CI returns latest 30 builds.
         :param token: 
         :param vcs: 
         :param username: 
         :param project: 
         :param limit: number of recent builds
-        :return: list of build numbers
+        :return: list of build objects
         """
         if not username or not project:
             raise ValueError('Username or Project cannot be empty')
@@ -107,7 +107,14 @@ class CircleCiReq(object):
         if limit:
             res_json = res_json[:limit]
 
-        return [build['build_num'] for build in res_json]
+        return res_json
+
+    @classmethod
+    def get_recent_build_nums(cls, *args, **kwargs):
+        """ Get recent build numbers. Circle CI returns latest 30 builds.
+        :params: Refer to get_recent_build_nums()
+        """
+        return [build['build_num'] for build in cls.get_recent_builds(*args, **kwargs)]
 
     @classmethod
     def get_recent_artifacts(cls, token=None, vcs='gh', username=None, project=None, limit=None):
@@ -118,7 +125,7 @@ class CircleCiReq(object):
         if not token:
             token = config.get_circleci_token()
 
-        build_nums = cls.get_recent_builds(token=token, vcs=vcs, username=username, project=project)
+        build_nums = cls.get_recent_build_nums(token=token, vcs=vcs, username=username, project=project)
 
         # Sort builds in descending order.
         build_nums = sorted(build_nums, reverse=True)

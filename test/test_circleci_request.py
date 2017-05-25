@@ -7,22 +7,43 @@
 """
 
 import unittest
+import numbers
+import json
 from cistat import config
 from cistat.model import Xunitrpt
 from cistat.reqs import CircleCiReq
 
 
 class CircleCiReqTest(unittest.TestCase):
+    def setUp(self):
+        token = config.get_circleci_token()
+        vcs = 'github'
+        username = 'maxwu'
+        project = 'cucumber-java-toy'
+        self.args1 = {'token': token, 'vcs': vcs, 'username': username, 'project': project}
+
     def test_30builds(self):
-        builds = CircleCiReq.get_recent_builds(token=config.get_circleci_token(), vcs='github', username='maxwu', project='cucumber-java-toy')
+        build_nums = CircleCiReq.get_recent_build_nums(**self.args1)
+        self.assertEqual(30, len(build_nums))
+        self.assertTrue(all(isinstance(i, numbers.Number) for i in build_nums), 'Not all build_num are arabic numbers')
+
+    def test_recent_build_json(self):
+        builds = CircleCiReq.get_recent_builds(**self.args1)
         self.assertEqual(30, len(builds))
+        print(json.dumps(builds[0], indent=2))
+        for bld in builds:
+            print("build_num:{}, branch:{s}, outcome:{}, commit:{}".format(bld['build_num'],
+                                                                          bld['branch'],
+                                                                          bld['outcome'],
+                                                                          bld['all_commit_details'][0]['commit']))
+        pass
 
     def test_2builds(self):
-        builds = CircleCiReq.get_recent_builds(token=config.get_circleci_token(),
-                                               vcs='github',
-                                               username='maxwu',
-                                               project='cucumber-java-toy',
-                                               limit=2)
+        builds = CircleCiReq.get_recent_build_nums(token=config.get_circleci_token(),
+                                                   vcs='github',
+                                                   username='maxwu',
+                                                   project='cucumber-java-toy',
+                                                   limit=2)
         self.assertEqual(2, len(builds))
 
     # @unittest.skip("temporarily disabled, test one single artifact list instead")
