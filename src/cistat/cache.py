@@ -18,8 +18,8 @@ logger = Logger(name=__name__).get_logger()
 
 
 class CacheIt(object):
-    cache_expire = 3600*24  # 24hr
-    cache_size = 2**25      # 32MB
+    cache_expire = 3600*24*14   # 2 weeks
+    cache_size = 2**25          # 32MB
     caches = []
 
     def __init__(self, folder=None, enable=False, name=None):
