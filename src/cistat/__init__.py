@@ -6,7 +6,7 @@
  .. References::
     **Blog**: http://maxwu.me/2017/05/12/CIstat-preview-version-released/
 """
-import os
+
 from cistat.app.cistat_app import cli_app
 
 VERSION = "0.92"

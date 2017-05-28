@@ -62,8 +62,8 @@ v0.91 preview has on key to fill:
 Disk cache for CI data fetch is by default enabled and located to `$HOME/.cistat/cache`. The flag as well as disk size limit, renew policy, update period will be merged to the configuration file soon.
 So far the cache is configured as: 
 ```python
-cache_expire = 3600*24  # 24hr
-cache_size = 2**25      # 32MB
+cache_expire = 3600*24*14  # 2wk
+cache_size = 2**25         # 32MB
 ```
 
 Cli entry point to initialize and alter configuration items is not present by v0.91. Users have to create it manually or wrap parameters to environmental variables.

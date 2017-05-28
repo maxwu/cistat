@@ -33,7 +33,7 @@ class CircleCiReq(object):
     BASE_URL = "https://circleci.com/api/v1.1/"
 
     @staticmethod
-    @CacheIt(enable=config.get_cache_enable(), name='circleci')
+    @CacheIt
     def __get_request(url=None, token=None, method='GET', *args, **kwargs):
         """ Internal method to fetch resource with Web API
         This method is the uniformed interface to fetch information from CI APIs.

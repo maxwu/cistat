@@ -6,9 +6,7 @@ http://www.grantjenks.com/docs/diskcache/tutorial.html
 cache = Cache('/tmp/mycachedir', tag_index=False)
 """
 
-from functools import wraps
 from io import BytesIO
-
 from diskcache import Cache
 from cistat import config
 from cistat.logger import Logger, LOG_LEVEL
@@ -22,23 +20,29 @@ class CacheIt(object):
     cache_size = 2**25          # 32MB
     caches = []
 
-    def __init__(self, folder=None, enable=False, name=None):
-        self.enable = enable
-        self.name = name if name else 'Default'
-        if not folder:
-            folder = config.get_cache_path()
-        self.folder = folder
-        logger.debug("Set cache {} dir to {}".format(self.name, folder))
+    def __init__(self, func):
+        self.enable = config.get_cache_enable()
+        self.func = func
+        self.name = func.__name__
+        self.folder = config.get_cache_path()
+        logger.debug("Set cache {} dir to {}".format(self.name, self.folder))
 
         # Disk cache requests each thread/process to create its own cache dir and instance.
         # Either a pool of [0~n] cache folders or a messaging queue will be added for concurrency.
-        self.cache = Cache(folder, size_limit=CacheIt.cache_size)
+        self.cache = Cache(self.folder, size_limit=CacheIt.cache_size)
         self.cache.stats(enable=True)
         CacheIt.caches.append(self)
 
     @classmethod
     def get_caches(cls):
         return cls.caches
+
+    @classmethod
+    def get_caches_stat_str(cls):
+        res = []
+        for s in cls.get_caches():
+            res.append("cache report - 🏘 {} | 🏗 {}".format(s.name, s.get_stat_str()))
+        return "\n".join(res)
 
     def close(self):
         if self.cache:
@@ -71,51 +75,55 @@ class CacheIt(object):
         else:
             return True
 
-    def __call__(self, func):
+    def __call__(self, *args, **kwargs):
         """
         Here it is assumed all URLs are for "GET" request, AKA. Safe and Idempotent operation.
         :param func: The method to instrument with cache
         :return: Wrapped method with cache
         """
-        @wraps(func)
-        def wrap(*args, **kwargs):
-            if not self.enable:
-                logger.debug("Cache is not enabled")
+
+        func = self.func
+
+        if not self.enable:
+            logger.debug("Cache is not enabled")
+            return func(*args, **kwargs)
+
+        with self.cache:
+            if 'url' not in kwargs.keys() or not kwargs.get('url'):
+                # Now make url the only element for cache keys.
+                logger.warn("No URL in call {}".format(func.__name__))
                 return func(*args, **kwargs)
 
-            with self.cache:
-                if 'url' not in kwargs.keys() or not kwargs.get('url'):
-                    # Now make url the only element for cache keys.
-                    logger.warn("No URL in call {}".format(func.__name__))
-                    return func(*args, **kwargs)
+            cache_ind = kwargs.pop('cache', True)
+            method_is_get = kwargs.get('method', 'GET').upper() == 'GET'
+            if not cache_ind or not method_is_get:
+                logger.debug("Intend not to cache {}, cache flag is {} and test if method is GET gets {}"
+                             .format(func.__name__, cache_ind, method_is_get))
+                return func(*args, **kwargs)
 
-                cache_ind = kwargs.pop('cache', True)
-                if not cache_ind:
-                    logger.debug("Intend not to cache {}".format(func.__name__))
-                    return func(*args, **kwargs)
+            url = kwargs.get('url', '**Empty URL**')
+            fetch = self[url]
 
-                url = kwargs.get('url', '**Empty URL**')
-                fetch = self[url]
-
-                if not fetch:
-                    logger.debug("Cache key missing {}".format(url))
-                    res = func(*args, **kwargs)
-                    if res:
-                        logger.debug("caching value from {}".format(url))
-                        self[url] = res
-                    else:
-                        logger.debug("None value not cached for {}".format(url))
+            if not fetch:
+                logger.debug("Cache key missing {}".format(url))
+                res = func(*args, **kwargs)
+                if res:
+                    logger.debug("caching value from {}".format(url))
+                    self[url] = res
                 else:
-                    logger.debug("Cache key hit {}".format(url))
-                    res = fetch
-                if self.get_total() % 10 == 0:
-                    logger.debug(self.get_stat_str())
-                return res
-        return wrap
+                    logger.debug("None value not cached for {}".format(url))
+            else:
+                logger.debug("Cache key hit {}".format(url))
+                res = fetch
+
+            if self.get_total() % 10 == 0:
+                logger.debug(CacheIt.get_caches_stat_str())
+            return res
+
 
     def get_stat_str(self):
         (hit, miss) = self.cache.stats(enable=True)
-        return "Cache stat: total={:d}, hit={:d}, miss={:d}".format(hit+miss, hit, miss)
+        return "total={:d}, hit={:d}, miss={:d}".format(hit+miss, hit, miss)
 
     def get_total(self):
         return sum(self.cache.stats())
