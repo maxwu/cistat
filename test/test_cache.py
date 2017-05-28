@@ -18,7 +18,8 @@ def get_cache_stat():
     print(">>>Test>>> Cache Stat: hit={:d} miss={:d}".format(hit, miss))
     return hit, miss
 
-class MyTestCase(unittest.TestCase):
+
+class TestCache(unittest.TestCase):
     """ We assume Apache disk cache will keep hot data local.
     Therefore, even in ultimate case of size limit exceeded, the LRF or LRU won't move the item just being called.
     """

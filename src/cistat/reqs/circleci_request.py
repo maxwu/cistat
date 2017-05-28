@@ -3,10 +3,10 @@
 """Interface to circleci.com services.
 
  .. moduleauthor:: Max Wu <http://maxwu.me>
- .. References:: None
  
 """
 import requests
+import json
 from cistat import config
 from cistat.cache import CacheIt
 from requests.auth import HTTPBasicAuth
@@ -17,13 +17,14 @@ try:
 except ImportError:
     # Python 2.7
     from chainmap import ChainMap
-from cistat.logger import Logger
+from cistat.logger import Logger, LOG_LEVEL
 
 logger = Logger(name=__name__).get_logger()
+# logger.setLevel(LOG_LEVEL['DEBUG'])
 
 
 class CircleCiReq(object):
-    """Helper Class to fetch build artifacts from circleci.com
+    """CircleCiReq holds the interaction with circleci.com
     The RESTful API document could be found at https://circleci.com/docs/api/v1-reference/ 
     https://circleci.com/docs/api/
     GET: /project/:vcs-type/:username/:project
@@ -32,8 +33,10 @@ class CircleCiReq(object):
     BASE_URL = "https://circleci.com/api/v1.1/"
 
     @staticmethod
-    def __get_request(url=None, *args, **kwargs):
+    @CacheIt(enable=config.get_cache_enable(), name='circleci')
+    def __get_request(url=None, token=None, method='GET', *args, **kwargs):
         """ Internal method to fetch resource with Web API
+        This method is the uniformed interface to fetch information from CI APIs.
         :param url: 
         :return: response object
         """
@@ -44,14 +47,30 @@ class CircleCiReq(object):
         if 'timeout' not in kwargs:
             kwargs['timeout'] = config.get_timeout()
 
-        res = requests.get(url, *args, **kwargs)
+        method = method.upper()
+        method_dict = dict(GET=requests.get,
+                           POST=requests.post,
+                           PUT=requests.put,
+                           PATCH=requests.patch,
+                           DELETE=requests.delete,
+                           OPTIONS=requests.options,
+                           HEAD=requests.head)
+        invoker = method_dict.get(method, requests.get)
 
-        # Raise exception if the return code is not requests.codes.ok (200)
+        if token:
+            res = invoker(url, auth=HTTPBasicAuth(token, ''), *args, **kwargs)
+        else:
+            res = invoker(url, *args, **kwargs)
+
+        # Raise exception if the return code is not requests.codes.ok (2**)
         res.raise_for_status()
-        return res
+
+        # Caution: it will dump long messages in text lines.
+        # logger.debug("Req for {} \nRes text: \n{}".format(url, res))
+
+        return res.text
 
     @classmethod
-    @CacheIt(enable=config.get_cache_enable(), name='circleci')
     def get_artifact_report(cls, url=None, *args, **kwargs):
         """ Get the artifact for URL
         :param url: URL to XUnit XML format artifact
@@ -60,7 +79,7 @@ class CircleCiReq(object):
         if not url:
             return None
         res = cls.__get_request(url=url, *args, **kwargs)
-        xunit = res.text if res else None
+        xunit = res
         return xunit
 
     @classmethod
@@ -72,8 +91,8 @@ class CircleCiReq(object):
         build_num = str(build_num)
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project, build_num, 'artifacts'])
 
-        r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
-        json_res = r.json()
+        r = cls.__get_request(url=url, token=token)
+        json_res = json.loads(r)
 
         return [artifact['url'] for artifact in json_res]
 
@@ -92,13 +111,9 @@ class CircleCiReq(object):
 
         url = cls.BASE_URL + '/'.join(['project', vcs, username, project])
 
-        if token:
-            r = cls.__get_request(url, auth=HTTPBasicAuth(token, ''))
-        else:
-            # token is optional for some requests with circleci.
-            r = cls.__get_request(url)
+        r = cls.__get_request(url=url, token=token, cache=False)
 
-        res_json = r.json()
+        res_json = json.loads(r)
 
         if not res_json:
             logger.info("Error in processing return from {}".format(url))

@@ -19,7 +19,7 @@ class CircleCiReqTest(unittest.TestCase):
         token = config.get_circleci_token()
         vcs = 'github'
         username = 'maxwu'
-        project = 'cucumber-java-toy'
+        project = 'cistat'
         self.args1 = {'token': token, 'vcs': vcs, 'username': username, 'project': project}
 
     def test_30builds(self):
@@ -32,7 +32,7 @@ class CircleCiReqTest(unittest.TestCase):
         self.assertEqual(30, len(builds))
         print(json.dumps(builds[0], indent=2))
         for bld in builds:
-            print("build_num:{}, branch:{s}, outcome:{}, commit:{}".format(bld['build_num'],
+            print("build_num:{}, branch:{}, outcome:{}, commit:{}".format(bld['build_num'],
                                                                           bld['branch'],
                                                                           bld['outcome'],
                                                                           bld['all_commit_details'][0]['commit']))

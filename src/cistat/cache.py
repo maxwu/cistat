@@ -11,7 +11,7 @@ from io import BytesIO
 
 from diskcache import Cache
 from cistat import config
-from cistat.logger import Logger
+from cistat.logger import Logger, LOG_LEVEL
 
 logger = Logger(name=__name__).get_logger()
 # logger.setLevel(LOG_LEVEL['DEBUG'])
@@ -66,7 +66,7 @@ class CacheIt(object):
         except UnicodeEncodeError as uee:
             logger.error("Artifact is not compliant with ascii range(128), {}".format(uee))
             return False
-        except:
+        except IOError:
             return False
         else:
             return True
@@ -88,6 +88,12 @@ class CacheIt(object):
                     # Now make url the only element for cache keys.
                     logger.warn("No URL in call {}".format(func.__name__))
                     return func(*args, **kwargs)
+
+                cache_ind = kwargs.pop('cache', True)
+                if not cache_ind:
+                    logger.debug("Intend not to cache {}".format(func.__name__))
+                    return func(*args, **kwargs)
+
                 url = kwargs.get('url', '**Empty URL**')
                 fetch = self[url]
 
@@ -103,7 +109,7 @@ class CacheIt(object):
                     logger.debug("Cache key hit {}".format(url))
                     res = fetch
                 if self.get_total() % 10 == 0:
-                    logger.info(self.get_stat_str())
+                    logger.debug(self.get_stat_str())
                 return res
         return wrap
 
