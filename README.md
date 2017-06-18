@@ -13,14 +13,15 @@ Python lib to fetch CI statistics from common RESTful services as circleci, trav
 This Python lib is derived from personal project [circleci_stat](https://github.com/maxwu/circleci_stat) on Github.
 After moving to this lib, the original circleci_stat will be in just maintenance status and the results could be a test source to cistat.
 
-The primitive idea is inspired by a fast ont-time script to count high runners of internal CI test from Bamboo achieved files. 
+The original idea is inspired by a fast ont-time script to count high runners of internal CI test from Bamboo achieved files. 
 At that time, our project was a Python app and the artifacts were in XUnit common format to enable Jenkins plugins. 
 With the fast prototype we can also compare the failure rate between Jenkins test statistics and Bamboo data. 
 This was due to the unstable external dependencies of this project. The prototype was fast and working well.
 Based on the statistic hints, we can put more efforts on the high runners to mitigate the interrupt to developerment and test team and reduce the DevOps diagnose time.
 By the way, a similar tool [Bamboo_XUnit_Reader](https://github.com/maxwu/toy-box/tree/master/bamboo_xunit_reader) could be found on Github. 
 
-So far only XUnit format artifacts are implemented. In the future, more measurement as "CodeQuality" cloud service, Lint score, Coverage history charts will be considered. 
+So far only XUnit format artifacts are implemented. In the future, more measurement as "CodeQuality" cloud service, Lint score, Coverage history charts will be considered.
+By the way, for a comparison between CircleCI, Travis-CI and Jenkins, readers could refer to this [article](https://hackernoon.com/continuous-integration-circleci-vs-travis-ci-vs-jenkins-41a1c2bd95f5?imm_mid=0f2ecc)
 
 ## Installation
 
