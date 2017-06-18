@@ -120,7 +120,6 @@ class CacheIt(object):
                 logger.debug(CacheIt.get_caches_stat_str())
             return res
 
-
     def get_stat_str(self):
         (hit, miss) = self.cache.stats(enable=True)
         return "total={:d}, hit={:d}, miss={:d}".format(hit+miss, hit, miss)

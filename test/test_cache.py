@@ -12,7 +12,7 @@ from cistat.reqs import CircleCiReq
 
 
 def get_cache_stat():
-    dc = CacheIt(enable=config.get_cache_enable())
+    dc = CacheIt(get_cache_stat)
     hit, miss = dc.cache.stats()
     dc.close()
     print(">>>Test>>> Cache Stat: hit={:d} miss={:d}".format(hit, miss))

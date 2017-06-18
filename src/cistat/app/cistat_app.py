@@ -9,9 +9,15 @@ Cmd 'cistat-cli' is registered with PyPi dist and installed by pip.
 import pprint
 from cistat.model import Xunitrpt
 from cistat.reqs import CircleCiReq
+from docopt import docopt
 
 
 def cli_app():
+
+    pass
+
+
+def cli_app_sample():
     # Another way with local ~/.cistat/config.yaml or environmental variables
     # vcs, project, username = config.get_circleci_vcs(), config.get_circleci_project(), config.get_circleci_username()
 
