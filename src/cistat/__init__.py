@@ -9,5 +9,5 @@
 
 from cistat.app.cistat_app import cli_app
 
-VERSION = "0.92"
+VERSION = "0.93"
 

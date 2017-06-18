@@ -27,7 +27,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='cistat',
-    version='0.92',
+    version='0.93',
     description='A sample Python project',
     long_description=long_description,
 

@@ -5,16 +5,30 @@ Cmd 'cistat-cli' is registered with PyPi dist and installed by pip.
 
 ..moduleauthor:: Max Wu < http: // maxwu.me >
 """
-
 import pprint
 from cistat.model import Xunitrpt
 from cistat.reqs import CircleCiReq
 from docopt import docopt
 
 
-def cli_app():
+DOC_OPT = """ docopt configuration 
 
-    pass
+Usage: 
+    cistat --sample
+    cistat (-h | --help)
+    cistat (-v | --version)
+
+Options:
+    -h --help       Show this help message
+    -v --version    Print cistat version
+    --sample        Show sample statistic charts
+"""
+
+
+def cli_app():
+    arguments = docopt(DOC_OPT, version='0.93')
+    if arguments.get('--sample'):
+        return cli_app_sample()
 
 
 def cli_app_sample():
