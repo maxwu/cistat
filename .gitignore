@@ -15,6 +15,7 @@ dist/
 downloads/
 eggs/
 .eggs/
+cistat.egg-info/
 lib/
 lib64/
 parts/

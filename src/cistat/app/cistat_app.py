@@ -9,7 +9,7 @@ import pprint
 from cistat.model import Xunitrpt
 from cistat.reqs import CircleCiReq
 from docopt import docopt
-
+from cistat.version import get_version
 
 DOC_OPT = """ docopt configuration 
 
@@ -26,7 +26,7 @@ Options:
 
 
 def cli_app():
-    arguments = docopt(DOC_OPT, version='0.93')
+    arguments = docopt(DOC_OPT, version=get_version())
     if arguments.get('--sample'):
         return cli_app_sample()
 

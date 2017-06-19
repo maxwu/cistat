@@ -8,6 +8,6 @@
 """
 
 from cistat.app.cistat_app import cli_app
+from cistat.version import get_version
 
-VERSION = "0.93"
-
+__version__ = get_version()

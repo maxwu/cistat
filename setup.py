@@ -25,9 +25,13 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
+with open(path.join(here, 'src', 'cistat', 'version.py')) as f:
+    exec(f.read())
+    VERSION = get_version()
+
 setup(
     name='cistat',
-    version='0.93',
+    version=VERSION,
     description='A sample Python project',
     long_description=long_description,
 
