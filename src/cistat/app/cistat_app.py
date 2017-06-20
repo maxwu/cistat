@@ -11,8 +11,7 @@ from cistat.reqs import CircleCiReq
 from docopt import docopt
 from cistat.version import get_version
 
-DOC_OPT = """ docopt configuration 
-
+DOC_OPT = """
 Usage: 
     cistat --sample
     cistat (-h | --help)

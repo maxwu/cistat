@@ -143,6 +143,23 @@ Quick step to run above sample: `cistat-cli`. Since circleci.com has throttling 
 
 This console command is installed with Pypi dist. `cistat-cli` is the console entry point planted by PIP installer setup.py.
 
+```
+>cistat-cli -h
+Usage:
+    cistat --sample
+    cistat (-h | --help)
+    cistat (-v | --version)
+
+Options:
+    -h --help       Show this help message
+    -v --version    Print cistat version
+    --sample        Show sample statistic charts
+```
+
+Fetching statistic from cloud or on premise CI function is ready within Python package. CLI shall add this as well in next release.
+
+Fetching cloud or on premise CI result on latest commit will be added next release.
+
 ## Test
 
 Run ```nosetests_ci-stat.sh```, or nosetests execution under ./test folder.
