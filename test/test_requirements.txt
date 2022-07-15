@@ -6,5 +6,5 @@ pylint>=1.6.5
 pyflakes>=1.5.0
 coverage>=4.3.4
 # codecov for post-build Travis CI step.
-codecov==2.0.5
+codecov==2.0.16
 doctest2>=0.1
